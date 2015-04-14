@@ -16,10 +16,11 @@ public class Character {
 
     static final float characHeight = 20.f;
     static final float characWidth = 20.f;
-    static final float ACCELERATION = 5000.0f;
-    static final float JUMP_VELOCITY = 250;
-    static final float GRAVITY = 3000.0f;
-    static final float MAX_VEL = 200.0f;
+    static final float ACCELERATION = 5000f;
+    static final float BASE_JUMP_VELOCITY = 400f;
+    static final float GRAVITY = 2000f;
+    static final float MAX_VEL = 200f;
+    static final float DAMP = 0.80f;
     static final int RIGHT = 1;
     static final int LEFT = -1;
 
@@ -39,6 +40,10 @@ public class Character {
     public ProtoState state;
     public int direction;
     public Rectangle bounds;
+    public float statetime;
+    public boolean grounded;
+    public float current_jump_velocity;
+    public boolean onWall;
 
     public Rectangle[] nearbyRects;
 
@@ -55,9 +60,13 @@ public class Character {
         this.bounds.x = position.x*GameScreen.unity + 0.5f;
         this.bounds.y = position.y*GameScreen.unity+10f;
         this.direction = RIGHT;
+        this.grounded = true;
+        this.onWall = false;
+        this.current_jump_velocity = 0;
 
         this.acceleration = new Vector2(0,0);
         this.velocity = new Vector2(0,0);
+        statetime = 0;
 
         this.nearbyRects = new Rectangle[]{new Rectangle(), new Rectangle(), new Rectangle(), new Rectangle()};
 
@@ -72,13 +81,23 @@ public class Character {
         acceleration.scl(deltatime);
 
         velocity.add(acceleration.x, acceleration.y);
-        System.out.println(velocity.x + " ," + velocity.y);
         if(velocity.x > MAX_VEL) velocity.x = MAX_VEL;
         if(velocity.x < -MAX_VEL) velocity.x = -MAX_VEL;
 
-        velocity.scl(deltatime);
+        //Used by the "character on wheels" effect
+        if(acceleration.x == 0) velocity.x *= DAMP;
 
+
+
+        //Here is the pure movement
+        velocity.scl(deltatime);
         move();
+
+        //Here is the "character on wheels" effect
+        velocity.scl(1.0f / deltatime);
+
+
+        statetime += deltatime;
 
     }
 
@@ -105,13 +124,30 @@ public class Character {
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            state = ProtoState.JUMPING;
+            if(grounded && state != ProtoState.JUMPING) {
+                state = ProtoState.JUMPING;
+                grounded = false;
+                current_jump_velocity = BASE_JUMP_VELOCITY;
+            }
+
+            if(onWall && state != ProtoState.JUMPING){
+                onWall = false;
+                state = ProtoState.JUMPING;
+                current_jump_velocity = BASE_JUMP_VELOCITY;
+            }
+
+
+            //TO-DO
+            //Modify the jump velocity to fall well
+            if(velocity.y >= 1)
+                current_jump_velocity *= 0.96f;
+
+
+            System.out.println(velocity.y);
 
             //We change y velocity depending on the jumping velocity
-            velocity.y = JUMP_VELOCITY;
-            System.out.println("Space pressed");
+            velocity.y = current_jump_velocity;
         }
-
 
     }
 
@@ -125,8 +161,10 @@ public class Character {
             if(bounds.overlaps(r)){
                 if(velocity.x < 0){
                     bounds.x = r.x + r.width + 0.01f;
+                    onWall = true;
                 }
                 if(velocity.x > 0){
+                    onWall = true;
                     bounds.x = r.x - r.width - 0.01f;
                 }
                 velocity.x = 0;
@@ -141,12 +179,21 @@ public class Character {
             if(bounds.overlaps(r)){
                 if(velocity.y < 0){
                     bounds.y = r.y + r.height + 0.01f;
+                    grounded = true;
+                    state = ProtoState.IDLE;
                 }
                 if (velocity.y > 0) {
                     bounds.y = r.y - r.height - 0.01f;
                 }
                 velocity.y = 0;
             }
+        }
+
+        position.x = bounds.x / GameScreen.unity;
+        position.y = bounds.y / GameScreen.unity;
+
+        if(position.y <= 0){
+            state = ProtoState.DEAD;
         }
     }
 
