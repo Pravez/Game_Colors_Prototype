@@ -13,7 +13,6 @@ import com.color.game.level.Map;
 public class GameScreen implements Screen {
 
     Map map;
-    Character character;
     ShapeRenderer shapeRenderer;
     SpriteBatch batch;
     Texture img;
@@ -23,7 +22,6 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
         map = new Map();
-        //character = new Character();
         shapeRenderer = new ShapeRenderer();
     }
 
@@ -36,7 +34,6 @@ public class GameScreen implements Screen {
     public void render(float v) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         /** Affichage de la Map **/
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 0, 0, 1);
@@ -67,6 +64,14 @@ public class GameScreen implements Screen {
                 }
             }
         }
+
+        // Affichage du personnage
+        shapeRenderer.setColor(1, 1, 0, 1);
+        int radius = unity/2;
+        int posX = (int) (this.map.character.position.x * unity + radius);
+        int posY = (int) (this.map.character.position.y * unity + radius);
+        shapeRenderer.circle(posX, posY, radius);
+
         shapeRenderer.end();
 
         // Update des données

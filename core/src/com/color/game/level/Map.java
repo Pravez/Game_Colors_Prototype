@@ -1,17 +1,21 @@
 package com.color.game.level;
 
 import com.badlogic.gdx.math.Vector2;
-import com.color.game.elements.Block;
+import com.color.game.elements.*;
+import com.color.game.elements.Character;
 import com.color.game.elements.protoEnums.ProtoColor;
 
 import java.util.ArrayList;
 
 public class Map {
 
+    public Character character;
+
     public Vector2 size;
     public ArrayList<ArrayList<Block>> blocks = new ArrayList<ArrayList<Block>>();
 
     public Map() {
+        character = new Character(this, 2, 1);
         this.size = new Vector2(30, 15);
         for (int i = 0 ; i < size.x ; i++) {
             blocks.add(new ArrayList<Block>());
@@ -56,6 +60,8 @@ public class Map {
     }
 
     public void update() {
-
+        if (this.character.state == Character.ProtoState.DEAD) {
+            this.character = new Character(this, 2, 1);
+        }
     }
 }

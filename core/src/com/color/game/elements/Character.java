@@ -44,10 +44,9 @@ public class Character {
 
         this.position = new Vector2(x, y);
         this.state = ProtoState.IDLE;
+        this.bounds = new Rectangle();
         this.bounds.height = characHeight;
         this.bounds.width = characWidth;
-
-        this.bounds = new Rectangle();
         this.bounds.x = position.x + 0.1f;
         this.bounds.y = position.y;
         this.direction = RIGHT;
