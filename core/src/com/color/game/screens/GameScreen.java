@@ -16,7 +16,7 @@ public class GameScreen implements Screen {
     ShapeRenderer shapeRenderer;
     SpriteBatch batch;
     Texture img;
-    int unity = 20; // l'unité de dimension, une unité vaut 20 pixels
+    public static final int unity = 20; // l'unité de dimension, une unité vaut 20 pixels
 
     public GameScreen(){
         batch = new SpriteBatch();
@@ -68,8 +68,11 @@ public class GameScreen implements Screen {
         // Affichage du personnage
         shapeRenderer.setColor(1, 1, 0, 1);
         int radius = unity/2;
-        int posX = (int) (this.map.character.position.x * unity + radius);
-        int posY = (int) (this.map.character.position.y * unity + radius);
+        /*int posX = (int) (this.map.character.position.x * unity + radius);
+        int posY = (int) (this.map.character.position.y * unity + radius);*/
+
+        int posX = (int) (this.map.character.bounds.x + radius);
+        int posY = (int) (this.map.character.bounds.y + radius);
         shapeRenderer.circle(posX, posY, radius);
 
         shapeRenderer.end();

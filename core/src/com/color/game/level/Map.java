@@ -22,40 +22,40 @@ public class Map {
         }
         for (int i = 0 ; i < size.x ; i++) {
             for (int j = 0 ; j < size.y ; j++) {
-                blocks.get(i).add(new Block(ProtoColor.EMPTY));
+                blocks.get(i).add(new Block(ProtoColor.EMPTY, i, j));
             }
         }
         // Creation of the five blocks on the floor on the left
         for (int i = 0 ; i < 5 ; i++) {
-            this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL));
+            this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL,i,0));
         }
 
         // Creation of the five blocks on the floor on the right
         for (int i = 25 ; i < 30 ; i++) {
-            this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL));
+            this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL,i,0));
         }
 
         // Creation of the ceiling
         for (int i = 0 ; i < size.x ; i++) {
-            this.blocks.get(i).set((int) (size.y - 1), new Block(ProtoColor.NEUTRAL));
+            this.blocks.get(i).set((int) (size.y - 1), new Block(ProtoColor.NEUTRAL,i,(int)size.y-1));
         }
 
         // Creation of the walls
         for (int i = 0; i < size.y ; i++) {
-            this.blocks.get(0).set(i, new Block(ProtoColor.NEUTRAL));
-            this.blocks.get((int) (size.x - 1)).set(i, new Block(ProtoColor.NEUTRAL));
+            this.blocks.get(0).set(i, new Block(ProtoColor.NEUTRAL,0,i));
+            this.blocks.get((int) (size.x - 1)).set(i, new Block(ProtoColor.NEUTRAL, (int) (size.x - 1),i));
         }
 
         // Creation of the Colored Blocks
         int width = 4;
         for (int i = 7 ; i < 7 + width ; i++) {
-            this.blocks.get(i).set(1, new Block(ProtoColor.RED));
+            this.blocks.get(i).set(1, new Block(ProtoColor.RED,i,1));
         }
         for (int i = 13 ; i < 13 + width ; i++) {
-            this.blocks.get(i).set(1, new Block(ProtoColor.GREEN));
+            this.blocks.get(i).set(1, new Block(ProtoColor.GREEN,i,1));
         }
         for (int i = 19 ; i < 19 + width ; i++) {
-            this.blocks.get(i).set(1, new Block(ProtoColor.BLUE));
+            this.blocks.get(i).set(1, new Block(ProtoColor.BLUE,i,1));
         }
     }
 
