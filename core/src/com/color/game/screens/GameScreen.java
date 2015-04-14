@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.color.game.elements.Block;
 import com.color.game.elements.Wall;
 import com.color.game.level.Map;
 
@@ -50,7 +51,20 @@ public class GameScreen implements Screen {
             shapeRenderer.rect(w.position.x * unity, w.position.y * unity, unity, unity);
         }
         // Affichage des Blocs de couleur
-
+        for (Block b : this.map.blocks) {
+            switch (b.color) {
+                case RED:
+                    shapeRenderer.setColor(1, 0, 0, 1);
+                    break;
+                case GREEN:
+                    shapeRenderer.setColor(0, 1, 0, 1);
+                    break;
+                case BLUE:
+                    shapeRenderer.setColor(0, 0, 1, 1);
+                    break;
+            }
+            shapeRenderer.rect(b.bounds.x * unity, b.bounds.y * unity, b.bounds.width * unity, b.bounds.height * unity);
+        }
         shapeRenderer.end();
 
         // Update des données

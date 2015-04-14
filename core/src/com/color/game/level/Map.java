@@ -1,8 +1,10 @@
 package com.color.game.level;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.color.game.elements.Block;
 import com.color.game.elements.Wall;
+import com.color.game.elements.protoEnums.ProtoColor;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,11 @@ public class Map {
         for (int i = 25 ; i < 30 ; i++) {
             this.walls.add(new Wall(new Vector2(i, 0)));
         }
+
+        // Création des blocs de couleur
+        this.blocks.add(new Block(new Rectangle(7, 1, 4, 1), ProtoColor.RED));
+        this.blocks.add(new Block(new Rectangle(13, 1, 4, 1), ProtoColor.GREEN));
+        this.blocks.add(new Block(new Rectangle(19, 1, 4, 1), ProtoColor.BLUE));
     }
 
     public void update() {
