@@ -2,9 +2,9 @@ package com.color.game.elements.protoEnums;
 
 
 public enum ProtoState {
-    STATIC,
-    JUMP,
-    RUN,
+    IDLE,
+    JUMPING,
+    MOVING,
     DEAD,
     LEFT,
     RIGHT
