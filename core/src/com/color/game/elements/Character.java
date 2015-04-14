@@ -36,6 +36,8 @@ public class Character {
     public int direction;
     public Rectangle bounds;
 
+    public Rectangle[] nearbyRects;
+
     public Character(Map map, float x, float y){
 
         this.map = map;
@@ -51,13 +53,27 @@ public class Character {
         this.acceleration = new Vector2(0,0);
         this.velocity = new Vector2(0,0);
 
+        this.nearbyRects = new Rectangle[]{new Rectangle(), new Rectangle(), new Rectangle(), new Rectangle()};
+
     }
 
     public void update(float deltatime){
 
+        performKeys();
+
+        //Then calculate the velocity depending on the acceleration
+        acceleration.y = -GRAVITY;
+        acceleration.scl(deltatime);
+
+        velocity.add(acceleration.x, acceleration.y);
+        if(velocity.x > MAX_VEL) velocity.x = MAX_VEL;
+        if(velocity.x < -MAX_VEL) velocity.x = -MAX_VEL;
+
+        velocity.scl(deltatime);
+
+        move();
+
     }
-
-
 
     public void performKeys(){
 
@@ -87,6 +103,45 @@ public class Character {
             velocity.y = JUMP_VELOCITY;
         }
 
+
+    }
+
+    public void move(){
+
+        //We first move in X coordinates
+        this.bounds.x += velocity.x;
+        updateNearbyRectangles();
+        for(Rectangle r : nearbyRects){
+            //If it hits in X a block
+            if(bounds.overlaps(r)){
+                if(velocity.x < 0){
+                    bounds.x = r.x + r.width + bounds.width/2;
+                }
+                if(velocity.x > 0){
+                    bounds.x = r.x - r.width - bounds.width/2;
+                }
+                velocity.x = 0;
+            }
+        }
+
+        //Then in Y coordinates
+        this.bounds.y += velocity.y;
+        updateNearbyRectangles();
+        for(Rectangle r : nearbyRects){
+            //If it hits in Y a block
+            if(bounds.overlaps(r)){
+                if(velocity.y < 0){
+                    bounds.y = r.y + r.height + bounds.height/2;
+                }
+                if (velocity.y > 0) {
+                    bounds.y = r.y - r.height - bounds.height/2;
+                }
+                velocity.y = 0;
+            }
+        }
+    }
+
+    private void updateNearbyRectangles() {
 
     }
 }
