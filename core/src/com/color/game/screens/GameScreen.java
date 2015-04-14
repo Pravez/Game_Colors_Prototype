@@ -7,23 +7,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.color.game.elements.Block;
-import com.color.game.elements.Wall;
+import com.color.game.elements.protoEnums.ProtoColor;
 import com.color.game.level.Map;
-
 
 public class GameScreen implements Screen {
 
     Map map;
+    Character character;
     ShapeRenderer shapeRenderer;
     SpriteBatch batch;
     Texture img;
     int unity = 20; // l'unité de dimension, une unité vaut 20 pixels
 
-
     public GameScreen(){
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
         map = new Map();
+        //character = new Character();
         shapeRenderer = new ShapeRenderer();
     }
 
@@ -34,40 +34,43 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float v) {
-
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        /*batch.begin();
-        batch.draw(img, 0, 0);
-        batch.end();*/
 
         /** Affichage de la Map **/
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.8f, 0, 0, 0.5f);
+        shapeRenderer.setColor(0, 0, 0, 1);
         shapeRenderer.rect(0, 0, unity * map.size.x, unity * map.size.y);
-        // Affichage des murs
-        shapeRenderer.setColor(1, 1, 1, 1);
-        for (Wall w : this.map.walls) {
-            shapeRenderer.rect(w.position.x * unity, w.position.y * unity, unity, unity);
-        }
-        // Affichage des Blocs de couleur
-        for (Block b : this.map.blocks) {
-            switch (b.color) {
-                case RED:
-                    shapeRenderer.setColor(1, 0, 0, 1);
-                    break;
-                case GREEN:
-                    shapeRenderer.setColor(0, 1, 0, 1);
-                    break;
-                case BLUE:
-                    shapeRenderer.setColor(0, 0, 1, 1);
-                    break;
+
+        // Affichage des Blocs
+        for (int i = 0 ; i < this.map.size.x ; i++) {
+            for (int j = 0 ; j < this.map.size.y ; j++) {
+                Block b = this.map.blocks.get(i).get(j);
+                if (b.color != ProtoColor.EMPTY) {
+                    switch (b.color) {
+                        case RED:
+                            shapeRenderer.setColor(1, 0, 0, 1);
+                            break;
+                        case GREEN:
+                            shapeRenderer.setColor(0, 1, 0, 1);
+                            break;
+                        case BLUE:
+                            shapeRenderer.setColor(0, 0, 1, 1);
+                            break;
+                        case NEUTRAL:
+                            shapeRenderer.setColor(1, 1, 1, 1);
+                            break;
+                        default:
+                            break;
+                    }
+                    shapeRenderer.rect(i * unity, j * unity, unity, unity);
+                }
             }
-            shapeRenderer.rect(b.bounds.x * unity, b.bounds.y * unity, b.bounds.width * unity, b.bounds.height * unity);
         }
         shapeRenderer.end();
 
         // Update des données
+
         map.update();
     }
 
