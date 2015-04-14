@@ -43,7 +43,7 @@ public class GameScreen implements Screen {
 
         /** Affichage de la Map **/
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 0, 0, 1);
+        shapeRenderer.setColor(0.8f, 0, 0, 0.5f);
         shapeRenderer.rect(0, 0, unity * map.size.x, unity * map.size.y);
         // Affichage des murs
         shapeRenderer.setColor(1, 1, 1, 1);

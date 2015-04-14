@@ -16,17 +16,32 @@ public class Map {
 
     public Map() {
         this.size = new Vector2(30, 15);
-        // Création des cinq blocs au sol à gauche
+        // Creation of the five blocks on the floor on the left
         for (int i = 0 ; i < 5 ; i++) {
             this.walls.add(new Wall(new Vector2(i, 0)));
         }
 
-        // Création des cinq blocs au sol à droite
+        // Creation of the five blocks on the floor on the right
         for (int i = 25 ; i < 30 ; i++) {
             this.walls.add(new Wall(new Vector2(i, 0)));
         }
 
-        // Création des blocs de couleur
+        // Creation of the ceiling
+        for (int i = 0 ; i < size.x ; i++) {
+            this.walls.add(new Wall(new Vector2(i, size.y -1)));
+        }
+
+        // Creation of the left wall
+        for (int i = 0; i < size.y ; i++) {
+            this.walls.add(new Wall(new Vector2(0, i)));
+        }
+
+        // Creation of the right wall
+        for (int i = 0; i < size.y ; i++) {
+            this.walls.add(new Wall(new Vector2(size.x - 1, i)));
+        }
+
+        // Creation of the Colored Blocks
         this.blocks.add(new Block(new Rectangle(7, 1, 4, 1), ProtoColor.RED));
         this.blocks.add(new Block(new Rectangle(13, 1, 4, 1), ProtoColor.GREEN));
         this.blocks.add(new Block(new Rectangle(19, 1, 4, 1), ProtoColor.BLUE));
