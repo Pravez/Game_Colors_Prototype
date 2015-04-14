@@ -59,7 +59,8 @@ public class Map {
         }
     }
 
-    public void update() {
+    public void update(float deltaTime) {
+        this.character.update(deltaTime);
         if (this.character.state == Character.ProtoState.DEAD) {
             this.character = new Character(this, 2, 1);
         }

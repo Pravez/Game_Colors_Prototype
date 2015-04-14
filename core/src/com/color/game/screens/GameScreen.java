@@ -75,8 +75,7 @@ public class GameScreen implements Screen {
         shapeRenderer.end();
 
         // Update des données
-
-        map.update();
+        map.update(v);
     }
 
     @Override
