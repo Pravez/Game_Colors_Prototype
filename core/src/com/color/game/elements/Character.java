@@ -46,6 +46,8 @@ public class Character {
         this.state = ProtoState.IDLE;
         this.bounds.height = characHeight;
         this.bounds.width = characWidth;
+
+        this.bounds = new Rectangle();
         this.bounds.x = position.x + 0.1f;
         this.bounds.y = position.y;
         this.direction = RIGHT;
