@@ -58,20 +58,26 @@ public class Character {
     }
 
 
+
     public void performKeys(){
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-
+            direction = LEFT;
             if(state != ProtoState.JUMPING)
                 state = ProtoState.MOVING;
-
-            direction = LEFT;
+            acceleration.x = ACCELERATION*direction;
 
         }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-
+            direction = RIGHT;
             if(state != ProtoState.JUMPING)
                 state = ProtoState.MOVING;
-            direction = RIGHT;
+            acceleration.x = ACCELERATION*direction;
+
+        }else{
+            if(state != ProtoState.JUMPING)
+                state = ProtoState.IDLE;
+            acceleration.x = 0;
+
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
@@ -80,6 +86,7 @@ public class Character {
             //We change y velocity depending on the jumping velocity
             velocity.y = JUMP_VELOCITY;
         }
+
 
     }
 }
