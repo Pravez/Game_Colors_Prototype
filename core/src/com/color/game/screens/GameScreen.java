@@ -18,6 +18,7 @@ public class GameScreen implements Screen {
 
     boolean lerpChangingColor; // boolean --> do we have to start the linear interpolation of the character color ?
     float lerpChangingTime; // between 0 and 1 --> where are we in the linear interpolation state ?
+    static float lerpChangingDelay = 0.5f; // the delay of the linear interpolation
 
     Map map; // the Map of the Game
     ShapeRenderer shapeRenderer; // the shapeRenderer to render shapes
@@ -52,7 +53,7 @@ public class GameScreen implements Screen {
 
     public void init() {
         timer.clear();
-        timer.scheduleTask(lerpColorTask, 4.0f, 5.0f); // every 5s, one second before changing the color, we begin the linear interpolation
+        timer.scheduleTask(lerpColorTask, 5.0f - lerpChangingDelay, 5.0f); // every 5s, before changing the color, we begin the linear interpolation
         timer.scheduleTask(changingColorTask, 5.0f, 5.0f); // every 5s, we change the character color
         lerpChangingColor = false;
     }
@@ -95,7 +96,7 @@ public class GameScreen implements Screen {
         // Rendering the character
         if (lerpChangingColor) { // linear interpolation of the color
             shapeRenderer.setColor(getColor(this.map.character.color).lerp(getColor(map.character.color.next()), lerpChangingTime));
-            lerpChangingTime += deltaTime;
+            lerpChangingTime += deltaTime * lerpChangingDelay;
         } else {
             shapeRenderer.setColor(getColor(this.map.character.color));
         }
