@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.color.game.elements.protoEnums.ProtoColor;
 import com.color.game.level.Map;
 import com.color.game.screens.GameScreen;
+import com.color.game.screens.WinScreen;
 
 import java.util.ArrayList;
 
@@ -204,8 +205,8 @@ public class Character {
                     leftWall = false;
                 }
                 if(velocity.x > 0){
+                    bounds.x = r.x - bounds.width - 0.01f;
                     leftWall = false;
-                    bounds.x = r.x - r.width - 0.01f;
                 }
                 velocity.x = 0;
             }
@@ -228,30 +229,36 @@ public class Character {
                     if(state != ProtoState.DEAD) state = ProtoState.IDLE;
                 }
                 if (velocity.y > 0) {
-                    bounds.y = r.y - r.height - 0.01f;
+                    bounds.y = r.y - bounds.height - 0.01f;
                 }
                 velocity.y = 0;
             }
         }
 
-        position.x = bounds.x / GameScreen.unity;
-        position.y = bounds.y / GameScreen.unity;
+        position.x = (int)((bounds.x+bounds.width/2) / GameScreen.unity);
+        position.y = (int)((bounds.y+bounds.height/2) / GameScreen.unity);
 
-        if(position.y <= 0){
+        if(position.y < 0){
             state = ProtoState.DEAD;
+        }
+
+        if(isGameEnded()){
+            map.game.game.setScreen(new WinScreen(map.game.game));
         }
     }
 
     private void updateNearbyRectangles() throws IndexOutOfBoundsException{
 
-        int r1x = Math.max(0, (int) bounds.x);
-        int r1y = Math.max(0,(int)Math.floor(bounds.y-GameScreen.unity));
-        int r2x = Math.max(0,(int)(bounds.x + GameScreen.unity));
-        int r2y = Math.max(0,(int)Math.floor(bounds.y));
-        int r3x = Math.max(0,(int)(bounds.x));
-        int r3y = Math.max(0,(int)Math.floor(bounds.y + GameScreen.unity));
-        int r4x = Math.max(0,(int)bounds.x-GameScreen.unity);
-        int r4y = Math.max(0,(int)Math.floor(bounds.y));
+        Vector2 medium = new Vector2(bounds.x + GameScreen.unity/2, bounds.y+GameScreen.unity/2);
+
+        int r1x = Math.max(0, (int) medium.x);
+        int r1y = Math.max(0,(int)Math.floor(medium.y-GameScreen.unity/2));
+        int r2x = Math.max(0, Math.min(60, (int) (medium.x + GameScreen.unity/2)));
+        int r2y = Math.max(0, (int) Math.floor(medium.y));
+        int r3x = Math.max(0,(int)(medium.x));
+        int r3y = Math.max(0, (int) Math.floor(medium.y + GameScreen.unity/2));
+        int r4x = Math.max(0,(int)(medium.x-GameScreen.unity/2));
+        int r4y = Math.max(0, (int) Math.floor(medium.y));
 
         ArrayList<ArrayList<Block>> blocks = map.blocks;
 
@@ -287,5 +294,18 @@ public class Character {
         }else{
             nearbyRects[3].set(-1, -1, 0, 0);
         }
+    }
+
+    public boolean isGameEnded(){
+
+        boolean end = false;
+        for(Door d : map.doors){
+            Vector2 doorPos = new Vector2(d.bounds.x, d.bounds.y);
+            if(this.position.equals(doorPos)){
+                end = true;
+            }
+        }
+
+        return end;
     }
 }

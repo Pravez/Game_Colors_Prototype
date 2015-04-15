@@ -28,7 +28,6 @@ public class Map {
         this.character = new Character(this, 2, 1); // initialising the character
         this.size = new Vector2(60, 30); // the size of the map
         // Adding two doors, one on the left, one on the right
-        this.doors.add(new Door(new Rectangle(0, 1, 1, 2)));
         this.doors.add(new Door(new Rectangle(this.size.x - 1, 1, 1, 2)));
 
         // Initialising the ArrayLists
@@ -64,17 +63,19 @@ public class Map {
         // Creation of the Colored Blocks
         int width = 4;
         for (int i = 22 ; i < 22 + width ; i++) {
-            this.blocks.get(i).set(3, new Block(ProtoColor.RED,i,3));
+            this.blocks.get(i).set(3, new Block(ProtoColor.NEUTRAL,i,3));
         }
         for (int i = 28 ; i < 28 + width ; i++) {
-            this.blocks.get(i).set(3, new Block(ProtoColor.GREEN,i,3));
+            this.blocks.get(i).set(5, new Block(ProtoColor.GREEN,i,5));
         }
         for (int i = 34 ; i < 34 + width ; i++) {
-            this.blocks.get(i).set(3, new Block(ProtoColor.BLUE,i,3));
+            this.blocks.get(i).set(7, new Block(ProtoColor.BLUE,i,7));
         }
-
         for(int i=22;i<38;i++){
-            this.blocks.get(i).set(0, new Block(ProtoColor.RED, i, 0));
+            this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL, i, 0));
+        }
+        for(int i=50;i<55;i++){
+            this.blocks.get(i).get(0).setColor(ProtoColor.RED);
         }
     }
 

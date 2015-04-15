@@ -29,12 +29,12 @@ public class WinScreen implements Screen {
             public void run() {
                 game.setScreen(new MenuScreen(game));
             }
-        }, 5.0f);
+        }, 2.0f);
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        // A skin can be loaded via JSON or defined programmatically, either is fine. Using a skin is optional but strongly
+        // A skin can be loaded via JSON or defined by programming, either is fine. Using a skin is optional but strongly
         // recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.
         skin = new Skin();
         // Generate a 1x1 white texture and store it in the skin named "white".

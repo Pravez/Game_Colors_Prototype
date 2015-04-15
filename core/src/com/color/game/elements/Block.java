@@ -8,6 +8,8 @@ public class Block {
     public ProtoColor color;
     public Vector2 position;
 
+    public Block(){}
+
     public Block(ProtoColor color, int x, int y) {
         this.color = color;
         this.position = new Vector2(x, y);
@@ -19,5 +21,9 @@ public class Block {
         }else{
             return false;
         }
+    }
+
+    public void setColor(ProtoColor color) {
+        this.color = color;
     }
 }

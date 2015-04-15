@@ -19,6 +19,8 @@ public class GameScreen implements Screen {
     static float changingColorDelay = 5.0f; // the delay between each color change
     float changingColorTime; // time since the last color change
 
+    public Game game;
+
     Map map; // the Map of the Game
     ShapeRenderer shapeRenderer; // the shapeRenderer to render shapes
     Timer timer; // the timer to call timed methods
@@ -32,6 +34,8 @@ public class GameScreen implements Screen {
      * Constructor of the GameScreen
      */
     public GameScreen(Game game){
+
+        this.game = game;
         map = new Map(this); // initialising the Map
         shapeRenderer = new ShapeRenderer(); // initialising the ShapeRenderer
 
@@ -139,6 +143,20 @@ public class GameScreen implements Screen {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(1, 1, 1, 1);
         shapeRenderer.circle(posX, posY, radius);
+        shapeRenderer.end();
+
+
+        //Lines of the table
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.WHITE);
+        for (int i = 0 ; i < this.map.size.x ; i++) {
+            for (int j = 0; j < this.map.size.y; j++) {
+                shapeRenderer.line(i * unity, j * unity, i * unity + unity, j * unity);
+                shapeRenderer.line(i * unity + unity, j * unity, i * unity + unity, j * unity + unity);
+                shapeRenderer.line(i * unity + unity, j * unity + unity, i * unity, j * unity + unity);
+                shapeRenderer.line(i * unity, j * unity + unity, i * unity, j * unity);
+            }
+        }
         shapeRenderer.end();
 
         // Updating the datas of the map
