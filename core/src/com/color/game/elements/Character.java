@@ -97,8 +97,6 @@ public class Character {
         //Used by the "character on wheels" effect
         if(acceleration.x == 0) velocity.x *= DAMP;
 
-
-
         //Here is the pure movement
         velocity.scl(deltatime);
 
@@ -214,7 +212,7 @@ public class Character {
                 if(velocity.y < 0){
                     bounds.y = r.y + r.height + 0.01f;
                     grounded = true;
-                    state = ProtoState.IDLE;
+                    if(state != ProtoState.DEAD) state = ProtoState.IDLE;
                 }
                 if (velocity.y > 0) {
                     bounds.y = r.y - r.height - 0.01f;
@@ -248,6 +246,10 @@ public class Character {
         Block b2 = blocks.get(r2x/GameScreen.unity).get(r2y/GameScreen.unity);
         Block b3 = blocks.get(r3x/GameScreen.unity).get(r3y/GameScreen.unity);
         Block b4 = blocks.get(r4x/GameScreen.unity).get(r4y/GameScreen.unity);
+
+        if(b1.isDeadly(this.color) || b2.isDeadly(this.color) || b3.isDeadly(this.color) || b4.isDeadly(this.color)){
+            state = ProtoState.DEAD;
+        }
 
         if(b1.color != ProtoColor.EMPTY){
             nearbyRects[0].set(b1.position.x*GameScreen.unity, b1.position.y*GameScreen.unity, GameScreen.unity, GameScreen.unity);

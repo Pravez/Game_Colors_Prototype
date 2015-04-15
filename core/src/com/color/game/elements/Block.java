@@ -12,4 +12,12 @@ public class Block {
         this.color = color;
         this.position = new Vector2(x, y);
     }
+
+    public boolean isDeadly(ProtoColor color){
+        if(this.color != ProtoColor.EMPTY && this.color != ProtoColor.NEUTRAL) {
+            return this.color != color;
+        }else{
+            return false;
+        }
+    }
 }
