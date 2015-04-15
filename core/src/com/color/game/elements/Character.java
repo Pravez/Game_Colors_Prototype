@@ -18,9 +18,11 @@ public class Character {
     static final float characWidth = 20.f;
     static final float BASE_ACCELERATION = 5000f;
     static final float BASE_JUMP_VELOCITY = 400f;
+    static final float JUMP_VELOCITY_ON_WALL = 5000f;
     static final float GRAVITY = 3000f;
+    static final float GRAVITY_ON_WALL = 500.0f;
     static final float BASE_MAX_VEL = 200f;
-    static final float ENHANCED_MAX_VEL = 300f;
+    static final float ENHANCED_MAX_VEL = 350f;
     static final float DAMP = 0.83f;
     static final int RIGHT = 1;
     static final int LEFT = -1;
@@ -87,7 +89,11 @@ public class Character {
         performKeys();
 
         //Then calculate the velocity depending on the acceleration
-        acceleration.y = -GRAVITY;
+        if(onWall)
+            acceleration.y = -GRAVITY_ON_WALL;
+        else
+            acceleration.y = -GRAVITY;
+
         acceleration.scl(deltatime);
 
         velocity.add(acceleration.x, acceleration.y);
@@ -154,9 +160,9 @@ public class Character {
             }
 
             if(onWall){
-                onWall = false;
                 state = ProtoState.JUMPING;
                 current_jump_velocity = BASE_JUMP_VELOCITY;
+                velocity.x += JUMP_VELOCITY_ON_WALL;
             }
             jumpPressed = true;
         }
@@ -185,6 +191,8 @@ public class Character {
 
     public void move() throws IndexOutOfBoundsException{
 
+        boolean leftWall = true;
+
         //We first move in X coordinates
         this.bounds.x += velocity.x;
         updateNearbyRectangles();
@@ -193,15 +201,20 @@ public class Character {
             if(bounds.overlaps(r)){
                 if(velocity.x < 0){
                     bounds.x = r.x + r.width + 0.01f;
-                    onWall = true;
+                    leftWall = false;
                 }
                 if(velocity.x > 0){
-                    onWall = true;
+                    leftWall = false;
                     bounds.x = r.x - r.width - 0.01f;
                 }
                 velocity.x = 0;
             }
         }
+
+        if(!grounded)
+            onWall = !leftWall;
+        else
+            onWall = false;
 
         //Then in Y coordinates
         this.bounds.y += velocity.y;
