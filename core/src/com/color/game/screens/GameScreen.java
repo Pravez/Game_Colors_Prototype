@@ -5,13 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.color.game.elements.*;
-import com.color.game.elements.Character;
 import com.color.game.elements.protoEnums.ProtoColor;
 import com.color.game.level.Map;
 
@@ -76,7 +72,6 @@ public class GameScreen implements Screen {
     private void changeCharacterColor() {
         this.map.character.color = this.map.character.color.next();
         lerpChangingColor = false; // we have finished changing its color
-        System.out.println("Change Character Color at : " + changingColorTime);
         changingColorTime = 0f;
     }
 
@@ -131,11 +126,12 @@ public class GameScreen implements Screen {
         int posX = (int) (this.map.character.bounds.x + radius);
         int posY = (int) (this.map.character.bounds.y + radius);
         shapeRenderer.circle(posX, posY, radius);
+
         // Render the color block on the upper side
         float gap = (changingColorTime * 360) / changingColorDelay;
         shapeRenderer.arc(0 + radius, (this.map.size.y - 1) * unity + radius, radius, 90, 360 - gap);
         changingColorTime += deltaTime;
-        //System.out.println("Changing color time : " + changingColorTime);
+
         shapeRenderer.rect((this.map.size.x - 1) * unity, (this.map.size.y - 1) * unity, unity, unity); // the color block on the upper side
         shapeRenderer.end();
 
