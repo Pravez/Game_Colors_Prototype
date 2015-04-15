@@ -5,10 +5,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.color.game.elements.*;
 import com.color.game.elements.Character;
 import com.color.game.elements.protoEnums.ProtoColor;
+import com.color.game.screens.GameScreen;
 
 import java.util.ArrayList;
 
 public class Map {
+
+    public GameScreen game;
 
     public Character character;
     public Door door;
@@ -16,9 +19,10 @@ public class Map {
     public Vector2 size;
     public ArrayList<ArrayList<Block>> blocks = new ArrayList<ArrayList<Block>>();
 
-    public Map() {
+    public Map(GameScreen game) {
+        this.game = game;
         this.character = new Character(this, 2, 1);
-        this.size = new Vector2(30, 15);
+        this.size = new Vector2(60, 30);
         this.door = new Door(new Rectangle(this.size.x - 1, 1, 1, 2));
 
         for (int i = 0 ; i < size.x ; i++) {
@@ -30,12 +34,12 @@ public class Map {
             }
         }
         // Creation of the five blocks on the floor on the left
-        for (int i = 0 ; i < 5 ; i++) {
+        for (int i = 0 ; i < 20 ; i++) {
             this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL,i,0));
         }
 
         // Creation of the five blocks on the floor on the right
-        for (int i = 25 ; i < 30 ; i++) {
+        for (int i = 40 ; i < 60 ; i++) {
             this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL,i,0));
         }
 
@@ -54,13 +58,13 @@ public class Map {
 
         // Creation of the Colored Blocks
         int width = 4;
-        for (int i = 7 ; i < 7 + width ; i++) {
+        for (int i = 22 ; i < 22 + width ; i++) {
             this.blocks.get(i).set(1, new Block(ProtoColor.RED,i,1));
         }
-        for (int i = 13 ; i < 13 + width ; i++) {
+        for (int i = 28 ; i < 28 + width ; i++) {
             this.blocks.get(i).set(1, new Block(ProtoColor.GREEN,i,1));
         }
-        for (int i = 19 ; i < 19 + width ; i++) {
+        for (int i = 34 ; i < 34 + width ; i++) {
             this.blocks.get(i).set(1, new Block(ProtoColor.BLUE,i,1));
         }
     }
@@ -68,6 +72,7 @@ public class Map {
     public void update(float deltaTime) {
         this.character.update(deltaTime);
         if (this.character.state == Character.ProtoState.DEAD) {
+            this.game.init();
             this.character = null;
             this.character = new Character(this, 2, 1);
         }

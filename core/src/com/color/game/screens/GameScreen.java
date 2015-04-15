@@ -9,27 +9,30 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
-import com.color.game.elements.Block;
+import com.color.game.elements.*;
+import com.color.game.elements.Character;
 import com.color.game.elements.protoEnums.ProtoColor;
 import com.color.game.level.Map;
 
 public class GameScreen implements Screen {
 
-    boolean lerpChangingColor;
-    float lerpChangingTime;
-    Map map;
-    ShapeRenderer shapeRenderer;
-    SpriteBatch batch;
-    Texture img;
-    Timer.Task lerpColorTask;
-    Timer.Task changingColorTask;
-    public static final int unity = 20; // l'unité de dimension, une unité vaut 20 pixels
+    boolean lerpChangingColor; // boolean --> do we have to start the linear interpolation of the character color ?
+    float lerpChangingTime; // between 0 and 1 --> where are we in the linear interpolation state ?
+
+    Map map; // the Map of the Game
+    ShapeRenderer shapeRenderer; // the shapeRenderer to render shapes
+    Timer timer;
+
+    Timer.Task lerpColorTask; // the task to launch the linear interpolation
+    Timer.Task changingColorTask; // the task to change the character color
+
+    public static final int unity = 20; // the dimension unity in the map, one unit equals 20 pixels
 
     public GameScreen(){
-        batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
-        map = new Map();
+        map = new Map(this);
         shapeRenderer = new ShapeRenderer();
+
+        // Tasks
         changingColorTask = new Timer.Task() {
             @Override
             public void run() {
@@ -43,8 +46,14 @@ public class GameScreen implements Screen {
                 lerpChangingTime = 0f;
             }
         };
-        new Timer().scheduleTask(lerpColorTask, 4.0f, 5.0f);
-        new Timer().scheduleTask(changingColorTask, 5.0f, 5.0f);
+        timer = new Timer();
+        init();
+    }
+
+    public void init() {
+        timer.clear();
+        timer.scheduleTask(lerpColorTask, 4.0f, 5.0f); // every 5s, one second before changing the color, we begin the linear interpolation
+        timer.scheduleTask(changingColorTask, 5.0f, 5.0f); // every 5s, we change the character color
         lerpChangingColor = false;
     }
 
@@ -103,7 +112,6 @@ public class GameScreen implements Screen {
         shapeRenderer.end();
 
         // Update des données
-
         map.update(deltaTime);
     }
 
