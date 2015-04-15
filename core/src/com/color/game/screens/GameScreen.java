@@ -2,6 +2,7 @@ package com.color.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,10 +15,13 @@ import com.color.game.level.Map;
 
 public class GameScreen implements Screen {
 
+    boolean lerpChangingColor;
+    float lerpChangingTime;
     Map map;
     ShapeRenderer shapeRenderer;
     SpriteBatch batch;
     Texture img;
+    Timer.Task lerpColorTask;
     Timer.Task changingColorTask;
     public static final int unity = 20; // l'unité de dimension, une unité vaut 20 pixels
 
@@ -32,11 +36,21 @@ public class GameScreen implements Screen {
                 changeCharacterColor();
             }
         };
+        lerpColorTask = new Timer.Task() {
+            @Override
+            public void run() {
+                lerpChangingColor = true;
+                lerpChangingTime = 0f;
+            }
+        };
+        new Timer().scheduleTask(lerpColorTask, 4.0f, 5.0f);
         new Timer().scheduleTask(changingColorTask, 5.0f, 5.0f);
+        lerpChangingColor = false;
     }
 
     private void changeCharacterColor() {
         this.map.character.color = this.map.character.color.next();
+        lerpChangingColor = false;
     }
 
     @Override
@@ -58,14 +72,19 @@ public class GameScreen implements Screen {
             for (int j = 0 ; j < this.map.size.y ; j++) {
                 Block b = this.map.blocks.get(i).get(j);
                 if (b.color != ProtoColor.EMPTY) {
-                    setShapeRendererColor(b.color);
+                    shapeRenderer.setColor(getColor(b.color));
                     shapeRenderer.rect(i * unity, j * unity, unity, unity);
                 }
             }
         }
 
         // Affichage du personnage
-        setShapeRendererColor(this.map.character.color);
+        if (lerpChangingColor) { // linear interpolation of the color
+            shapeRenderer.setColor(getColor(this.map.character.color).lerp(getColor(map.character.color.next()), lerpChangingTime));
+            lerpChangingTime += deltaTime;
+        } else {
+            shapeRenderer.setColor(getColor(this.map.character.color));
+        }
         int radius = unity/2;
         int posX = (int) (this.map.character.bounds.x + radius);
         int posY = (int) (this.map.character.bounds.y + radius);
@@ -83,23 +102,18 @@ public class GameScreen implements Screen {
         map.update(deltaTime);
     }
 
-    public void setShapeRendererColor(ProtoColor color) {
+    public Color getColor(ProtoColor color) {
         switch (color) {
             case RED:
-                shapeRenderer.setColor(1, 0, 0, 1);
-                break;
+                return new Color(1, 0, 0, 1);
             case GREEN:
-                shapeRenderer.setColor(0, 1, 0, 1);
-                break;
+                return new Color(0, 1, 0, 1);
             case BLUE:
-                shapeRenderer.setColor(0, 0, 1, 1);
-                break;
+                return new Color(0, 0, 1, 1);
             case NEUTRAL:
-                shapeRenderer.setColor(1, 1, 1, 1);
-                break;
-            default:
-                break;
+                return new Color(1, 1, 1, 1);
         }
+        return new Color(0, 0, 0, 0);
     }
 
     @Override
