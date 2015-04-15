@@ -13,10 +13,11 @@ import java.util.ArrayList;
 
 public class Character {
 
+
     static final float characHeight = 20.f;
     static final float characWidth = 20.f;
     static final float ACCELERATION = 5000f;
-    static final float BASE_JUMP_VELOCITY = 500f;
+    static final float BASE_JUMP_VELOCITY = 400f;
     static final float GRAVITY = 2000f;
     static final float MAX_VEL = 200f;
     static final float DAMP = 0.80f;
@@ -37,13 +38,15 @@ public class Character {
     public Vector2 acceleration;
     public Vector2 velocity;
     public ProtoState state;
-    public ProtoColor color;
     public int direction;
     public Rectangle bounds;
+    public ProtoColor color;
     public float statetime;
     public boolean grounded;
     public float current_jump_velocity;
     public boolean onWall;
+
+    public boolean jumpPressed;
 
     public Rectangle[] nearbyRects;
 
@@ -54,13 +57,13 @@ public class Character {
         this.position = new Vector2(x, y);
         System.out.println(position.x + " , " + position.y);
         this.state = ProtoState.IDLE;
-        this.color = ProtoColor.RED;
         this.bounds = new Rectangle();
         this.bounds.height = characHeight;
         this.bounds.width = characWidth;
         this.bounds.x = position.x*GameScreen.unity + 0.5f;
         this.bounds.y = position.y*GameScreen.unity+10f;
         this.direction = RIGHT;
+        this.color = ProtoColor.RED;
         this.grounded = true;
         this.onWall = false;
         this.current_jump_velocity = 0;
@@ -70,6 +73,12 @@ public class Character {
         statetime = 0;
 
         this.nearbyRects = new Rectangle[]{new Rectangle(), new Rectangle(), new Rectangle(), new Rectangle()};
+
+
+        //Tests part
+
+        jumpPressed = false;
+
     }
 
     public void update(float deltatime){
@@ -123,29 +132,29 @@ public class Character {
 
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) { // Pressed one time : we want to jump
-            if(grounded && state != ProtoState.JUMPING) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && state != ProtoState.JUMPING){
+            if(grounded) {
                 state = ProtoState.JUMPING;
                 grounded = false;
                 current_jump_velocity = BASE_JUMP_VELOCITY;
             }
 
-            if(onWall && state != ProtoState.JUMPING){
+            if(onWall){
                 onWall = false;
                 state = ProtoState.JUMPING;
                 current_jump_velocity = BASE_JUMP_VELOCITY;
             }
-
-            velocity.y = current_jump_velocity;
+            jumpPressed = true;
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){ // Still pressing : still jumping
-            //TO-DO
-            //Jump to the maximum
-            //Modify the jump velocity to fall well
-            if(velocity.y >= 1) {
-                current_jump_velocity *= 0.96f;
-            }
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && state == ProtoState.JUMPING && jumpPressed){
+
+            current_jump_velocity *= 0.96f;
+
+            //We change y velocity depending on the jumping velocity
+            velocity.y = current_jump_velocity;
+        }else{
+            jumpPressed = false;
         }
 
     }
