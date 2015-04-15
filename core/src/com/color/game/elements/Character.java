@@ -17,7 +17,7 @@ public class Character {
     static final float characHeight = 20.f;
     static final float characWidth = 20.f;
     static final float ACCELERATION = 5000f;
-    static final float BASE_JUMP_VELOCITY = 400f;
+    static final float BASE_JUMP_VELOCITY = 600f; // how high the character will jump
     static final float GRAVITY = 2000f;
     static final float MAX_VEL = 200f;
     static final float DAMP = 0.80f;
@@ -123,7 +123,7 @@ public class Character {
 
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) { // Pressed one time : we want to jump
             if(grounded && state != ProtoState.JUMPING) {
                 state = ProtoState.JUMPING;
                 grounded = false;
@@ -136,17 +136,16 @@ public class Character {
                 current_jump_velocity = BASE_JUMP_VELOCITY;
             }
 
-
-            //TO-DO
-            //Modify the jump velocity to fall well
-            if(velocity.y >= 1)
-                current_jump_velocity *= 0.96f;
-
-
-            System.out.println(velocity.y);
-
-            //We change y velocity depending on the jumping velocity
             velocity.y = current_jump_velocity;
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){ // Still pressing : still jumping
+            //TO-DO
+            //Jump to the maximum
+            //Modify the jump velocity to fall well
+            if(velocity.y >= 1) {
+                current_jump_velocity *= 0.96f;
+            }
         }
 
     }

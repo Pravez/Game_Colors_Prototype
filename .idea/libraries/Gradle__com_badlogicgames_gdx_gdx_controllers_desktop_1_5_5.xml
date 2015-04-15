@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.badlogicgames.gdx:gdx-controllers-desktop:1.5.5">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-controllers-desktop/1.5.5/1e1e381b308a4316f4b00205987cb34fb4f1e6f2/gdx-controllers-desktop-1.5.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-controllers-desktop/1.5.5/dbf577c5d64b67d899e300ab3cd43de6e539ee0/gdx-controllers-desktop-1.5.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
