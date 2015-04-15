@@ -17,7 +17,7 @@ public class Character {
     static final float characHeight = 20.f;
     static final float characWidth = 20.f;
     static final float ACCELERATION = 5000f;
-    static final float BASE_JUMP_VELOCITY = 600f; // how high the character will jump
+    static final float BASE_JUMP_VELOCITY = 500f;
     static final float GRAVITY = 2000f;
     static final float MAX_VEL = 200f;
     static final float DAMP = 0.80f;

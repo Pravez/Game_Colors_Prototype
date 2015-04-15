@@ -27,14 +27,12 @@ public class Map {
         }
         // Creation of the five blocks on the floor on the left
         for (int i = 0 ; i < 5 ; i++) {
-            this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL, i, 0));
-            this.blocks.get(i).set(1, new Block(ProtoColor.NEUTRAL, i, 1));
+            this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL,i,0));
         }
 
         // Creation of the five blocks on the floor on the right
         for (int i = 25 ; i < 30 ; i++) {
-            this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL, i, 1));
-            this.blocks.get(i).set(1, new Block(ProtoColor.NEUTRAL, i, 1));
+            this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL,i,0));
         }
 
         // Creation of the ceiling
