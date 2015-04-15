@@ -1,5 +1,6 @@
 package com.color.game.level;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.color.game.elements.*;
 import com.color.game.elements.Character;
@@ -10,13 +11,16 @@ import java.util.ArrayList;
 public class Map {
 
     public Character character;
+    public Door door;
 
     public Vector2 size;
     public ArrayList<ArrayList<Block>> blocks = new ArrayList<ArrayList<Block>>();
 
     public Map() {
-        character = new Character(this, 2, 1);
+        this.character = new Character(this, 2, 1);
         this.size = new Vector2(30, 15);
+        this.door = new Door(new Rectangle(this.size.x - 1, 1, 1, 2));
+
         for (int i = 0 ; i < size.x ; i++) {
             blocks.add(new ArrayList<Block>());
         }
@@ -43,7 +47,9 @@ public class Map {
         // Creation of the walls
         for (int i = 0; i < size.y ; i++) {
             this.blocks.get(0).set(i, new Block(ProtoColor.NEUTRAL,0,i));
-            this.blocks.get((int) (size.x - 1)).set(i, new Block(ProtoColor.NEUTRAL, (int) (size.x - 1),i));
+            if (size.x - 1 != door.bounds.x || i != door.bounds.y ) { // if this is not the door
+                this.blocks.get((int) (size.x - 1)).set(i, new Block(ProtoColor.NEUTRAL, (int) (size.x - 1),i));
+            }
         }
 
         // Creation of the Colored Blocks

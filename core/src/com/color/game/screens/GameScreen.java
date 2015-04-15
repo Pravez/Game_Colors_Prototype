@@ -62,12 +62,13 @@ public class GameScreen implements Screen {
     public void render(float deltaTime) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        /** Affichage de la Map **/
+
+        /** Rendering the Map **/
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 0, 0, 1);
         shapeRenderer.rect(0, 0, unity * map.size.x, unity * map.size.y);
 
-        // Affichage des Blocs
+        // Rendering blocks
         for (int i = 0 ; i < this.map.size.x ; i++) {
             for (int j = 0 ; j < this.map.size.y ; j++) {
                 Block b = this.map.blocks.get(i).get(j);
@@ -78,7 +79,11 @@ public class GameScreen implements Screen {
             }
         }
 
-        // Affichage du personnage
+        // Rendering the door
+        shapeRenderer.setColor(Color.MAROON);
+        shapeRenderer.rect(map.door.bounds.x * unity, map.door.bounds.y * unity, map.door.bounds.width * unity, map.door.bounds.height * unity);
+
+        // Rendering the character
         if (lerpChangingColor) { // linear interpolation of the color
             shapeRenderer.setColor(getColor(this.map.character.color).lerp(getColor(map.character.color.next()), lerpChangingTime));
             lerpChangingTime += deltaTime;
