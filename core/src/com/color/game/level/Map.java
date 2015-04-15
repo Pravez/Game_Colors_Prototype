@@ -14,7 +14,7 @@ public class Map {
     public GameScreen game;
 
     public Character character;
-    public Door door;
+    public ArrayList<Door> doors = new ArrayList<Door>();
 
     public Vector2 size;
     public ArrayList<ArrayList<Block>> blocks = new ArrayList<ArrayList<Block>>();
@@ -23,7 +23,8 @@ public class Map {
         this.game = game;
         this.character = new Character(this, 2, 1);
         this.size = new Vector2(60, 30);
-        this.door = new Door(new Rectangle(this.size.x - 1, 1, 1, 2));
+        this.doors.add(new Door(new Rectangle(0, 1, 1, 2)));
+        this.doors.add(new Door(new Rectangle(this.size.x - 1, 1, 1, 2)));
 
         for (int i = 0 ; i < size.x ; i++) {
             blocks.add(new ArrayList<Block>());
@@ -50,8 +51,10 @@ public class Map {
 
         // Creation of the walls
         for (int i = 0; i < size.y ; i++) {
-            this.blocks.get(0).set(i, new Block(ProtoColor.NEUTRAL,0,i));
-            if (size.x - 1 != door.bounds.x || i != door.bounds.y ) { // if this is not the door
+            if (0 != doors.get(0).bounds.x || i != doors.get(0).bounds.y ) { // if this is not the left door
+                this.blocks.get(0).set(i, new Block(ProtoColor.NEUTRAL,0,i));
+            }
+            if (size.x - 1 != doors.get(1).bounds.x || i != doors.get(1).bounds.y ) { // if this is not the right door
                 this.blocks.get((int) (size.x - 1)).set(i, new Block(ProtoColor.NEUTRAL, (int) (size.x - 1),i));
             }
         }

@@ -18,7 +18,7 @@ public class GameScreen implements Screen {
 
     boolean lerpChangingColor; // boolean --> do we have to start the linear interpolation of the character color ?
     float lerpChangingTime; // between 0 and 1 --> where are we in the linear interpolation state ?
-    static float lerpChangingDelay = 0.5f; // the delay of the linear interpolation
+    static float lerpChangingDelay = 0.75f; // the delay of the linear interpolation
 
     Map map; // the Map of the Game
     ShapeRenderer shapeRenderer; // the shapeRenderer to render shapes
@@ -89,9 +89,11 @@ public class GameScreen implements Screen {
             }
         }
 
-        // Rendering the door
+        // Rendering the doors
         shapeRenderer.setColor(Color.MAROON);
-        shapeRenderer.rect(map.door.bounds.x * unity, map.door.bounds.y * unity, map.door.bounds.width * unity, map.door.bounds.height * unity);
+        for (Door d : this.map.doors) {
+            shapeRenderer.rect(d.bounds.x * unity, d.bounds.y * unity, d.bounds.width * unity, d.bounds.height * unity);
+        }
 
         // Rendering the character
         if (lerpChangingColor) { // linear interpolation of the color
