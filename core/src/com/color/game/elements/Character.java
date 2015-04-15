@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class Character {
 
-
     static final float characHeight = 20.f;
     static final float characWidth = 20.f;
     static final float ACCELERATION = 5000f;
@@ -38,6 +37,7 @@ public class Character {
     public Vector2 acceleration;
     public Vector2 velocity;
     public ProtoState state;
+    public ProtoColor color;
     public int direction;
     public Rectangle bounds;
     public float statetime;
@@ -54,6 +54,7 @@ public class Character {
         this.position = new Vector2(x, y);
         System.out.println(position.x + " , " + position.y);
         this.state = ProtoState.IDLE;
+        this.color = ProtoColor.RED;
         this.bounds = new Rectangle();
         this.bounds.height = characHeight;
         this.bounds.width = characWidth;
@@ -69,7 +70,6 @@ public class Character {
         statetime = 0;
 
         this.nearbyRects = new Rectangle[]{new Rectangle(), new Rectangle(), new Rectangle(), new Rectangle()};
-
     }
 
     public void update(float deltatime){

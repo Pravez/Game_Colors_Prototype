@@ -6,5 +6,17 @@ public enum ProtoColor {
     NEUTRAL,
     RED,
     GREEN,
-    BLUE
+    BLUE;
+
+    public ProtoColor next() {
+        if (this.equals(ProtoColor.RED)) {
+            return ProtoColor.GREEN;
+        } else if (this.equals(ProtoColor.GREEN)) {
+            return ProtoColor.BLUE;
+        } else if (this.equals(ProtoColor.BLUE)) {
+            return ProtoColor.RED;
+        } else {
+            return ProtoColor.NEUTRAL;
+        }
+    }
 }
