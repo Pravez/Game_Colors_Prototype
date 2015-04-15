@@ -8,6 +8,10 @@ public enum ProtoColor {
     GREEN,
     BLUE;
 
+    /**
+     * Method to get the next ProtoColor from Red, Green, and Blue
+     * @return the next ProtoColor
+     */
     public ProtoColor next() {
         if (this.equals(ProtoColor.RED)) {
             return ProtoColor.GREEN;

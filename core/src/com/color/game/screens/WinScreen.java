@@ -8,22 +8,28 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Timer;
 
-public class MenuScreen implements Screen {
+public class WinScreen implements Screen {
 
     Game game;
     Stage stage;
     Skin skin;
     TextButton textButton;
+    Timer timer;
 
-    public MenuScreen(final Game game) {
+    public WinScreen(final Game game) {
         this.game = game;
+        timer = new Timer();
+        timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                game.setScreen(new MenuScreen(game));
+            }
+        }, 5.0f);
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -55,14 +61,9 @@ public class MenuScreen implements Screen {
         skin.add("default", textButtonStyle);
 
         // Create a button with the "default" TextButtonStyle. A 3rd parameter can be used to specify a name other than "default".
-        textButton = new TextButton("PLAY", textButtonStyle);
+        textButton = new TextButton("YOU WON", textButtonStyle);
         textButton.setPosition(600 - textButton.getMinWidth()/2, 300 - textButton.getMinHeight()/2);
         stage.addActor(textButton);
-
-        textButton.addListener(new ChangeListener() {
-            public void changed (ChangeEvent event, Actor actor) {game.setScreen( new GameScreen(game));
-            }
-        });
     }
 
     @Override
@@ -78,27 +79,17 @@ public class MenuScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) { }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() { }
 }
