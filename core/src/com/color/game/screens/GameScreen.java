@@ -20,6 +20,8 @@ public class GameScreen implements Screen {
     boolean lerpChangingColor; // boolean --> do we have to start the linear interpolation of the character color ?
     float lerpChangingTime; // between 0 and 1 --> where are we in the linear interpolation state ?
     static float lerpChangingDelay = 0.75f; // the delay of the linear interpolation
+    static float changingColorDelay = 5.0f; // the delay between each color change
+    float changingColorTime; // time since the last color change
 
     Map map; // the Map of the Game
     ShapeRenderer shapeRenderer; // the shapeRenderer to render shapes
@@ -62,9 +64,10 @@ public class GameScreen implements Screen {
      */
     public void init() {
         timer.clear(); // remove the tasks from the timer
-        timer.scheduleTask(lerpColorTask, 5.0f - lerpChangingDelay, 5.0f); // every 5s, before changing the color, we begin the linear interpolation
-        timer.scheduleTask(changingColorTask, 5.0f, 5.0f); // every 5s, we change the character color
+        timer.scheduleTask(lerpColorTask, changingColorDelay - lerpChangingDelay, changingColorDelay); // every 5s, before changing the color, we begin the linear interpolation
+        timer.scheduleTask(changingColorTask, changingColorDelay, changingColorDelay); // every 5s, we change the character color
         lerpChangingColor = false; // we are not changing the color of the character
+        changingColorTime = 0f;
     }
 
     /**
@@ -73,6 +76,8 @@ public class GameScreen implements Screen {
     private void changeCharacterColor() {
         this.map.character.color = this.map.character.color.next();
         lerpChangingColor = false; // we have finished changing its color
+        System.out.println("Change Character Color at : " + changingColorTime);
+        changingColorTime = 0f;
     }
 
     @Override
@@ -111,16 +116,26 @@ public class GameScreen implements Screen {
         }
 
         // Rendering the character
+        int radius = unity/2;
+
+        shapeRenderer.setColor(getColor(map.character.color.next()));
+        shapeRenderer.circle(0 + radius, (this.map.size.y - 1) * unity + radius, radius);
+
         if (lerpChangingColor) { // linear interpolation of the color
             shapeRenderer.setColor(getColor(this.map.character.color).lerp(getColor(map.character.color.next()), lerpChangingTime));
             lerpChangingTime += deltaTime * lerpChangingDelay;
         } else {
             shapeRenderer.setColor(getColor(this.map.character.color));
         }
-        int radius = unity/2;
+
         int posX = (int) (this.map.character.bounds.x + radius);
         int posY = (int) (this.map.character.bounds.y + radius);
         shapeRenderer.circle(posX, posY, radius);
+        // Render the color block on the upper side
+        float gap = (changingColorTime * 360) / changingColorDelay;
+        shapeRenderer.arc(0 + radius, (this.map.size.y - 1) * unity + radius, radius, 90, 360 - gap);
+        changingColorTime += deltaTime;
+        //System.out.println("Changing color time : " + changingColorTime);
         shapeRenderer.rect((this.map.size.x - 1) * unity, (this.map.size.y - 1) * unity, unity, unity); // the color block on the upper side
         shapeRenderer.end();
 
