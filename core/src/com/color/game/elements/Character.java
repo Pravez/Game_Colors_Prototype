@@ -16,11 +16,12 @@ public class Character {
 
     static final float characHeight = 20.f;
     static final float characWidth = 20.f;
-    static final float ACCELERATION = 5000f;
+    static final float BASE_ACCELERATION = 5000f;
     static final float BASE_JUMP_VELOCITY = 400f;
-    static final float GRAVITY = 2000f;
-    static final float MAX_VEL = 200f;
-    static final float DAMP = 0.80f;
+    static final float GRAVITY = 3000f;
+    static final float BASE_MAX_VEL = 200f;
+    static final float ENHANCED_MAX_VEL = 300f;
+    static final float DAMP = 0.83f;
     static final int RIGHT = 1;
     static final int LEFT = -1;
 
@@ -45,6 +46,7 @@ public class Character {
     public boolean grounded;
     public float current_jump_velocity;
     public boolean onWall;
+    public float currentMaxVelocity;
 
     public boolean jumpPressed;
 
@@ -55,7 +57,6 @@ public class Character {
         this.map = map;
 
         this.position = new Vector2(x, y);
-        System.out.println(position.x + " , " + position.y);
         this.state = ProtoState.IDLE;
         this.bounds = new Rectangle();
         this.bounds.height = characHeight;
@@ -67,6 +68,7 @@ public class Character {
         this.grounded = true;
         this.onWall = false;
         this.current_jump_velocity = 0;
+        currentMaxVelocity = 0;
 
         this.acceleration = new Vector2(0,0);
         this.velocity = new Vector2(0,0);
@@ -76,7 +78,6 @@ public class Character {
 
 
         //Tests part
-
         jumpPressed = false;
 
     }
@@ -90,8 +91,8 @@ public class Character {
         acceleration.scl(deltatime);
 
         velocity.add(acceleration.x, acceleration.y);
-        if(velocity.x > MAX_VEL) velocity.x = MAX_VEL;
-        if(velocity.x < -MAX_VEL) velocity.x = -MAX_VEL;
+        if(velocity.x > currentMaxVelocity) velocity.x = currentMaxVelocity;
+        if(velocity.x < -currentMaxVelocity) velocity.x = -currentMaxVelocity;
 
         //Used by the "character on wheels" effect
         if(acceleration.x == 0) velocity.x *= DAMP;
@@ -100,7 +101,14 @@ public class Character {
 
         //Here is the pure movement
         velocity.scl(deltatime);
-        move();
+
+        //Catch the exception of being out of the matrix
+        try {
+            move();
+        }catch(IndexOutOfBoundsException ioobe){
+            ioobe.printStackTrace();
+            state = ProtoState.DEAD;
+        }
 
         //Here is the "character on wheels" effect
         velocity.scl(1.0f / deltatime);
@@ -116,14 +124,13 @@ public class Character {
             direction = LEFT;
             if(state != ProtoState.JUMPING)
                 state = ProtoState.MOVING;
-            acceleration.x = ACCELERATION*direction;
+            acceleration.x = BASE_ACCELERATION *direction;
 
         }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             direction = RIGHT;
             if(state != ProtoState.JUMPING)
                 state = ProtoState.MOVING;
-            acceleration.x = ACCELERATION*direction;
-            System.out.println(bounds.x);
+            acceleration.x = BASE_ACCELERATION *direction;
 
         }else{
             if(state != ProtoState.JUMPING)
@@ -132,7 +139,16 @@ public class Character {
 
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && state != ProtoState.JUMPING){
+        //To increase speed
+        if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)){
+            currentMaxVelocity = ENHANCED_MAX_VEL;
+        }else{
+            currentMaxVelocity = BASE_MAX_VEL;
+        }
+
+
+        //Region for the jump
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && state != ProtoState.JUMPING && !jumpPressed){
             if(grounded) {
                 state = ProtoState.JUMPING;
                 grounded = false;
@@ -149,17 +165,27 @@ public class Character {
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && state == ProtoState.JUMPING && jumpPressed){
 
+
             current_jump_velocity *= 0.96f;
+
+            //Value where the character won't jump anymore and just fall
+            if(velocity.y <= 150.0f && velocity.y >= 1.0f){
+                state = ProtoState.IDLE;
+            }
 
             //We change y velocity depending on the jumping velocity
             velocity.y = current_jump_velocity;
+
         }else{
-            jumpPressed = false;
+            state = ProtoState.IDLE;
         }
+
+        jumpPressed = Gdx.input.isKeyPressed(Input.Keys.SPACE);
+        //end region
 
     }
 
-    public void move(){
+    public void move() throws IndexOutOfBoundsException{
 
         //We first move in X coordinates
         this.bounds.x += velocity.x;
@@ -205,7 +231,7 @@ public class Character {
         }
     }
 
-    private void updateNearbyRectangles() {
+    private void updateNearbyRectangles() throws IndexOutOfBoundsException{
 
         int r1x = Math.max(0, (int) bounds.x);
         int r1y = Math.max(0,(int)Math.floor(bounds.y-GameScreen.unity));
