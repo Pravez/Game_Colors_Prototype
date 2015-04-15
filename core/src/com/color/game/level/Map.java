@@ -64,13 +64,17 @@ public class Map {
         // Creation of the Colored Blocks
         int width = 4;
         for (int i = 22 ; i < 22 + width ; i++) {
-            this.blocks.get(i).set(1, new Block(ProtoColor.RED,i,1));
+            this.blocks.get(i).set(3, new Block(ProtoColor.RED,i,3));
         }
         for (int i = 28 ; i < 28 + width ; i++) {
-            this.blocks.get(i).set(1, new Block(ProtoColor.GREEN,i,1));
+            this.blocks.get(i).set(3, new Block(ProtoColor.GREEN,i,3));
         }
         for (int i = 34 ; i < 34 + width ; i++) {
-            this.blocks.get(i).set(1, new Block(ProtoColor.BLUE,i,1));
+            this.blocks.get(i).set(3, new Block(ProtoColor.BLUE,i,3));
+        }
+
+        for(int i=22;i<38;i++){
+            this.blocks.get(i).set(0, new Block(ProtoColor.RED, i, 0));
         }
     }
 
