@@ -21,13 +21,12 @@ public class WinScreen implements Screen {
     TextButton textButton;
     Timer timer;
 
-    public WinScreen(final Game game) {
-        this.game = game;
+    public WinScreen() {
         timer = new Timer();
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen());
             }
         }, 2.0f);
 

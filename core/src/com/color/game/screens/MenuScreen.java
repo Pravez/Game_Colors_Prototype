@@ -8,58 +8,67 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class MenuScreen implements Screen {
 
-    Game game;
-    Stage stage;
-    Skin skin;
-    TextButton textButton;
+    private Stage stage;
+    private Table table;
+    private Skin skin;
+    private TextButton buttonPlay;
+    private TextButton buttonExit;
+    private Label title;
 
-    public MenuScreen(final Game game) {
-        this.game = game;
+    public MenuScreen() {
+        this.stage = new Stage();
+        this.table = new Table();
+        this.skin = new Skin();
 
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 42;
+        BitmapFont font = generator.generateFont(parameter);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        // A skin can be loaded via JSON or defined programmatically, either is fine. Using a skin is optional but strongly
-        // recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.
-        skin = new Skin();
-        // Generate a 1x1 white texture and store it in the skin named "white".
-        Pixmap pixmap = new Pixmap(100, 100, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.BLACK);
-        pixmap.fill();
+        this.title = new Label("Game Colors Prototype", new Label.LabelStyle(font, Color.RED));
 
-        skin.add("white", new Texture(pixmap));
+        parameter.size = 30;
+        this.skin.add("28days", generator.generateFont(parameter));
+        this.skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
+        this.skin.load(Gdx.files.internal("uiskin.json"));
+        this.buttonPlay = new TextButton("Play", skin);
+        this.buttonExit = new TextButton("Exit", skin);
 
-        // Store the default libgdx font under the name "default".
-        BitmapFont bfont=new BitmapFont();
-        bfont.scale(1);
-        skin.add("default",bfont);
+        table.add(title).padBottom(40).row();
+        table.add(buttonPlay).size(150,60).padBottom(20).row();
+        table.add(buttonExit).size(150,60).padBottom(20).row();
 
-        // Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("white", Color.RED);
-        textButtonStyle.down = skin.newDrawable("white", Color.GREEN);
-        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-        textButtonStyle.over = skin.newDrawable("white", Color.WHITE);
+        table.setFillParent(true);
+        stage.addActor(table);
 
-        textButtonStyle.font = skin.getFont("default");
-
-        skin.add("default", textButtonStyle);
-
-        // Create a button with the "default" TextButtonStyle. A 3rd parameter can be used to specify a name other than "default".
-        textButton = new TextButton("PLAY", textButtonStyle);
-        textButton.setPosition(600 - textButton.getMinWidth()/2, 300 - textButton.getMinHeight()/2);
-        stage.addActor(textButton);
-
-        /*textButton.addListener(new ChangeListener() {
-            public void changed (ChangeEvent event, Actor actor) {game.setScreen( new GameScreen(game));
+        buttonPlay.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
             }
-        });*/
+        });
+        buttonExit.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+
+        Gdx.input.setInputProcessor(stage);
+        generator.dispose();
     }
 
     @Override
@@ -70,8 +79,10 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.act();
         stage.draw();
+
+        //stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
     }
 
     @Override
