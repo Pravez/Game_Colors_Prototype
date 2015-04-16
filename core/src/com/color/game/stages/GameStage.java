@@ -50,8 +50,9 @@ public class GameStage extends Stage implements ContactListener{
 
     private void createPlatforms(){
         platforms = new ArrayList<Platform>();
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 0, 0, 50, 2)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 25, 0, 2, 5)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 25, 0, 50, 2)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 25, 5, 2, 5)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 35,15,2,15)));
         for(Platform p : platforms) {
             this.addActor(p);
         }
@@ -59,7 +60,7 @@ public class GameStage extends Stage implements ContactListener{
 
     private void setupCamera(){
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
-        camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0f);
+        camera.position.set(0, 0, 0f);
         camera.update();
     }
 
@@ -88,9 +89,14 @@ public class GameStage extends Stage implements ContactListener{
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
 
+        System.out.println("Friction : " + contact.getFriction());
+        System.out.println("TangentSPeed : " + contact.getTangentSpeed());
+
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPlatform(b)) ||
                 (BodyUtils.bodyIsPlatform(a) && BodyUtils.bodyIsCharacter(b))) {
+
             character.landed();
+            System.out.println("landed");
         }
 
     }

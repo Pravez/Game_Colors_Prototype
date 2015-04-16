@@ -9,8 +9,8 @@ public class Constants {
     public static final int APP_WIDTH = 840;
     public static final int APP_HEIGHT = 600;
 
-    public static final int VIEWPORT_WIDTH = 50;
-    public static final int VIEWPORT_HEIGHT = 50;
+    public static final int VIEWPORT_WIDTH = 100;
+    public static final int VIEWPORT_HEIGHT = 100;
 
     public static final float CHARACTER_WIDTH = 1f;
     public static final float CHARACTER_HEIGHT = 1f;
@@ -23,10 +23,12 @@ public class Constants {
     public static final float CHARACTER_GRAVITY_SCALE = 3f;
     public static final Vector2 CHARACTER_JUMPING_LINEAR_IMPULSE = new Vector2(0, 125);
     public static final Vector2 CHARACTER_MOVING_LINEAR_IMPULSE = new Vector2(7,0);
-    public static final Vector2 CHARACTER_MAX_VELOCITY = new Vector2(25f, 0);
+    public static final Vector2 CHARACTER_MAX_VELOCITY_NORMAL = new Vector2(25f, 0);
 
+    public static final Vector2 CHARACTER_JUMPING_LINEAR_IMPULSE_BOOSTED = new Vector2(0, 160);
+    public static final Vector2 CHARACTER_MOVING_LINEAR_IMPULSE_BOOSTED = new Vector2(10,0);
+    public static final Vector2 CHARACTER_MAX_VELOCITY_BOOSTED = new Vector2(35f, 0);
 
-    //public static final
-
+    public static Vector2 CHARACTER_MAX_VELOCITY = new Vector2(25f, 0);
 
 }

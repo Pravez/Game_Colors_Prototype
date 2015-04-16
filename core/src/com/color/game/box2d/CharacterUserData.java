@@ -26,6 +26,18 @@ public class CharacterUserData extends UserData {
         return movingLinearImpulse;
     }
 
+    public void increaseMovement(){
+        jumpingLinearImpulse = Constants.CHARACTER_JUMPING_LINEAR_IMPULSE_BOOSTED;
+        movingLinearImpulse = Constants.CHARACTER_MOVING_LINEAR_IMPULSE_BOOSTED;
+        Constants.CHARACTER_MAX_VELOCITY = Constants.CHARACTER_MAX_VELOCITY_BOOSTED;
+    }
+
+    public void decreaseMovement(){
+        jumpingLinearImpulse = Constants.CHARACTER_JUMPING_LINEAR_IMPULSE;
+        movingLinearImpulse = Constants.CHARACTER_MOVING_LINEAR_IMPULSE;
+        Constants.CHARACTER_MAX_VELOCITY = Constants.CHARACTER_MAX_VELOCITY_NORMAL;
+    }
+
     public void setJumpingLinearImpulse(Vector2 jumpingLinearImpulse) {
         this.jumpingLinearImpulse = jumpingLinearImpulse;
     }

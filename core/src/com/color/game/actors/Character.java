@@ -12,6 +12,7 @@ public class Character extends GameActor{
 
     private boolean jumping;
     private boolean left, right;
+    private boolean onWall;
 
     public Character(Body body) {
         super(body);
@@ -20,6 +21,7 @@ public class Character extends GameActor{
         jumping = false;
         left = false;
         right = false;
+        onWall = false;
     }
 
     @Override
@@ -62,20 +64,6 @@ public class Character extends GameActor{
 
         body.applyLinearImpulse(linearImpulse, body.getWorldCenter(), true);
 
-        /*if(right){
-            if(body.getLinearVelocity().x < Constants.CHARACTER_MAX_VELOCITY.x) {
-                body.applyLinearImpulse(getUserData().getMovingRightLinearImpulse().add(0, body.getLinearVelocity().y), body.getWorldCenter(), true);
-            }else{
-                body.setLinearVelocity(Constants.CHARACTER_MAX_VELOCITY.x, 0);
-            }
-        }
-        if(left){
-            if(body.getLinearVelocity().x > -Constants.CHARACTER_MAX_VELOCITY.x) {
-                body.applyLinearImpulse(getUserData().getMovingLeftLinearImpulse(), body.getWorldCenter(), true);
-            }else{
-                body.setLinearVelocity(-Constants.CHARACTER_MAX_VELOCITY.x, 0f);
-            }
-        }*/
     }
 
     public void landed(){
@@ -94,6 +82,9 @@ public class Character extends GameActor{
             if(keycode == Input.Keys.SPACE){
                 jump();
             }
+            if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
+                getUserData().increaseMovement();
+            }
             return true;
         }
 
@@ -105,7 +96,18 @@ public class Character extends GameActor{
             if(keycode == Input.Keys.RIGHT){
                 right = false;
             }
+            if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
+                getUserData().decreaseMovement();
+            }
             return true;
         }
+    }
+
+    public boolean isOnWall() {
+        return onWall;
+    }
+
+    public void OnWall(boolean onWall) {
+        this.onWall = onWall;
     }
 }
