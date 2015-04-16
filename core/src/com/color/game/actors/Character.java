@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.color.game.box2d.CharacterUserData;
 import com.color.game.enums.CharacterState;
+import com.color.game.stages.GameStage;
 import com.color.game.utils.Constants;
 
 public class Character extends GameActor{
@@ -53,6 +54,7 @@ public class Character extends GameActor{
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        batch.setProjectionMatrix(GameStage.camera.combined);
         batch.draw(texture, super.screenRectangle.x, super.screenRectangle.y, super.screenRectangle.width, super.screenRectangle.height);
     }
 

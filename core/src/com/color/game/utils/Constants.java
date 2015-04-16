@@ -3,11 +3,17 @@ package com.color.game.utils;
 
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Class of constants used by the whole program
+ */
 public class Constants {
 
 
     public static final int APP_WIDTH = 840;
     public static final int APP_HEIGHT = 600;
+
+    public static final int GLOBAL_STARTING_SPRITES_WIDTH = APP_WIDTH/2;
+    public static final int GLOBAL_STARTING_SPRITES_HEIGHT = APP_HEIGHT/2;
 
     public static final float WORLD_TO_SCREEN = 32;
 
@@ -22,6 +28,9 @@ public class Constants {
     public static final float STATIC_ELEMENTS_DENSITY = 0f;
     public static float DYNAMIC_ELEMENTS_DENSITY = 0.4f;
 
+    /**
+     * Character constants
+     */
     public static final float CHARACTER_GRAVITY_SCALE = 3f;
     public static final Vector2 CHARACTER_JUMPING_LINEAR_IMPULSE = new Vector2(0, 125);
     public static final Vector2 CHARACTER_MOVING_LINEAR_IMPULSE = new Vector2(7,0);

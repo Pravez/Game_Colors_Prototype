@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.actors.Character;
 import com.color.game.actors.Platform;
 import com.color.game.screens.DeathScreen;
-import com.color.game.screens.GameScreen;
 import com.color.game.utils.BodyUtils;
 import com.color.game.utils.WorldUtils;
 
@@ -24,7 +23,7 @@ public class GameStage extends Stage implements ContactListener{
     private final float TIME_STEP = 1/300f;
     private float accumulator = 0f;
 
-    private OrthographicCamera camera;
+    public static OrthographicCamera camera;
     private Box2DDebugRenderer renderer;
 
     public GameStage(){
