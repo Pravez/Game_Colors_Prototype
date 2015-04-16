@@ -251,7 +251,7 @@ public class Character {
 
         int r1x = Math.max(0, (int) medium.x);
         int r1y = Math.max(0, (int) Math.floor(medium.y-GameScreen.unity/2));
-        int r2x = Math.max(0, (int) medium.x + GameScreen.unity/2);
+        int r2x = Math.max(0, (int) Math.min(59*GameScreen.unity, (medium.x + GameScreen.unity / 2)));
         int r2y = Math.max(0, (int) Math.floor(medium.y));
         int r3x = Math.max(0, (int)(medium.x));
         int r3y = Math.max(0, (int) Math.floor(medium.y + GameScreen.unity/2));
