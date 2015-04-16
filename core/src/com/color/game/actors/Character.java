@@ -1,6 +1,7 @@
 package com.color.game.actors;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -101,6 +102,10 @@ public class Character extends GameActor{
             }
             return true;
         }
+    }
+
+    public Vector2 getPosition() {
+        return this.body.getPosition();
     }
 
     public boolean isOnWall() {

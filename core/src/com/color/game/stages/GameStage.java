@@ -15,6 +15,9 @@ import java.util.ArrayList;
 
 public class GameStage extends Stage implements ContactListener{
 
+    static final int WORLD_WIDTH = 100;
+    static final int WORLD_HEIGHT = 20;
+
     public World world;
     public ArrayList<Platform> platforms;
     public com.color.game.actors.Character character;
@@ -32,12 +35,10 @@ public class GameStage extends Stage implements ContactListener{
     }
 
     private void initializeScene(){
-
         createWorld();
         setupCamera();
         setKeyboardFocus(character);
         renderer = new Box2DDebugRenderer();
-
     }
 
     private void createWorld(){
@@ -59,8 +60,10 @@ public class GameStage extends Stage implements ContactListener{
     }
 
     private void setupCamera(){
-        camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
-        camera.position.set(0, 0, 0f);
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        camera = new OrthographicCamera(60, 60 * (h / w));
+        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
     }
 
@@ -80,6 +83,8 @@ public class GameStage extends Stage implements ContactListener{
     @Override
     public void draw(){
         super.draw();
+        this.camera.position.x = this.character.getPosition().x;
+        this.camera.update();
         renderer.render(world, camera.combined);
     }
 
