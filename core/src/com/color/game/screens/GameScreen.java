@@ -8,7 +8,6 @@ import com.color.game.stages.GameStage;
 public class GameScreen implements Screen {
 
     private GameStage stage;
-    public static int unity = 20;
 
     public GameScreen(){
         stage = new GameStage();
@@ -23,7 +22,6 @@ public class GameScreen implements Screen {
     public void render(float v) {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
         stage.act(v);
         stage.draw();

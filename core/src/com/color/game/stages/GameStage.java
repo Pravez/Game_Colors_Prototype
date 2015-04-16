@@ -18,7 +18,7 @@ public class GameStage extends Stage implements ContactListener{
 
     public World world;
     public ArrayList<Platform> platforms;
-    public com.color.game.actors.Character character;
+    public Character character;
 
     private final float TIME_STEP = 1/300f;
     private float accumulator = 0f;
@@ -53,12 +53,12 @@ public class GameStage extends Stage implements ContactListener{
 
     private void createPlatforms(){
         platforms = new ArrayList<Platform>();
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 12.5f, 1, 12.5f, 1)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 87.5f,1,12.5f,1)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 50,1,12.5f,1)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 13, 1, 13, 1)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 88,1,13,1)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 50,1,13,1)));
         platforms.add(new Platform(WorldUtils.createStaticElement(world, 1, 50, 1, 50)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 99,50,1,50)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, (25+12.5f/2-3), 8, 2.5f, 1)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 102,50,1,50)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, (25+13/2-3), 8, 3, 1)));
         for(Platform p : platforms) {
             this.addActor(p);
         }
@@ -97,6 +97,7 @@ public class GameStage extends Stage implements ContactListener{
         this.camera.update();
         renderer.render(world, camera.combined);
     }
+
 
     @Override
     public void beginContact(Contact contact) {
