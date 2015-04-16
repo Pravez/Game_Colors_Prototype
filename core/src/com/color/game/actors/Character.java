@@ -1,6 +1,10 @@
 package com.color.game.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,6 +18,7 @@ public class Character extends GameActor{
     private boolean jumping;
     private boolean left, right;
     private boolean onWall;
+    private TextureRegion texture;
     private CharacterState state;
 
     public Character(Body body) {
@@ -29,6 +34,8 @@ public class Character extends GameActor{
         right = false;
         onWall = false;
 
+        texture = new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0f, 0f, 0.25f, 0.25f);
+
     }
 
     @Override
@@ -41,6 +48,12 @@ public class Character extends GameActor{
             right=false;
             left=false;
         }
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        batch.draw(texture, super.screenRectangle.x, super.screenRectangle.y, super.screenRectangle.width, super.screenRectangle.height);
     }
 
     @Override
