@@ -13,9 +13,6 @@ import com.color.game.level.Map;
 
 public class GameScreen implements Screen {
 
-    boolean lerpChangingColor; // boolean --> do we have to start the linear interpolation of the character color ?
-    float lerpChangingTime; // between 0 and 1 --> where are we in the linear interpolation state ?
-    static float lerpChangingDelay = 0.75f; // the delay of the linear interpolation
     static float changingColorDelay = 5.0f; // the delay between each color change
     float changingColorTime; // time since the last color change
 
@@ -25,7 +22,6 @@ public class GameScreen implements Screen {
     ShapeRenderer shapeRenderer; // the shapeRenderer to render shapes
     Timer timer; // the timer to call timed methods
 
-    Timer.Task lerpColorTask; // the task to launch the linear interpolation
     Timer.Task changingColorTask; // the task to change the character color
 
     public static final int unity = 20; // the dimension unity in the map, one unit equals 20 pixels
@@ -47,14 +43,6 @@ public class GameScreen implements Screen {
                 changeCharacterColor();
             }
         };
-        // Task to launch the linear interpolation for the character color
-        lerpColorTask = new Timer.Task() {
-            @Override
-            public void run() {
-                lerpChangingColor = true;
-                lerpChangingTime = 0f;
-            }
-        };
         timer = new Timer();
         init(); // init the Game
     }
@@ -64,9 +52,7 @@ public class GameScreen implements Screen {
      */
     public void init() {
         timer.clear(); // remove the tasks from the timer
-        timer.scheduleTask(lerpColorTask, changingColorDelay - lerpChangingDelay, changingColorDelay); // every 5s, before changing the color, we begin the linear interpolation
         timer.scheduleTask(changingColorTask, changingColorDelay, changingColorDelay); // every 5s, we change the character color
-        lerpChangingColor = false; // we are not changing the color of the character
         changingColorTime = 0f;
     }
 
@@ -75,7 +61,6 @@ public class GameScreen implements Screen {
      */
     private void changeCharacterColor() {
         this.map.character.color = this.map.character.color.next();
-        lerpChangingColor = false; // we have finished changing its color
         changingColorTime = 0f;
     }
 
@@ -120,23 +105,22 @@ public class GameScreen implements Screen {
         shapeRenderer.setColor(getColor(map.character.color.next()));
         shapeRenderer.circle(0 + radius, (this.map.size.y - 1) * unity + radius, radius);
 
-        if (lerpChangingColor) { // linear interpolation of the color
-            shapeRenderer.setColor(getColor(this.map.character.color).lerp(getColor(map.character.color.next()), lerpChangingTime));
-            lerpChangingTime += deltaTime * lerpChangingDelay;
-        } else {
-            shapeRenderer.setColor(getColor(this.map.character.color));
-        }
+        // linear interpolation of the color
+        shapeRenderer.setColor(getColor(this.map.character.color).lerp(getColor(map.character.color.next()), changingColorTime / changingColorDelay));
 
         int posX = (int) (this.map.character.bounds.x + radius);
         int posY = (int) (this.map.character.bounds.y + radius);
         shapeRenderer.circle(posX, posY, radius);
 
-        // Render the color block on the upper side
+        // the upper right block
+        shapeRenderer.rect((this.map.size.x - 1) * unity, (this.map.size.y - 1) * unity, unity, unity); // the color block on the upper side
+
+        // Render the color circle on the upper left side
+        shapeRenderer.setColor(getColor(this.map.character.color));
         float gap = (changingColorTime * 360) / changingColorDelay;
         shapeRenderer.arc(0 + radius, (this.map.size.y - 1) * unity + radius, radius, 90, 360 - gap);
         changingColorTime += deltaTime;
 
-        shapeRenderer.rect((this.map.size.x - 1) * unity, (this.map.size.y - 1) * unity, unity, unity); // the color block on the upper side
         shapeRenderer.end();
 
         // Rendering the outline of the character in white
@@ -172,8 +156,8 @@ public class GameScreen implements Screen {
         switch (color) {
             case RED:
                 return new Color(1, 0, 0, 1);
-            case GREEN:
-                return new Color(0, 1, 0, 1);
+            case YELLOW:
+                return new Color(1, 1, 0, 1);
             case BLUE:
                 return new Color(0, 0, 1, 1);
             case NEUTRAL:

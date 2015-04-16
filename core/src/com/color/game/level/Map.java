@@ -66,7 +66,7 @@ public class Map {
             this.blocks.get(i).set(3, new Block(ProtoColor.NEUTRAL,i,3));
         }
         for (int i = 28 ; i < 28 + width ; i++) {
-            this.blocks.get(i).set(5, new Block(ProtoColor.GREEN,i,5));
+            this.blocks.get(i).set(5, new Block(ProtoColor.YELLOW,i,5));
         }
         for (int i = 34 ; i < 34 + width ; i++) {
             this.blocks.get(i).set(7, new Block(ProtoColor.BLUE,i,7));
