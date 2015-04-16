@@ -26,7 +26,7 @@ public class GameStage extends Stage implements ContactListener{
     private float accumulator = 0f;
 
     public static OrthographicCamera camera;
-    private Box2DDebugRenderer renderer;
+    public Box2DDebugRenderer renderer;
 
     private Texture background;
     private SpriteBatch batch;
@@ -37,13 +37,14 @@ public class GameStage extends Stage implements ContactListener{
         background = new Texture(Gdx.files.internal("background.png"));
         batch = new SpriteBatch();
 
+        renderer = new Box2DDebugRenderer();
+
         Gdx.input.setInputProcessor(this);
     }
 
     private void initializeScene(){
         createWorld();
         setupCamera();
-        renderer = new Box2DDebugRenderer();
     }
 
     private void createWorld(){
@@ -54,19 +55,26 @@ public class GameStage extends Stage implements ContactListener{
     }
 
     private void createCharacter(){
-        character = new Character(WorldUtils.createCharacter(world, 2f, 2f));
+        character = new Character(WorldUtils.createCharacter(world, 3, 2));
         setKeyboardFocus(character);
         this.addActor(character);
     }
 
     private void createPlatforms(){
         platforms = new ArrayList<Platform>();
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 13, 1, 13, 1)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 88,1,13,1)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 50,1,13,1)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 1, 50, 1, 50)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 102,50,1,50)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, (25+13/2-3), 8, 3, 1)));
+        //Ground
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 0, 0, 30, 2)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 100,0,30,2)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 50,0,30,2)));
+
+        //Walls
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 0, 0, 1, 50)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 130,0,1,50)));
+
+        //Platforms
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 30+5, 8, 10, 1)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 80+5, 8, 10, 1)));
+
         for(Platform p : platforms) {
             this.addActor(p);
         }
@@ -93,9 +101,8 @@ public class GameStage extends Stage implements ContactListener{
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
             if(character.isDead()){
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new DeathScreen());
                 //world.destroyBody(character.getBody());
-                //createCharacter();
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new DeathScreen());
             }
         }
 
@@ -107,7 +114,7 @@ public class GameStage extends Stage implements ContactListener{
 
         this.camera.position.x = this.character.getPosition().x;
         this.camera.update();
-        //renderer.render(world, camera.combined);
+        renderer.render(world, camera.combined);
     }
 
 
