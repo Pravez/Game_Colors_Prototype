@@ -50,9 +50,11 @@ public class GameStage extends Stage implements ContactListener{
 
     private void createPlatforms(){
         platforms = new ArrayList<Platform>();
-        Platform platform = new Platform(WorldUtils.createStaticElement(world, 0,0,50f,2f));
-        platforms.add(platform);
-        this.addActor(platform);
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 0, 0, 50, 2)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 25, 0, 2, 5)));
+        for(Platform p : platforms) {
+            this.addActor(p);
+        }
     }
 
     private void setupCamera(){

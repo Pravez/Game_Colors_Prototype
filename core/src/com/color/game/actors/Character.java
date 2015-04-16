@@ -1,6 +1,7 @@
 package com.color.game.actors;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -24,7 +25,6 @@ public class Character extends GameActor{
     @Override
     public void act(float delta) {
         super.act(delta);
-
         move();
     }
 
@@ -41,20 +41,41 @@ public class Character extends GameActor{
     }
 
     public void move(){
+
+        Vector2 linearImpulse = new Vector2(0,0);
+
         if(right){
-            if(body.getLinearVelocity().x < Constants.CHARACTER_MAX_VELOCITY_X.x) {
-                body.applyLinearImpulse(getUserData().getMovingRightLinearImpulse(), body.getWorldCenter(), true);
+            if(body.getLinearVelocity().x < Constants.CHARACTER_MAX_VELOCITY.x){
+                linearImpulse.x = getUserData().getMovingLinearImpulse().x;
             }else{
-                body.setLinearVelocity(Constants.CHARACTER_MAX_VELOCITY_X);
+                body.setLinearVelocity(Constants.CHARACTER_MAX_VELOCITY.x, body.getLinearVelocity().y);
+            }
+        }
+
+        if(left){
+            if(body.getLinearVelocity().x > -Constants.CHARACTER_MAX_VELOCITY.x){
+                linearImpulse.x = -getUserData().getMovingLinearImpulse().x;
+            }else{
+                body.setLinearVelocity(-Constants.CHARACTER_MAX_VELOCITY.x, body.getLinearVelocity().y);
+            }
+        }
+
+        body.applyLinearImpulse(linearImpulse, body.getWorldCenter(), true);
+
+        /*if(right){
+            if(body.getLinearVelocity().x < Constants.CHARACTER_MAX_VELOCITY.x) {
+                body.applyLinearImpulse(getUserData().getMovingRightLinearImpulse().add(0, body.getLinearVelocity().y), body.getWorldCenter(), true);
+            }else{
+                body.setLinearVelocity(Constants.CHARACTER_MAX_VELOCITY.x, 0);
             }
         }
         if(left){
-            if(body.getLinearVelocity().x > -Constants.CHARACTER_MAX_VELOCITY_X.x) {
+            if(body.getLinearVelocity().x > -Constants.CHARACTER_MAX_VELOCITY.x) {
                 body.applyLinearImpulse(getUserData().getMovingLeftLinearImpulse(), body.getWorldCenter(), true);
             }else{
-                body.setLinearVelocity(-Constants.CHARACTER_MAX_VELOCITY_X.x, 0f);
+                body.setLinearVelocity(-Constants.CHARACTER_MAX_VELOCITY.x, 0f);
             }
-        }
+        }*/
     }
 
     public void landed(){
@@ -66,7 +87,6 @@ public class Character extends GameActor{
         public boolean keyDown(InputEvent event, int keycode) {
             if(keycode == Input.Keys.LEFT){
                 left = true;
-                move();
             }
             if(keycode == Input.Keys.RIGHT){
                 right = true;

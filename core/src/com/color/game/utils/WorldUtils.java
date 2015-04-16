@@ -34,6 +34,10 @@ public class WorldUtils {
     public static Body createDynamicElement(World world, float x, float y, float width, float height){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
+
+        //To keep from rotations
+        bodyDef.fixedRotation = true;
+
         bodyDef.position.set(new Vector2(x, y));
         Body body = world.createBody(bodyDef);
 
