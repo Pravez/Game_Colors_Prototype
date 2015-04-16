@@ -45,9 +45,21 @@ public class Map {
         }
 
         // Creation of the five blocks on the floor on the right
-        for (int i = 40 ; i < 60 ; i++) {
+        for (int i = 40 ; i < 43 ; i++) {
             this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL,i,0));
         }
+
+        for(int i=55;i<60;i++){
+            this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL,i,0));
+        }
+
+        for(int i=1;i<10;i++){
+            this.blocks.get(42).set(i, new Block(ProtoColor.NEUTRAL, 42, i));
+            this.blocks.get(55).set(i, new Block(ProtoColor.NEUTRAL, 55, i));
+        }
+
+        this.blocks.get(55).get(9).setColor(ProtoColor.RED);
+
 
         // Creation of the ceiling
         for (int i = 0 ; i < size.x ; i++) {
@@ -74,9 +86,7 @@ public class Map {
         for(int i=22;i<38;i++){
             this.blocks.get(i).set(0, new Block(ProtoColor.NEUTRAL, i, 0));
         }
-        for(int i=50;i<55;i++){
-            this.blocks.get(i).get(0).setColor(ProtoColor.RED);
-        }
+
     }
 
     /**
