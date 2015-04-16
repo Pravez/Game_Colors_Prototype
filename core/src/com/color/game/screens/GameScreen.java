@@ -25,7 +25,6 @@ public class GameScreen implements Screen {
 
         stage.act(v);
         stage.draw();
-
     }
 
     @Override

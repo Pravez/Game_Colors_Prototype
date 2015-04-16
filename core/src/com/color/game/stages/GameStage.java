@@ -4,6 +4,8 @@ package com.color.game.stages;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.actors.Character;
@@ -26,8 +28,14 @@ public class GameStage extends Stage implements ContactListener{
     public static OrthographicCamera camera;
     private Box2DDebugRenderer renderer;
 
+    private Texture background;
+    private SpriteBatch batch;
+
     public GameStage(){
         initializeScene();
+
+        background = new Texture(Gdx.files.internal("background.png"));
+        batch = new SpriteBatch();
 
         Gdx.input.setInputProcessor(this);
     }
@@ -75,6 +83,9 @@ public class GameStage extends Stage implements ContactListener{
     @Override
     public void act(float delta){
         super.act(delta);
+        batch.begin();
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
 
         accumulator+=delta;
 
@@ -93,9 +104,10 @@ public class GameStage extends Stage implements ContactListener{
     @Override
     public void draw(){
         super.draw();
+
         this.camera.position.x = this.character.getPosition().x;
         this.camera.update();
-        renderer.render(world, camera.combined);
+        //renderer.render(world, camera.combined);
     }
 
 
