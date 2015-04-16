@@ -58,6 +58,10 @@ public class Map {
             this.blocks.get(55).set(i, new Block(ProtoColor.NEUTRAL, 55, i));
         }
 
+        this.blocks.get(43).get(9).setColor(ProtoColor.NEUTRAL);
+        this.blocks.get(44).get(9).setColor(ProtoColor.NEUTRAL);
+        this.blocks.get(53).get(9).setColor(ProtoColor.NEUTRAL);
+        this.blocks.get(54).get(9).setColor(ProtoColor.NEUTRAL);
         this.blocks.get(55).get(9).setColor(ProtoColor.RED);
 
 

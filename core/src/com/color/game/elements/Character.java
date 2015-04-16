@@ -190,21 +190,21 @@ public class Character {
 
     }
 
-    public void move() throws IndexOutOfBoundsException{
+    public void move() throws IndexOutOfBoundsException {
 
         boolean leftWall = true;
 
         //We first move in X coordinates
         this.bounds.x += velocity.x;
         updateNearbyRectangles();
-        for(Rectangle r : nearbyRects){
+        for (Rectangle r : nearbyRects) {
             //If it hits in X a block
-            if(bounds.overlaps(r)){
-                if(velocity.x < 0){
+            if (bounds.overlaps(r)) {
+                if (velocity.x < 0) {
                     bounds.x = r.x + r.width + 0.01f;
                     leftWall = false;
                 }
-                if(velocity.x > 0){
+                if (velocity.x > 0) {
                     bounds.x = r.x - bounds.width - 0.01f;
                     leftWall = false;
                 }
@@ -212,37 +212,35 @@ public class Character {
             }
         }
 
-        if(!grounded)
-            onWall = !leftWall;
-        else
-            onWall = false;
+        onWall = !grounded && !leftWall;
 
         //Then in Y coordinates
         this.bounds.y += velocity.y;
         updateNearbyRectangles();
-        for(Rectangle r : nearbyRects){
+        for (Rectangle r : nearbyRects) {
             //If it hits in Y a block
-            if(bounds.overlaps(r)){
-                if(velocity.y < 0){
+            if (bounds.overlaps(r)) {
+                if (velocity.y < 0) {
                     bounds.y = r.y + r.height + 0.01f;
                     grounded = true;
-                    if(state != ProtoState.DEAD) state = ProtoState.IDLE;
+                    if (state != ProtoState.DEAD) state = ProtoState.IDLE;
                 }
                 if (velocity.y > 0) {
+                    grounded = false;
                     bounds.y = r.y - bounds.height - 0.01f;
                 }
                 velocity.y = 0;
             }
         }
 
-        position.x = (int)((bounds.x+bounds.width/2) / GameScreen.unity);
-        position.y = (int)((bounds.y+bounds.height/2) / GameScreen.unity);
+        position.x = (int) ((bounds.x + bounds.width / 2) / GameScreen.unity);
+        position.y = (int) ((bounds.y + bounds.height / 2) / GameScreen.unity);
 
-        if(position.y < 0){
+        if (position.y < 0) {
             state = ProtoState.DEAD;
         }
 
-        if(isGameEnded()){
+        if (isGameEnded()) {
             map.game.game.setScreen(new WinScreen(map.game.game));
         }
     }
@@ -252,12 +250,12 @@ public class Character {
         Vector2 medium = new Vector2(bounds.x + GameScreen.unity/2, bounds.y+GameScreen.unity/2);
 
         int r1x = Math.max(0, (int) medium.x);
-        int r1y = Math.max(0,(int)Math.floor(medium.y-GameScreen.unity/2));
-        int r2x = Math.max(0, Math.min(60, (int) (medium.x + GameScreen.unity/2)));
+        int r1y = Math.max(0, (int) Math.floor(medium.y-GameScreen.unity/2));
+        int r2x = Math.max(0, (int) medium.x + GameScreen.unity/2);
         int r2y = Math.max(0, (int) Math.floor(medium.y));
-        int r3x = Math.max(0,(int)(medium.x));
+        int r3x = Math.max(0, (int)(medium.x));
         int r3y = Math.max(0, (int) Math.floor(medium.y + GameScreen.unity/2));
-        int r4x = Math.max(0,(int)(medium.x-GameScreen.unity/2));
+        int r4x = Math.max(0, (int)(medium.x-GameScreen.unity/2));
         int r4y = Math.max(0, (int) Math.floor(medium.y));
 
         ArrayList<ArrayList<Block>> blocks = map.blocks;
