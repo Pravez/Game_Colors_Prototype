@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.color.game.elements.protoEnums.ProtoColor;
 import com.color.game.level.Map;
 import com.color.game.screens.GameScreen;
-import com.color.game.screens.WinScreen;
 
 import java.util.ArrayList;
 
@@ -241,7 +240,7 @@ public class Character {
         }
 
         if (isGameEnded()) {
-            map.game.game.setScreen(new WinScreen(map.game.game));
+            //map.game.game.setScreen(new WinScreen(map.game.game));
         }
     }
 

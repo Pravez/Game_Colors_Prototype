@@ -100,7 +100,7 @@ public class Map {
     public void update(float deltaTime) {
         this.character.update(deltaTime); // update the character
         if (this.character.state == Character.ProtoState.DEAD) { // if the character is dead
-            this.game.init(); // we reboot the game
+            //this.game.init(); // we reboot the game
             this.character = null;
             this.character = new Character(this, 2, 1); // we put the character at his initial position
         }

@@ -8,12 +8,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MenuScreen implements Screen {
 
@@ -59,10 +56,10 @@ public class MenuScreen implements Screen {
         textButton.setPosition(600 - textButton.getMinWidth()/2, 300 - textButton.getMinHeight()/2);
         stage.addActor(textButton);
 
-        textButton.addListener(new ChangeListener() {
+        /*textButton.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {game.setScreen( new GameScreen(game));
             }
-        });
+        });*/
     }
 
     @Override
