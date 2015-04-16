@@ -34,6 +34,7 @@ public class Character extends GameActor{
     @Override
     public void act(float delta) {
         super.act(delta);
+
         move();
         if(body.getPosition().y<=0){
             setState(CharacterState.DEAD);

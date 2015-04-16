@@ -17,9 +17,6 @@ import java.util.ArrayList;
 
 public class GameStage extends Stage implements ContactListener{
 
-    static final int WORLD_WIDTH = 100;
-    static final int WORLD_HEIGHT = 20;
-
     public World world;
     public ArrayList<Platform> platforms;
     public com.color.game.actors.Character character;

@@ -9,6 +9,8 @@ public class Constants {
     public static final int APP_WIDTH = 840;
     public static final int APP_HEIGHT = 600;
 
+    public static final float WORLD_TO_SCREEN = 32;
+
     public static final int VIEWPORT_WIDTH = 100;
     public static final int VIEWPORT_HEIGHT = 100;
 
@@ -31,5 +33,6 @@ public class Constants {
     public static final Vector2 CHARACTER_MAX_VELOCITY_BOOSTED = new Vector2(35f, 0);
 
     public static Vector2 CHARACTER_MAX_VELOCITY = new Vector2(25f, 0);
+
 
 }

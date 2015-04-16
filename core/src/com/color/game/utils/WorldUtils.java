@@ -25,7 +25,7 @@ public class WorldUtils {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width, height);
         body.createFixture(shape, Constants.STATIC_ELEMENTS_DENSITY);
-        body.setUserData(new PlatformUserData());
+        body.setUserData(new PlatformUserData(width, height));
         shape.dispose();
 
         return body;
@@ -46,7 +46,7 @@ public class WorldUtils {
         body.setGravityScale(Constants.CHARACTER_GRAVITY_SCALE);
         body.createFixture(shape, Constants.DYNAMIC_ELEMENTS_DENSITY);
         body.resetMassData();
-        body.setUserData(new CharacterUserData());
+        body.setUserData(new CharacterUserData(width, height));
         shape.dispose();
 
         return body;

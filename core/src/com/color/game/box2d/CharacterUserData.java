@@ -13,7 +13,14 @@ public class CharacterUserData extends UserData {
     public float gravityFactor;
 
     public CharacterUserData(){
-        super();
+        super(0,0);
+        userDataType = UserDataType.CHARACTER;
+        jumpingLinearImpulse = Constants.CHARACTER_JUMPING_LINEAR_IMPULSE;
+        movingLinearImpulse = Constants.CHARACTER_MOVING_LINEAR_IMPULSE;
+    }
+
+    public CharacterUserData(float width, float height){
+        super(width, height);
         userDataType = UserDataType.CHARACTER;
         jumpingLinearImpulse = Constants.CHARACTER_JUMPING_LINEAR_IMPULSE;
         movingLinearImpulse = Constants.CHARACTER_MOVING_LINEAR_IMPULSE;
