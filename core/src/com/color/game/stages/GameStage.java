@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.actors.Character;
 import com.color.game.actors.Platform;
 import com.color.game.utils.BodyUtils;
-import com.color.game.utils.Constants;
 import com.color.game.utils.WorldUtils;
 
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ public class GameStage extends Stage implements ContactListener{
     private void initializeScene(){
         createWorld();
         setupCamera();
-        setKeyboardFocus(character);
         renderer = new Box2DDebugRenderer();
     }
 
@@ -45,15 +43,23 @@ public class GameStage extends Stage implements ContactListener{
         world = WorldUtils.createWorld();
         world.setContactListener(this);
         createPlatforms();
+        createCharacter();
+    }
+
+    private void createCharacter(){
         character = new Character(WorldUtils.createCharacter(world, 2f, 2f));
+        setKeyboardFocus(character);
         this.addActor(character);
     }
 
     private void createPlatforms(){
         platforms = new ArrayList<Platform>();
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 25, 0, 50, 2)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 25, 5, 2, 5)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 35,15,2,15)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 12.5f, 1, 12.5f, 1)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 87.5f,1,12.5f,1)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 50,1,12.5f,1)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 1, 50, 1, 50)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 99,50,1,50)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, (25+12.5f/2-3), 8, 2.5f, 1)));
         for(Platform p : platforms) {
             this.addActor(p);
         }
@@ -76,6 +82,10 @@ public class GameStage extends Stage implements ContactListener{
         while(accumulator >= delta){
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
+            if(character.isDead()){
+                world.destroyBody(character.getBody());
+                createCharacter();
+            }
         }
 
     }
@@ -94,14 +104,39 @@ public class GameStage extends Stage implements ContactListener{
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
 
-        System.out.println("Friction : " + contact.getFriction());
-        System.out.println("TangentSPeed : " + contact.getTangentSpeed());
+
+        /*Body temp = null;
+        boolean jumpedOnWall = false;*/
 
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPlatform(b)) ||
                 (BodyUtils.bodyIsPlatform(a) && BodyUtils.bodyIsCharacter(b))) {
 
-            character.landed();
-            System.out.println("landed");
+            /*if(BodyUtils.bodyIsPlatform(a))
+                temp = a;
+            else if(BodyUtils.bodyIsPlatform(b))
+                temp = b;*/
+
+
+            //if(temp.getPosition().x+temp.get)
+
+
+            /*if(temp != null) {
+                for (Platform p : walls) {
+                    if(temp.equals(p.getBody())){
+                        if((p.getBody().getPosition().y)<=character.getY()){
+                            character.landed();
+                        }else {
+                            jumpedOnWall = true;
+                        }
+                    }
+                }
+            }*/
+
+            /*if(jumpedOnWall){
+                character.onWall(true);
+            }else{*/
+                character.landed();
+            //}
         }
 
     }

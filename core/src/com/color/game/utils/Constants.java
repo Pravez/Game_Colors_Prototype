@@ -18,13 +18,14 @@ public class Constants {
     public static final Vector2 WORLD_GRAVITY = new Vector2(0, -75);
 
     public static final float STATIC_ELEMENTS_DENSITY = 0f;
-    public static float DYNAMIC_ELEMENTS_DENSITY = 0.5f;
+    public static float DYNAMIC_ELEMENTS_DENSITY = 0.4f;
 
     public static final float CHARACTER_GRAVITY_SCALE = 3f;
     public static final Vector2 CHARACTER_JUMPING_LINEAR_IMPULSE = new Vector2(0, 125);
     public static final Vector2 CHARACTER_MOVING_LINEAR_IMPULSE = new Vector2(7,0);
     public static final Vector2 CHARACTER_MAX_VELOCITY_NORMAL = new Vector2(25f, 0);
 
+    public static final float CHARACTER_GRAVITY_SCALE_ON_WALL = 1.5f;
     public static final Vector2 CHARACTER_JUMPING_LINEAR_IMPULSE_BOOSTED = new Vector2(0, 160);
     public static final Vector2 CHARACTER_MOVING_LINEAR_IMPULSE_BOOSTED = new Vector2(10,0);
     public static final Vector2 CHARACTER_MAX_VELOCITY_BOOSTED = new Vector2(35f, 0);

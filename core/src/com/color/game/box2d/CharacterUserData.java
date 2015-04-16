@@ -10,6 +10,7 @@ public class CharacterUserData extends UserData {
 
     public Vector2 jumpingLinearImpulse;
     public Vector2 movingLinearImpulse;
+    public float gravityFactor;
 
     public CharacterUserData(){
         super();
@@ -36,6 +37,14 @@ public class CharacterUserData extends UserData {
         jumpingLinearImpulse = Constants.CHARACTER_JUMPING_LINEAR_IMPULSE;
         movingLinearImpulse = Constants.CHARACTER_MOVING_LINEAR_IMPULSE;
         Constants.CHARACTER_MAX_VELOCITY = Constants.CHARACTER_MAX_VELOCITY_NORMAL;
+    }
+
+    public void setGravityOnWall(){
+
+    }
+
+    public void setGravityNormal(){
+
     }
 
     public void setJumpingLinearImpulse(Vector2 jumpingLinearImpulse) {
