@@ -15,7 +15,7 @@ public class Constants {
     public static final int GLOBAL_STARTING_SPRITES_WIDTH = APP_WIDTH/2;
     public static final int GLOBAL_STARTING_SPRITES_HEIGHT = APP_HEIGHT/2;
 
-    public static final float WORLD_TO_SCREEN = 32;
+    public static final float WORLD_TO_SCREEN = 2;
 
     public static final int VIEWPORT_WIDTH = 100;
     public static final int VIEWPORT_HEIGHT = 100;
