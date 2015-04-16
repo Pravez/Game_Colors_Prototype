@@ -1,6 +1,7 @@
 package com.color.game;
 
 import com.badlogic.gdx.Game;
+import com.color.game.screens.DeathScreen;
 import com.color.game.screens.GameScreen;
 import com.color.game.screens.MenuScreen;
 

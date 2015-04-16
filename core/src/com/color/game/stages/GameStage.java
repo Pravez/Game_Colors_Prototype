@@ -1,12 +1,15 @@
 package com.color.game.stages;
 
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.actors.Character;
 import com.color.game.actors.Platform;
+import com.color.game.screens.DeathScreen;
+import com.color.game.screens.GameScreen;
 import com.color.game.utils.BodyUtils;
 import com.color.game.utils.WorldUtils;
 
@@ -83,8 +86,9 @@ public class GameStage extends Stage implements ContactListener{
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
             if(character.isDead()){
-                world.destroyBody(character.getBody());
-                createCharacter();
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new DeathScreen());
+                //world.destroyBody(character.getBody());
+                //createCharacter();
             }
         }
 
