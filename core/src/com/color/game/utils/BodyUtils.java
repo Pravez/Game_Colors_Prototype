@@ -18,4 +18,10 @@ public class BodyUtils {
 
         return userData != null && userData.getUserDataType() == UserDataType.PLATFORM;
     }
+
+    public static boolean bodyIsDoor(Body body) {
+        UserData userData = (UserData) body.getUserData();
+
+        return userData != null && userData.getUserDataType() == UserDataType.DOOR;
+    }
 }
