@@ -114,6 +114,7 @@ public class Character extends GameActor {
 
     public void jump(){
         if(!jumping){
+            GameStage.playJumpSound();
             body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(), body.getWorldCenter(), true);
             jumping = true;
         }

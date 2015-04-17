@@ -1,6 +1,9 @@
 package com.color.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.color.game.screens.DeathScreen;
 import com.color.game.screens.GameScreen;
 import com.color.game.screens.MenuScreen;
@@ -13,10 +16,22 @@ public class ColorGame extends Game {
     private MenuScreen menuScreen;
     private WinScreen winScreen;
 
+    private Music music;
+
     @Override
 	public void create () {
+        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.1f);
+        music.play();
         this.setScreen(getMenuScreen());
 	}
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        music.dispose();
+    }
 
     public DeathScreen getDeathScreen() {
         if (deathScreen == null)

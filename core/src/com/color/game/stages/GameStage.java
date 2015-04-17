@@ -1,6 +1,7 @@
 package com.color.game.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,6 +37,9 @@ public class GameStage extends Stage implements ContactListener{
     private Texture background;
     private SpriteBatch batch;
 
+    private static Sound jumpSound;
+    private static Sound landSound;
+
     public GameStage(){
         initializeScene();
 
@@ -43,6 +47,16 @@ public class GameStage extends Stage implements ContactListener{
         batch = new SpriteBatch();
 
         renderer = new Box2DDebugRenderer();
+        jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump.mp3"));
+        landSound = Gdx.audio.newSound(Gdx.files.internal("landing.wav"));
+    }
+
+    public static void playJumpSound() {
+        jumpSound.play(0.1f);
+    }
+
+    public static void playLandSound() {
+        landSound.play(0.1f);
     }
 
     public void respawn() {
@@ -218,6 +232,7 @@ public class GameStage extends Stage implements ContactListener{
             /*if(jumpedOnWall){
                 character.onWall(true);
             }else{*/
+                playLandSound();
                 character.landed();
             //}
         }
@@ -226,7 +241,6 @@ public class GameStage extends Stage implements ContactListener{
 
     @Override
     public void endContact(Contact contact) {
-
     }
 
     @Override
