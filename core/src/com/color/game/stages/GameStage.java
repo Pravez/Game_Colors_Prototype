@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.ColorGame;
 import com.color.game.actors.Character;
 import com.color.game.actors.ColorPlatform;
+import com.color.game.actors.CurrentColor;
 import com.color.game.actors.Platform;
 import com.color.game.enums.PlatformColor;
 import com.color.game.utils.BodyUtils;
@@ -21,7 +23,9 @@ public class GameStage extends Stage implements ContactListener{
     public World world;
     public ArrayList<Platform> platforms;
     public ArrayList<ColorPlatform> colorPlatforms;
-    public Character character;
+    public static Character character;
+
+    private CurrentColor currentColor;
 
     private final float TIME_STEP = 1/300f;
     private float accumulator = 0f;
@@ -46,20 +50,21 @@ public class GameStage extends Stage implements ContactListener{
     private void initializeScene(){
         createWorld();
         setupCamera();
+        setupColorInfo();
     }
 
     private void createWorld(){
         world = WorldUtils.createWorld();
         world.setContactListener(this);
+        createCharacter();
         createPlatforms();
         createColoredPlatforms();
-        createCharacter();
+        this.addActor(GameStage.character);
     }
 
     private void createCharacter(){
         character = new Character(WorldUtils.createCharacter(world, 3, 2));
         setKeyboardFocus(character);
-        this.addActor(character);
     }
 
     private void createColoredPlatforms() {
@@ -102,6 +107,11 @@ public class GameStage extends Stage implements ContactListener{
         camera.update();
     }
 
+    private void setupColorInfo() {
+        this.currentColor = new CurrentColor(this.character, new Rectangle(10, Gdx.graphics.getHeight() - 30, 140, 20));
+        addActor(this.currentColor);
+    }
+
     @Override
     public void act(float delta){
         super.act(delta);
@@ -117,6 +127,7 @@ public class GameStage extends Stage implements ContactListener{
             if(character.isDead()){
                 world.destroyBody(character.getBody());
                 createCharacter();
+                this.addActor(GameStage.character);
                 ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
             }
         }

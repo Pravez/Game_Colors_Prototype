@@ -43,5 +43,7 @@ public class Constants {
 
     public static Vector2 CHARACTER_MAX_VELOCITY = new Vector2(25f, 0);
 
+    public static final float CHARACTER_CHANGING_COLOR_DELAY = 5.0f;
+
 
 }

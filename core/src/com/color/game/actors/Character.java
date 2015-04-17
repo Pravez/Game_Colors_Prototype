@@ -10,8 +10,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.utils.Timer;
 import com.color.game.box2d.CharacterUserData;
 import com.color.game.enums.CharacterState;
+import com.color.game.enums.PlatformColor;
 import com.color.game.stages.GameStage;
 import com.color.game.utils.Constants;
 
@@ -22,6 +24,8 @@ public class Character extends GameActor{
     private boolean onWall;
     private TextureRegion texture;
     private CharacterState state;
+    private PlatformColor color;
+    private Timer timer;
 
     public Character(Body body) {
 
@@ -37,6 +41,14 @@ public class Character extends GameActor{
         onWall = false;
 
         texture = new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0f, 0f, 0.25f, 0.25f);
+        this.color = PlatformColor.RED;
+        this.timer = new Timer();
+        this.timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                color = color.next();
+            }
+        }, Constants.CHARACTER_CHANGING_COLOR_DELAY, Constants.CHARACTER_CHANGING_COLOR_DELAY);
     }
 
     @Override
@@ -140,6 +152,10 @@ public class Character extends GameActor{
             }
             return true;
         }
+    }
+
+    public PlatformColor getPlatformColor() {
+        return this.color;
     }
 
     public Vector2 getPosition() {
