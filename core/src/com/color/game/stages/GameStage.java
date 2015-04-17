@@ -25,7 +25,7 @@ public class GameStage extends Stage implements ContactListener{
     public ArrayList<ColorPlatform> colorPlatforms;
     public static Character character;
 
-    private CurrentColor currentColor;
+    public static CurrentColor currentColor;
 
     private final float TIME_STEP = 1/300f;
     private float accumulator = 0f;
@@ -47,10 +47,16 @@ public class GameStage extends Stage implements ContactListener{
         Gdx.input.setInputProcessor(this);
     }
 
+    public void respawn() {
+        world.destroyBody(character.getBody());
+        createCharacter();
+        this.addActor(GameStage.character);
+    }
+
     private void initializeScene(){
+        setupColorInfo();
         createWorld();
         setupCamera();
-        setupColorInfo();
     }
 
     private void createWorld(){
@@ -108,7 +114,7 @@ public class GameStage extends Stage implements ContactListener{
     }
 
     private void setupColorInfo() {
-        this.currentColor = new CurrentColor(this.character, new Rectangle(10, Gdx.graphics.getHeight() - 30, 140, 20));
+        this.currentColor = new CurrentColor(new Rectangle(10, Gdx.graphics.getHeight() - 30, 140, 20));
         addActor(this.currentColor);
     }
 
@@ -124,10 +130,8 @@ public class GameStage extends Stage implements ContactListener{
         while(accumulator >= delta){
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
-            if(character.isDead()){
-                world.destroyBody(character.getBody());
-                createCharacter();
-                this.addActor(GameStage.character);
+            if (character.isDead()) {
+                respawn();
                 ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
             }
         }
