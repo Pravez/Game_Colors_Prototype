@@ -78,8 +78,7 @@ public class GameStage extends Stage implements ContactListener{
     private void createDoors() {
         this.doors = new ArrayList<Door>();
 
-        this.doors.add(new Door(WorldUtils.createStaticElement(world, 132, 2, 2, 4), new Rectangle(130, 2, 2, 4)));
-        this.doors.add(new Door(WorldUtils.createStaticElement(world, 6, 5, 4, 2), new Rectangle(6, 5, 4, 2)));
+        this.doors.add(new Door(WorldUtils.createDoor(world, 74, 42, 2, 4), new Rectangle(74, 42, 2, 4)));
 
         for (Door d : this.doors) {
             this.addActor(d);
@@ -89,17 +88,17 @@ public class GameStage extends Stage implements ContactListener{
     private void createColoredPlatforms() {
         colorPlatforms = new ArrayList<ColorPlatform>();
 
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 30 + 5, 8, 10, 2), PlatformColor.RED));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 55, 14, 10,2), PlatformColor.RED));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 35, 22, 10, 2), PlatformColor.RED));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 15, 25, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 30 + 5, 8, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 55, 14, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 35, 22, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 15, 25, 10, 2), PlatformColor.RED));
 
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 15, 15, 10, 2), PlatformColor.BLUE));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 35, 18, 10, 2), PlatformColor.BLUE));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 60, 23, 10, 2), PlatformColor.BLUE));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 15, 15, 10, 2), PlatformColor.BLUE));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 35, 18, 10, 2), PlatformColor.BLUE));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 60, 23, 10, 2), PlatformColor.BLUE));
 
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 82, 22, 10, 2), PlatformColor.YELLOW));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 95, 30, 10, 2), PlatformColor.YELLOW));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 82, 22, 10, 2), PlatformColor.YELLOW));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 95, 30, 10, 2), PlatformColor.YELLOW));
 
         for (ColorPlatform c : colorPlatforms) {
             this.addActor(c);
@@ -109,16 +108,16 @@ public class GameStage extends Stage implements ContactListener{
     private void createPlatforms(){
         platforms = new ArrayList<Platform>();
         //Ground
-        platforms.add(new Platform(WorldUtils.createStaticElement(world,   0, 0, 30, 2)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world,  50, 0, 30, 2)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 100, 0, 32, 2)));
+        platforms.add(new Platform(WorldUtils.createPlatform(world, 0, 0, 30, 2)));
+        platforms.add(new Platform(WorldUtils.createPlatform(world, 50, 0, 30, 2)));
+        platforms.add(new Platform(WorldUtils.createPlatform(world, 100, 0, 32, 2)));
 
         //Walls
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 0, 0, 1, 50)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 130,6,1,50)));
+        platforms.add(new Platform(WorldUtils.createPlatform(world, 0, 0, 1, 50)));
+        platforms.add(new Platform(WorldUtils.createPlatform(world, 130, 6, 1, 50)));
 
         //Platforms
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 60,40,30,2)));
+        platforms.add(new Platform(WorldUtils.createPlatform(world, 60, 40, 30, 2)));
 
         for(Platform p : platforms) {
             this.addActor(p);
