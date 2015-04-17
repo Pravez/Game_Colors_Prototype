@@ -2,6 +2,7 @@ package com.color.game.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -36,7 +37,6 @@ public class Character extends GameActor{
         onWall = false;
 
         texture = new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0f, 0f, 0.25f, 0.25f);
-
     }
 
     @Override

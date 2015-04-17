@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.actors.Character;
+import com.color.game.actors.ColorPlatform;
 import com.color.game.actors.Platform;
+import com.color.game.enums.PlatformColor;
 import com.color.game.screens.DeathScreen;
 import com.color.game.utils.BodyUtils;
 import com.color.game.utils.WorldUtils;
@@ -20,6 +22,7 @@ public class GameStage extends Stage implements ContactListener{
 
     public World world;
     public ArrayList<Platform> platforms;
+    public ArrayList<ColorPlatform> colorPlatforms;
     public Character character;
 
     private final float TIME_STEP = 1/300f;
@@ -51,6 +54,7 @@ public class GameStage extends Stage implements ContactListener{
         world = WorldUtils.createWorld();
         world.setContactListener(this);
         createPlatforms();
+        createColoredPlatforms();
         createCharacter();
     }
 
@@ -58,6 +62,18 @@ public class GameStage extends Stage implements ContactListener{
         character = new Character(WorldUtils.createCharacter(world, 3, 2));
         setKeyboardFocus(character);
         this.addActor(character);
+    }
+
+    private void createColoredPlatforms() {
+        colorPlatforms = new ArrayList<ColorPlatform>();
+
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 10, 5, 12, 2), PlatformColor.BLUE));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 60, 5, 14, 2), PlatformColor.YELLOW));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 110, 5, 10, 2), PlatformColor.RED));
+
+        for (ColorPlatform c : colorPlatforms) {
+            this.addActor(c);
+        }
     }
 
     private void createPlatforms(){
