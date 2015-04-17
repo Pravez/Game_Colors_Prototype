@@ -22,16 +22,11 @@ import com.color.game.ColorGame;
 public class MenuScreen implements Screen {
 
     private Stage stage;
-    private Table table;
-    private Skin skin;
-    private TextButton buttonPlay;
-    private TextButton buttonExit;
-    private Label title;
 
     public MenuScreen() {
         this.stage = new Stage();
-        this.table = new Table();
-        this.skin = new Skin();
+        Table table = new Table();
+        Skin skin = new Skin();
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -39,14 +34,14 @@ public class MenuScreen implements Screen {
         BitmapFont font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        this.title = new Label("Game Colors Prototype", new Label.LabelStyle(font, Color.RED));
+        Label title = new Label("Game Colors Prototype", new Label.LabelStyle(font, Color.RED));
 
         parameter.size = 30;
-        this.skin.add("28days", generator.generateFont(parameter));
-        this.skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
-        this.skin.load(Gdx.files.internal("uiskin.json"));
-        this.buttonPlay = new TextButton("Play", skin);
-        this.buttonExit = new TextButton("Exit", skin);
+        skin.add("28days", generator.generateFont(parameter));
+        skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
+        skin.load(Gdx.files.internal("uiskin.json"));
+        TextButton buttonPlay = new TextButton("Play", skin);
+        TextButton buttonExit = new TextButton("Exit", skin);
 
         table.add(title).padBottom(40).row();
         table.add(buttonPlay).size(150,60).padBottom(20).row();
@@ -55,13 +50,13 @@ public class MenuScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        buttonPlay.addListener(new ClickListener(){
+        buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((ColorGame)Gdx.app.getApplicationListener()).setScreen(((ColorGame)Gdx.app.getApplicationListener()).getGameScreen());
+                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getGameScreen());
             }
         });
-        buttonExit.addListener(new ClickListener(){
+        buttonExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();

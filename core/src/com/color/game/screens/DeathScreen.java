@@ -17,10 +17,8 @@ import com.color.game.ColorGame;
 public class DeathScreen implements Screen {
 
     private Stage stage;
-    private Table table;
     private SpriteBatch batch;
     private Texture texture;
-    private Label title;
 
     private Timer timer;
 
@@ -29,7 +27,7 @@ public class DeathScreen implements Screen {
         batch = new SpriteBatch();
 
         this.stage = new Stage();
-        this.table = new Table();
+        Table table = new Table();
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -38,7 +36,7 @@ public class DeathScreen implements Screen {
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         generator.dispose();
 
-        this.title = new Label("You died", new Label.LabelStyle(font, Color.RED));
+        Label title = new Label("You died", new Label.LabelStyle(font, Color.RED));
 
         table.add(title).padTop(Gdx.graphics.getHeight()/2).row();
         table.setFillParent(true);

@@ -171,13 +171,9 @@ public class GameStage extends Stage implements ContactListener{
 
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
-        System.out.println("Begin contact");
-        System.out.println(a.getUserData());
-        System.out.println(b.getUserData());
 
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsDoor(b)) ||
                 (BodyUtils.bodyIsDoor(a) && BodyUtils.bodyIsCharacter(b))) {
-            System.out.println("Door");
             ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getWinScreen());
         }
 

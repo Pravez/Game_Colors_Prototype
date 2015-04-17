@@ -7,61 +7,48 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.color.game.ColorGame;
 
 public class WinScreen implements Screen {
 
-    Stage stage;
-    Skin skin;
-    TextButton textButton;
-    Timer timer;
+    private Stage stage;
 
     public WinScreen() {
-        timer = new Timer();
+        Timer timer = new Timer();
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                ((ColorGame)Gdx.app.getApplicationListener()).setScreen(((ColorGame)Gdx.app.getApplicationListener()).getMenuScreen());
+                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getMenuScreen());
             }
         }, 2.0f);
 
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        this.stage = new Stage();
+        Table table = new Table();
 
-        // A skin can be loaded via JSON or defined by programming, either is fine. Using a skin is optional but strongly
-        // recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.
-        skin = new Skin();
-        // Generate a 1x1 white texture and store it in the skin named "white".
-        Pixmap pixmap = new Pixmap(100, 100, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.BLACK);
-        pixmap.fill();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 42;
+        BitmapFont font = generator.generateFont(parameter);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        skin.add("white", new Texture(pixmap));
+        Label title = new Label("You Won", new Label.LabelStyle(font, Color.RED));
 
-        // Store the default libgdx font under the name "default".
-        BitmapFont bfont=new BitmapFont();
-        bfont.scale(1);
-        skin.add("default",bfont);
+        table.add(title).padBottom(30).row();
+        Image image = new Image();
+        image.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0, 0, 0.25f, 0.25f)));
+        table.add(image);
 
-        // Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("white", Color.RED);
-        textButtonStyle.down = skin.newDrawable("white", Color.GREEN);
-        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-        textButtonStyle.over = skin.newDrawable("white", Color.WHITE);
+        table.setFillParent(true);
+        stage.addActor(table);
 
-        textButtonStyle.font = skin.getFont("default");
-
-        skin.add("default", textButtonStyle);
-
-        // Create a button with the "default" TextButtonStyle. A 3rd parameter can be used to specify a name other than "default".
-        textButton = new TextButton("YOU WON", textButtonStyle);
-        textButton.setPosition(600 - textButton.getMinWidth()/2, 300 - textButton.getMinHeight()/2);
-        stage.addActor(textButton);
+        generator.dispose();
     }
 
     @Override
@@ -72,7 +59,7 @@ public class WinScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.act();
         stage.draw();
     }
 
