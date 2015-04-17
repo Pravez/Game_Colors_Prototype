@@ -8,10 +8,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.ColorGame;
+import com.color.game.actors.*;
 import com.color.game.actors.Character;
-import com.color.game.actors.ColorPlatform;
-import com.color.game.actors.CurrentColor;
-import com.color.game.actors.Platform;
 import com.color.game.enums.PlatformColor;
 import com.color.game.utils.BodyUtils;
 import com.color.game.utils.WorldUtils;
@@ -23,6 +21,7 @@ public class GameStage extends Stage implements ContactListener{
     public World world;
     public ArrayList<Platform> platforms;
     public ArrayList<ColorPlatform> colorPlatforms;
+    public ArrayList<Door> doors;
     public static Character character;
 
     public static CurrentColor currentColor;
@@ -66,13 +65,25 @@ public class GameStage extends Stage implements ContactListener{
         createCharacter();
         createPlatforms();
         createColoredPlatforms();
+        createDoors();
         this.addActor(GameStage.character);
         this.addActor(this.currentColor);
     }
 
-    private void createCharacter(){
+    private void createCharacter() {
         character = new Character(WorldUtils.createCharacter(world, 3, 2));
         setKeyboardFocus(character);
+    }
+
+    private void createDoors() {
+        this.doors = new ArrayList<Door>();
+
+        this.doors.add(new Door(WorldUtils.createStaticElement(world, 132, 2, 2, 4), new Rectangle(130, 2, 2, 4)));
+        this.doors.add(new Door(WorldUtils.createStaticElement(world, 6, 5, 4, 2), new Rectangle(6, 5, 4, 2)));
+
+        for (Door d : this.doors) {
+            this.addActor(d);
+        }
     }
 
     private void createColoredPlatforms() {
@@ -90,13 +101,13 @@ public class GameStage extends Stage implements ContactListener{
     private void createPlatforms(){
         platforms = new ArrayList<Platform>();
         //Ground
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 0, 0, 30, 2)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 100,0,30,2)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 50,0,30,2)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world,   0, 0, 30, 2)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world,  50, 0, 30, 2)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 100, 0, 32, 2)));
 
         //Walls
         platforms.add(new Platform(WorldUtils.createStaticElement(world, 0, 0, 1, 50)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 130,0,1,50)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 130,6,1,50)));
 
         //Platforms
         platforms.add(new Platform(WorldUtils.createStaticElement(world, 30+5, 8, 10, 1)));
@@ -132,7 +143,6 @@ public class GameStage extends Stage implements ContactListener{
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
             if (character.isDead()) {
-                //respawn();
                 ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
             }
         }
@@ -153,7 +163,15 @@ public class GameStage extends Stage implements ContactListener{
 
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
+        System.out.println("Begin contact");
+        System.out.println(a.getUserData());
+        System.out.println(b.getUserData());
 
+        if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsDoor(b)) ||
+                (BodyUtils.bodyIsDoor(a) && BodyUtils.bodyIsCharacter(b))) {
+            System.out.println("Door");
+            ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getWinScreen());
+        }
 
         /*Body temp = null;
         boolean jumpedOnWall = false;*/

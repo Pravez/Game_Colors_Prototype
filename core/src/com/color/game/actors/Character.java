@@ -50,7 +50,6 @@ public class Character extends GameActor{
         this.timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                System.out.println("Task called");
                 color = color.next();
                 GameStage.currentColor.initColors(color.getColor(), color.next().getColor());
             }
