@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.color.game.Map;
 import com.color.game.box2d.CharacterUserData;
 import com.color.game.box2d.DoorUserData;
 import com.color.game.box2d.PlatformUserData;
@@ -17,30 +18,32 @@ public class WorldUtils {
 
 
     /**
-     * Method to create a new {@link com.badlogic.gdx.physics.box2d.World}
-     * @return The new world created
+     * Method to create a new {@link com.color.game.Map}
+     * @return The new map created
      */
-    public static World createWorld(){
-        return new World(Constants.WORLD_GRAVITY, true);
+    public static Map createMap(){
+        return new Map(Constants.WORLD_GRAVITY, true);
     }
 
     /**
      * Method to create the body of a static element
-     * @param world The world in which the element is
+     * @param map The map in which the element is
      * @param x his position in x
      * @param y his position in y
      * @param width his width
      * @param height his height
      * @return the body created
      */
-    public static Body createPlatform(World world, float x, float y, float width, float height){
+    public static Body createPlatform(Map map, float x, float y, float width, float height){
 
         float data[] = convertDatas(x, y, width, height);
+
+        map.addBlock(data);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(new Vector2(data[0], data[1]));
-        Body body = world.createBody(bodyDef);
+        Body body = map.world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(data[2], data[3]);
@@ -53,14 +56,14 @@ public class WorldUtils {
 
     /**
      * Method to create a dynamic element
-     * @param world The world in which the element will be
+     * @param map The map in which the element will be
      * @param x his starting x position
      * @param y his starting y position
      * @param width his width
      * @param height his height
      * @return the body created
      */
-    public static Body createDynamicElement(World world, float x, float y, float width, float height){
+    public static Body createDynamicElement(Map map, float x, float y, float width, float height){
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -69,7 +72,7 @@ public class WorldUtils {
         bodyDef.fixedRotation = true;
 
         bodyDef.position.set(new Vector2(x, y));
-        Body body = world.createBody(bodyDef);
+        Body body = map.world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width, height);
@@ -82,14 +85,16 @@ public class WorldUtils {
         return body;
     }
 
-    public static Body createDoor(World world, float x, float y, float width, float height){
+    public static Body createDoor(Map map, float x, float y, float width, float height){
 
         float data[] = convertDatas(x, y, width, height);
+
+        map.addBlock(data);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(new Vector2(data[0], data[1]));
-        Body body = world.createBody(bodyDef);
+        Body body = map.world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(data[2], data[3]);
@@ -102,13 +107,13 @@ public class WorldUtils {
 
     /**
      * Method to create a character, a dynamic body
-     * @param world His world
+     * @param map His map
      * @param x His starting x position
      * @param y His starting y position
      * @return the body created
      */
-    public static Body createCharacter(World world, float x, float y){
-        return createDynamicElement(world, x, y, Constants.CHARACTER_WIDTH, Constants.CHARACTER_HEIGHT);
+    public static Body createCharacter(Map map, float x, float y){
+        return createDynamicElement(map, x, y, Constants.CHARACTER_WIDTH, Constants.CHARACTER_HEIGHT);
     }
 
     public static float[] convertDatas(float x, float y, float width, float height){

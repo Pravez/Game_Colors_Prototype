@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.ColorGame;
+import com.color.game.Map;
 import com.color.game.actors.*;
 import com.color.game.actors.Character;
 import com.color.game.enums.PlatformColor;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 
 public class GameStage extends Stage implements ContactListener{
 
-    public World world;
+    public Map map;
     public ArrayList<Platform> platforms;
     public ArrayList<ColorPlatform> colorPlatforms;
     public ArrayList<Door> doors;
@@ -46,7 +47,7 @@ public class GameStage extends Stage implements ContactListener{
 
     public void respawn() {
         character.stopTimer();
-        world.destroyBody(character.getBody());
+        map.world.destroyBody(character.getBody());
         this.getActors().removeValue(character, true);
         createCharacter();
         this.addActor(GameStage.character);
@@ -59,8 +60,8 @@ public class GameStage extends Stage implements ContactListener{
     }
 
     private void createWorld(){
-        world = WorldUtils.createWorld();
-        world.setContactListener(this);
+        map = WorldUtils.createMap();
+        map.world.setContactListener(this);
         createCharacter();
         createPlatforms();
         createColoredPlatforms();
@@ -70,14 +71,14 @@ public class GameStage extends Stage implements ContactListener{
     }
 
     private void createCharacter() {
-        character = new Character(WorldUtils.createCharacter(world, 3, 2));
+        character = new Character(WorldUtils.createCharacter(map, 3, 2));
         setKeyboardFocus(character);
     }
 
     private void createDoors() {
         this.doors = new ArrayList<Door>();
 
-        this.doors.add(new Door(WorldUtils.createDoor(world, 74, 42, 2, 4), new Rectangle(74, 42, 2, 4)));
+        this.doors.add(new Door(WorldUtils.createDoor(map, 74, 42, 2, 4), new Rectangle(74, 42, 2, 4)));
 
         for (Door d : this.doors) {
             this.addActor(d);
@@ -87,17 +88,17 @@ public class GameStage extends Stage implements ContactListener{
     private void createColoredPlatforms() {
         colorPlatforms = new ArrayList<ColorPlatform>();
 
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 30 + 5, 8, 10, 2), PlatformColor.RED));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 55, 14, 10, 2), PlatformColor.RED));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 35, 22, 10, 2), PlatformColor.RED));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 15, 25, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 30 + 5, 8, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 55, 14, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 35, 22, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 15, 25, 10, 2), PlatformColor.RED));
 
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 15, 15, 10, 2), PlatformColor.BLUE));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 35, 18, 10, 2), PlatformColor.BLUE));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 60, 23, 10, 2), PlatformColor.BLUE));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 15, 15, 10, 2), PlatformColor.BLUE));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 35, 18, 10, 2), PlatformColor.BLUE));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 60, 23, 10, 2), PlatformColor.BLUE));
 
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 82, 22, 10, 2), PlatformColor.YELLOW));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(world, 95, 30, 10, 2), PlatformColor.YELLOW));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 82, 22, 10, 2), PlatformColor.YELLOW));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 95, 30, 10, 2), PlatformColor.YELLOW));
 
         for (ColorPlatform c : colorPlatforms) {
             this.addActor(c);
@@ -107,16 +108,16 @@ public class GameStage extends Stage implements ContactListener{
     private void createPlatforms(){
         platforms = new ArrayList<Platform>();
         //Ground
-        platforms.add(new Platform(WorldUtils.createPlatform(world, 0, 0, 30, 2)));
-        platforms.add(new Platform(WorldUtils.createPlatform(world, 50, 0, 30, 2)));
-        platforms.add(new Platform(WorldUtils.createPlatform(world, 100, 0, 32, 2)));
+        platforms.add(new Platform(WorldUtils.createPlatform(map, 0, 0, 30, 2)));
+        platforms.add(new Platform(WorldUtils.createPlatform(map, 50, 0, 30, 2)));
+        platforms.add(new Platform(WorldUtils.createPlatform(map, 100, 0, 32, 2)));
 
         //Walls
-        platforms.add(new Platform(WorldUtils.createPlatform(world, 0, 0, 1, 50)));
-        platforms.add(new Platform(WorldUtils.createPlatform(world, 130, 6, 1, 50)));
+        platforms.add(new Platform(WorldUtils.createPlatform(map, 0, 0, 1, 50)));
+        platforms.add(new Platform(WorldUtils.createPlatform(map, 130, 6, 1, 50)));
 
         //Platforms
-        platforms.add(new Platform(WorldUtils.createPlatform(world, 60, 40, 30, 2)));
+        platforms.add(new Platform(WorldUtils.createPlatform(map, 60, 40, 30, 2)));
 
         for(Platform p : platforms) {
             this.addActor(p);
@@ -126,7 +127,7 @@ public class GameStage extends Stage implements ContactListener{
     private void setupCamera(){
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera(60, 60 * (h / w));
+        camera = new OrthographicCamera(100, 100 * (h / w));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
     }
@@ -145,7 +146,7 @@ public class GameStage extends Stage implements ContactListener{
         accumulator+=delta;
 
         while(accumulator >= delta){
-            world.step(TIME_STEP, 6, 2);
+            map.world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
             if (character.isDead()) {
                 ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
@@ -159,8 +160,20 @@ public class GameStage extends Stage implements ContactListener{
 
         camera.position.x = character.getPosition().x;
         camera.position.y = character.getPosition().y + camera.viewportHeight/4;
+        if (camera.position.x < camera.viewportWidth / 2f) {
+            camera.position.x = camera.viewportWidth / 2f;
+        }
+        if (camera.position.y < camera.viewportHeight / 2f) {
+            camera.position.y = camera.viewportHeight / 2f;
+        }
+        if (camera.position.x > map.getWidth() - camera.viewportWidth / 2f) {
+            camera.position.x = map.getWidth() - camera.viewportWidth / 2f;
+        }
+        if (camera.position.y > map.getHeight() - camera.viewportHeight / 2f) {
+            camera.position.y = map.getHeight() - camera.viewportHeight / 2f;
+        }
         camera.update();
-        renderer.render(world, camera.combined);
+        renderer.render(map.world, camera.combined);
     }
 
 

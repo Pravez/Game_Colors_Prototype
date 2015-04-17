@@ -9,8 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 public class Constants {
 
 
-    public static final int APP_WIDTH = 840;
-    public static final int APP_HEIGHT = 600;
+    public static final int APP_WIDTH = 1200;//840;
+    public static final int APP_HEIGHT = 900;//600;
 
     public static final int GLOBAL_STARTING_SPRITES_WIDTH = APP_WIDTH/2;
     public static final int GLOBAL_STARTING_SPRITES_HEIGHT = APP_HEIGHT/2;
