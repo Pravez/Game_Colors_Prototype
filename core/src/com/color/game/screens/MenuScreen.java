@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.color.game.ColorGame;
 
 public class MenuScreen implements Screen {
 
@@ -57,7 +58,7 @@ public class MenuScreen implements Screen {
         buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                ((ColorGame)Gdx.app.getApplicationListener()).setScreen(((ColorGame)Gdx.app.getApplicationListener()).getGameScreen());
             }
         });
         buttonExit.addListener(new ClickListener(){

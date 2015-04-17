@@ -2,12 +2,13 @@ package com.color.game.box2d;
 
 
 import com.badlogic.gdx.math.Vector2;
+import com.color.game.enums.PlatformColor;
 import com.color.game.enums.UserDataType;
 import com.color.game.utils.Constants;
 
 public class CharacterUserData extends UserData {
 
-
+    public PlatformColor color;
     public Vector2 jumpingLinearImpulse;
     public Vector2 movingLinearImpulse;
     public float gravityFactor;
@@ -17,6 +18,7 @@ public class CharacterUserData extends UserData {
         userDataType = UserDataType.CHARACTER;
         jumpingLinearImpulse = Constants.CHARACTER_JUMPING_LINEAR_IMPULSE;
         movingLinearImpulse = Constants.CHARACTER_MOVING_LINEAR_IMPULSE;
+        color = PlatformColor.RED;
     }
 
     public CharacterUserData(float width, float height){
@@ -24,6 +26,7 @@ public class CharacterUserData extends UserData {
         userDataType = UserDataType.CHARACTER;
         jumpingLinearImpulse = Constants.CHARACTER_JUMPING_LINEAR_IMPULSE;
         movingLinearImpulse = Constants.CHARACTER_MOVING_LINEAR_IMPULSE;
+        color = PlatformColor.RED;
     }
 
     public Vector2 getJumpingLinearImpulse() {
@@ -32,6 +35,12 @@ public class CharacterUserData extends UserData {
 
     public Vector2 getMovingLinearImpulse() {
         return movingLinearImpulse;
+    }
+
+    public PlatformColor getColor() { return color; }
+
+    public void changeColor() {
+        this.color = this.color.next();
     }
 
     public void increaseMovement(){

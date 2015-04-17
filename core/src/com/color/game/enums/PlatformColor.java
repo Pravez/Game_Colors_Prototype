@@ -19,4 +19,16 @@ public enum PlatformColor {
         }
         return new Color();
     }
+
+    public PlatformColor next() {
+        switch(this) {
+            case RED:
+                return PlatformColor.BLUE;
+            case BLUE:
+                return PlatformColor.YELLOW;
+            case YELLOW:
+                return PlatformColor.RED;
+        }
+        return PlatformColor.RED;
+    }
 }
