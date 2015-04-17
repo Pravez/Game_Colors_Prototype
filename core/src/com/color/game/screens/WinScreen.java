@@ -19,15 +19,10 @@ import com.color.game.ColorGame;
 public class WinScreen implements Screen {
 
     private Stage stage;
+    private Timer timer;
 
     public WinScreen() {
-        Timer timer = new Timer();
-        timer.scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getMenuScreen());
-            }
-        }, 2.0f);
+        timer = new Timer();
 
         this.stage = new Stage();
         Table table = new Table();
@@ -52,7 +47,15 @@ public class WinScreen implements Screen {
     }
 
     @Override
-    public void show() { }
+    public void show() {
+        timer.clear();
+        timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getMenuScreen());
+            }
+        }, 2.0f);
+    }
 
     @Override
     public void render(float delta) {

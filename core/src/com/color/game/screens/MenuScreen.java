@@ -63,12 +63,13 @@ public class MenuScreen implements Screen {
             }
         });
 
-        Gdx.input.setInputProcessor(stage);
         generator.dispose();
     }
 
     @Override
-    public void show() { }
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+    }
 
     @Override
     public void render(float delta) {
@@ -77,8 +78,6 @@ public class MenuScreen implements Screen {
 
         stage.act();
         stage.draw();
-
-        //stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
     }
 
     @Override

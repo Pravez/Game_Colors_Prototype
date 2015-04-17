@@ -42,8 +42,6 @@ public class GameStage extends Stage implements ContactListener{
         batch = new SpriteBatch();
 
         renderer = new Box2DDebugRenderer();
-
-        Gdx.input.setInputProcessor(this);
     }
 
     public void respawn() {
@@ -68,11 +66,10 @@ public class GameStage extends Stage implements ContactListener{
         createColoredPlatforms();
         createDoors();
         this.addActor(GameStage.character);
-        this.addActor(this.currentColor);
+        this.addActor(currentColor);
     }
 
     private void createCharacter() {
-        System.out.println("Create character");
         character = new Character(WorldUtils.createCharacter(world, 3, 2));
         setKeyboardFocus(character);
     }
@@ -135,7 +132,7 @@ public class GameStage extends Stage implements ContactListener{
     }
 
     private void setupColorInfo() {
-        this.currentColor = new CurrentColor(new Rectangle(10, Gdx.graphics.getHeight() - 30, 140, 20));
+        currentColor = new CurrentColor(new Rectangle(10, Gdx.graphics.getHeight() - 30, 140, 20));
     }
 
     @Override
@@ -160,8 +157,9 @@ public class GameStage extends Stage implements ContactListener{
     public void draw(){
         super.draw();
 
-        this.camera.position.x = this.character.getPosition().x;
-        this.camera.update();
+        camera.position.x = character.getPosition().x;
+        camera.position.y = character.getPosition().y + camera.viewportHeight/4;
+        camera.update();
         renderer.render(world, camera.combined);
     }
 
