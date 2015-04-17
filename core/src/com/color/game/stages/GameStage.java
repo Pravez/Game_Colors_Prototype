@@ -25,7 +25,7 @@ public class GameStage extends Stage implements ContactListener{
     public ArrayList<ColorPlatform> colorPlatforms;
     public static Character character;
 
-    public static CurrentColor currentColor;
+    public static  CurrentColor currentColor;
 
     private final float TIME_STEP = 1/300f;
     private float accumulator = 0f;
@@ -78,9 +78,17 @@ public class GameStage extends Stage implements ContactListener{
     private void createColoredPlatforms() {
         colorPlatforms = new ArrayList<ColorPlatform>();
 
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 10, 5, 12, 2), PlatformColor.BLUE));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 60, 5, 14, 2), PlatformColor.YELLOW));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 110, 5, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 30 + 5, 8, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 55, 14, 10,2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 35, 22, 10, 2), PlatformColor.RED));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 15, 25, 10, 2), PlatformColor.RED));
+
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 15, 15, 10, 2), PlatformColor.BLUE));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 35, 18, 10, 2), PlatformColor.BLUE));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 60, 23, 10, 2), PlatformColor.BLUE));
+
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 82, 22, 10, 2), PlatformColor.YELLOW));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createStaticElement(world, 95, 30, 10, 2), PlatformColor.YELLOW));
 
         for (ColorPlatform c : colorPlatforms) {
             this.addActor(c);
@@ -99,8 +107,7 @@ public class GameStage extends Stage implements ContactListener{
         platforms.add(new Platform(WorldUtils.createStaticElement(world, 130,0,1,50)));
 
         //Platforms
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 30+5, 8, 10, 1)));
-        platforms.add(new Platform(WorldUtils.createStaticElement(world, 80+5, 8, 10, 1)));
+        platforms.add(new Platform(WorldUtils.createStaticElement(world, 60,40,30,2)));
 
         for(Platform p : platforms) {
             this.addActor(p);

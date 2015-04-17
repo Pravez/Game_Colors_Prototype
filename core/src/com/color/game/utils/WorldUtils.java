@@ -61,9 +61,6 @@ public class WorldUtils {
      */
     public static Body createDynamicElement(World world, float x, float y, float width, float height){
 
-        float data[] = convertDatas(x, y, width, height);
-
-
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
@@ -97,8 +94,10 @@ public class WorldUtils {
 
     public static float[] convertDatas(float x, float y, float width, float height){
         float[] datas = new float[4];
+
         if(width<=1) width=2;
         if(height <= 1) height=2;
+
         datas[0] = x + width/2;
         datas[1] = y + height/2;
         datas[2] = width/2;
