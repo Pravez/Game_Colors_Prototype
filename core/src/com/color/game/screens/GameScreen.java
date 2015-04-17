@@ -7,7 +7,7 @@ import com.color.game.stages.GameStage;
 
 public class GameScreen implements Screen {
 
-    private GameStage stage;
+    public GameStage stage;
 
     public GameScreen(){
         stage = new GameStage();
@@ -15,7 +15,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        this.stage.respawn();
     }
 
     @Override
@@ -34,17 +34,15 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
+        System.out.println("hide");
     }
 
     @Override

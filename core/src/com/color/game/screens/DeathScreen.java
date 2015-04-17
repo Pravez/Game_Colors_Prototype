@@ -45,6 +45,10 @@ public class DeathScreen implements Screen {
         stage.addActor(table);
 
         timer = new Timer();
+    }
+
+    public void init() {
+        timer.clear();
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
@@ -55,7 +59,7 @@ public class DeathScreen implements Screen {
 
     @Override
     public void show() {
-
+        init();
     }
 
     @Override

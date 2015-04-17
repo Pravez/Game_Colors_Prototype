@@ -48,6 +48,7 @@ public class GameStage extends Stage implements ContactListener{
     }
 
     public void respawn() {
+        character.stopTimer();
         world.destroyBody(character.getBody());
         createCharacter();
         this.addActor(GameStage.character);
@@ -66,6 +67,7 @@ public class GameStage extends Stage implements ContactListener{
         createPlatforms();
         createColoredPlatforms();
         this.addActor(GameStage.character);
+        this.addActor(this.currentColor);
     }
 
     private void createCharacter(){
@@ -115,7 +117,6 @@ public class GameStage extends Stage implements ContactListener{
 
     private void setupColorInfo() {
         this.currentColor = new CurrentColor(new Rectangle(10, Gdx.graphics.getHeight() - 30, 140, 20));
-        addActor(this.currentColor);
     }
 
     @Override
@@ -131,7 +132,7 @@ public class GameStage extends Stage implements ContactListener{
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
             if (character.isDead()) {
-                respawn();
+                //respawn();
                 ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
             }
         }

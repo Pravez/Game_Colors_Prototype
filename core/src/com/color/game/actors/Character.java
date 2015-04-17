@@ -28,7 +28,6 @@ public class Character extends GameActor{
     private Timer timer;
 
     public Character(Body body) {
-
         super(body);
         addListener(new CharacterListener());
         body.setLinearDamping(2.0f);
@@ -42,15 +41,25 @@ public class Character extends GameActor{
 
         texture = new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0f, 0f, 0.25f, 0.25f);
         this.color = PlatformColor.RED;
-        GameStage.currentColor.initColors(color.getColor(), color.next().getColor());
         this.timer = new Timer();
+        initTimer();
+    }
+
+    public void initTimer() {
+        GameStage.currentColor.initColors(color.getColor(), color.next().getColor());
         this.timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
+                System.out.println("Task called");
                 color = color.next();
                 GameStage.currentColor.initColors(color.getColor(), color.next().getColor());
             }
         }, Constants.CHARACTER_CHANGING_COLOR_DELAY, Constants.CHARACTER_CHANGING_COLOR_DELAY);
+    }
+
+    public void stopTimer() {
+        this.timer.stop();
+        this.timer.clear();
     }
 
     @Override
@@ -162,6 +171,10 @@ public class Character extends GameActor{
 
     public Vector2 getPosition() {
         return this.body.getPosition();
+    }
+
+    public void setPosition() {
+
     }
 
    /* public boolean isOnWall() {
