@@ -1,7 +1,5 @@
 package com.color.game.stages;
 
-
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -122,7 +120,6 @@ public class GameStage extends Stage implements ContactListener{
                 ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
             }
         }
-
     }
 
     @Override
