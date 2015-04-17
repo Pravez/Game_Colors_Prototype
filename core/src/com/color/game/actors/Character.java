@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,15 +19,24 @@ import com.color.game.enums.PlatformColor;
 import com.color.game.stages.GameStage;
 import com.color.game.utils.Constants;
 
-public class Character extends GameActor{
+public class Character extends GameActor {
 
     private boolean jumping;
     private boolean left, right;
     private boolean onWall;
-    private TextureRegion texture;
     private CharacterState state;
     private PlatformColor color;
     private Timer timer;
+
+    private Animation[] walkAnimation = new Animation[Constants.CHARACTER_FRAME_ROWS];
+    private Texture texture;
+    private TextureRegion[][] regions;
+    private TextureRegion currentFrame;
+
+    private int dragonSide;
+    private boolean moving = false;
+
+    float stateTime = 0f;
 
     public Character(Body body) {
         super(body);
@@ -39,7 +50,16 @@ public class Character extends GameActor{
         right = false;
         onWall = false;
 
-        texture = new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0f, 0f, 0.25f, 0.25f);
+        //texture = new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0f, 0f, 0.25f, 0.25f);
+
+        texture = new Texture(Gdx.files.internal("dragons.png"));
+        regions = TextureRegion.split(texture, texture.getWidth()/Constants.CHARACTER_FRAME_COLS, texture.getHeight()/Constants.CHARACTER_FRAME_ROWS);
+        for (int i = 0 ; i < Constants.CHARACTER_FRAME_ROWS ; i++) {
+            walkAnimation[i] = new Animation(0.15f, regions[i]);
+        }
+        stateTime = 0f;
+        dragonSide = 0;
+
         this.color = PlatformColor.RED;
         this.timer = new Timer();
         initTimer();
@@ -64,9 +84,10 @@ public class Character extends GameActor{
     @Override
     public void act(float delta) {
         super.act(delta);
+        stateTime += delta;
 
         move();
-        if(body.getPosition().y<=0){
+        if(body.getPosition().y <= 0){
             setState(CharacterState.DEAD);
             right=false;
             left=false;
@@ -77,7 +98,13 @@ public class Character extends GameActor{
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         batch.setProjectionMatrix(GameStage.camera.combined);
-        batch.draw(texture, super.screenRectangle.x, super.screenRectangle.y, super.screenRectangle.width, super.screenRectangle.height);
+        if (moving) {
+            currentFrame = walkAnimation[dragonSide].getKeyFrame(stateTime, true);
+        } else {
+            currentFrame = walkAnimation[dragonSide].getKeyFrame(0);
+        }
+        batch.draw(currentFrame, super.screenRectangle.x, super.screenRectangle.y, super.screenRectangle.width, super.screenRectangle.height);
+        //batch.draw(texture, super.screenRectangle.x, super.screenRectangle.y, super.screenRectangle.width, super.screenRectangle.height);
     }
 
     @Override
@@ -102,6 +129,8 @@ public class Character extends GameActor{
             }else{
                 body.setLinearVelocity(Constants.CHARACTER_MAX_VELOCITY.x, body.getLinearVelocity().y);
             }
+            dragonSide = 2;
+            moving = true;
         }
 
         if(left){
@@ -110,6 +139,8 @@ public class Character extends GameActor{
             }else{
                 body.setLinearVelocity(-Constants.CHARACTER_MAX_VELOCITY.x, body.getLinearVelocity().y);
             }
+            dragonSide = 1;
+            moving = true;
         }
 
         body.applyLinearImpulse(linearImpulse, body.getWorldCenter(), true);
@@ -159,6 +190,8 @@ public class Character extends GameActor{
             }
             if(!left && !right){
                 setState(CharacterState.IDLE);
+                moving = false;
+                dragonSide = 0;
             }
             return true;
         }
@@ -170,10 +203,6 @@ public class Character extends GameActor{
 
     public Vector2 getPosition() {
         return this.body.getPosition();
-    }
-
-    public void setPosition() {
-
     }
 
    /* public boolean isOnWall() {

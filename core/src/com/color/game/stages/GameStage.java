@@ -49,6 +49,7 @@ public class GameStage extends Stage implements ContactListener{
     public void respawn() {
         character.stopTimer();
         world.destroyBody(character.getBody());
+        this.getActors().removeValue(character, true);
         createCharacter();
         this.addActor(GameStage.character);
     }
@@ -71,6 +72,7 @@ public class GameStage extends Stage implements ContactListener{
     }
 
     private void createCharacter() {
+        System.out.println("Create character");
         character = new Character(WorldUtils.createCharacter(world, 3, 2));
         setKeyboardFocus(character);
     }

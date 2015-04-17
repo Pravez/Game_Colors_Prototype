@@ -20,13 +20,13 @@ public class Constants {
     public static final int VIEWPORT_WIDTH = 100;
     public static final int VIEWPORT_HEIGHT = 100;
 
-    public static final float CHARACTER_WIDTH = 1f;
-    public static final float CHARACTER_HEIGHT = 1f;
+    public static final float CHARACTER_WIDTH = 2f;
+    public static final float CHARACTER_HEIGHT = 2f;
 
     public static final Vector2 WORLD_GRAVITY = new Vector2(0, -75);
 
     public static final float STATIC_ELEMENTS_DENSITY = 0f;
-    public static float DYNAMIC_ELEMENTS_DENSITY = 0.4f;
+    public static float DYNAMIC_ELEMENTS_DENSITY = 0.1f;
 
     /**
      * Character constants
@@ -44,6 +44,9 @@ public class Constants {
     public static Vector2 CHARACTER_MAX_VELOCITY = new Vector2(25f, 0);
 
     public static final float CHARACTER_CHANGING_COLOR_DELAY = 5.0f;
+
+    public static final int CHARACTER_FRAME_ROWS = 4;
+    public static final int CHARACTER_FRAME_COLS = 4;
 
 
 }
