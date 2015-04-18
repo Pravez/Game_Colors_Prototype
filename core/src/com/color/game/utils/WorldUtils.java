@@ -10,6 +10,7 @@ import com.color.game.box2d.CharacterUserData;
 import com.color.game.box2d.DoorUserData;
 import com.color.game.box2d.PikeUserData;
 import com.color.game.box2d.PlatformUserData;
+import com.color.game.levels.Level;
 
 /**
  * Utility class, useful to create automatically bodies and worlds for platforms and characters.
@@ -127,13 +128,11 @@ public class WorldUtils {
 
     /**
      * Method to create a character, a dynamic body
-     * @param map His map
-     * @param x His starting x position
-     * @param y His starting y position
+     * @param level the current level
      * @return the body created
      */
-    public static Body createCharacter(Map map, float x, float y){
-        return createDynamicElement(map, x, y, Constants.CHARACTER_WIDTH, Constants.CHARACTER_HEIGHT);
+    public static Body createCharacter(Level level) {
+        return createDynamicElement(level.map, level.getCharacterPos().x, level.getCharacterPos().y, Constants.CHARACTER_WIDTH, Constants.CHARACTER_HEIGHT);
     }
 
     public static float[] convertDatas(float x, float y, float width, float height){

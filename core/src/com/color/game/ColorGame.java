@@ -3,6 +3,7 @@ package com.color.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.color.game.levels.LevelManager;
 import com.color.game.screens.DeathScreen;
 import com.color.game.screens.GameScreen;
 import com.color.game.screens.MenuScreen;
@@ -23,6 +24,7 @@ public class ColorGame extends Game {
         music.setLooping(true);
         music.setVolume(0.1f);
         music.play();
+        LevelManager.init();
         this.setScreen(getMenuScreen());
 	}
 

@@ -1,23 +1,18 @@
 package com.color.game.stages;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.color.game.actors.*;
-import com.color.game.enums.PlatformColor;
 import com.color.game.screens.GameScreen;
 import com.color.game.tutorial.TutorialBox;
-import com.color.game.utils.WorldUtils;
 
 public class TutorialStage extends BaseStage {
 
     private boolean isFinished = false;
     private TutorialBox tutorialBox;
-    private boolean showTutorial = true;
+    private boolean showTutorial = true; // Pour pouvoir afficher puis cacher le didacticiel
 
     public TutorialStage(){
         super();
         this.tutorialBox = new TutorialBox();
-        //this.addActor(this.tutorialBox);
     }
 
     public boolean isFinished() { return this.isFinished; }
@@ -67,47 +62,5 @@ public class TutorialStage extends BaseStage {
         if (this.tutorialBox.isFinished()) {
             super.resumeStage();
         }
-    }
-
-    @Override
-    public void createDoors() {
-        this.doors.add(new Door(WorldUtils.createDoor(map, 182, 2, 2, 6), new Rectangle(180, 2, 2, 6)));
-
-        for (Door d : this.doors) {
-            this.addActor(d);
-        }
-    }
-
-    @Override
-    public void createColoredPlatforms() {
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 35, 8, 10, 2), PlatformColor.RED));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 85, 8, 10, 2), PlatformColor.YELLOW));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 135, 8, 10, 2), PlatformColor.BLUE));
-
-        for (ColorPlatform c : colorPlatforms) {
-            this.addActor(c);
-        }
-    }
-
-    @Override
-    public void createPlatforms(){
-        //Ground
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 0, 0, 30, 2)));
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 50, 0, 30, 2)));
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 100, 0, 32, 2)));
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 150, 0, 32, 2)));
-
-        //Walls
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 0, 0, 1, 46)));
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 180, 8, 1, 46)));
-
-        for(Platform p : platforms) {
-            this.addActor(p);
-        }
-    }
-
-    @Override
-    public void createPikes() {
-
     }
 }
