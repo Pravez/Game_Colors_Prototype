@@ -58,8 +58,8 @@ public class TutorialStage extends IStage {
         platforms.add(new Platform(WorldUtils.createPlatform(map, 150, 0, 32, 2)));
 
         //Walls
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 0, 0, 1, 50)));
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 180, 8, 1, 50)));
+        platforms.add(new Platform(WorldUtils.createPlatform(map, 0, 0, 1, 46)));
+        platforms.add(new Platform(WorldUtils.createPlatform(map, 180, 8, 1, 46)));
 
         for(Platform p : platforms) {
             this.addActor(p);

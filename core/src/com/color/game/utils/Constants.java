@@ -3,14 +3,23 @@ package com.color.game.utils;
 
 import com.badlogic.gdx.math.Vector2;
 
+import java.awt.*;
+
 /**
  * Class of constants used by the whole program
  */
 public class Constants {
 
+    private static Constants constants = new Constants();
 
-    public static final int APP_WIDTH = 1200;//840;
-    public static final int APP_HEIGHT = 900;//600;
+    private Constants() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        APP_WIDTH = (int) screenSize.getWidth();
+        APP_HEIGHT = (int) screenSize.getHeight();
+    }
+
+    public static int APP_WIDTH;// = 1200;//840;
+    public static int APP_HEIGHT;// = 900;//600;
 
     public static final int GLOBAL_STARTING_SPRITES_WIDTH = APP_WIDTH/2;
     public static final int GLOBAL_STARTING_SPRITES_HEIGHT = APP_HEIGHT/2;
