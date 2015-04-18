@@ -13,7 +13,6 @@ import com.color.game.ColorGame;
 import com.color.game.Map;
 import com.color.game.actors.*;
 import com.color.game.actors.Character;
-import com.color.game.enums.PlatformColor;
 import com.color.game.utils.BodyUtils;
 import com.color.game.utils.WorldUtils;
 
@@ -27,7 +26,7 @@ public abstract class IStage extends Stage implements ContactListener {
     public ArrayList<Door> doors;
     public static com.color.game.actors.Character character;
 
-    public static CurrentColor currentColor;
+    public static GaugeColor gaugeColor;
 
     private final float TIME_STEP = 1/300f;
     private float accumulator = 0f;
@@ -70,12 +69,10 @@ public abstract class IStage extends Stage implements ContactListener {
     }
 
     public void delete() {
-        character.stopTimer();
         this.getActors().removeValue(character, true);
     }
 
     public void respawn() {
-        character.stopTimer();
         map.world.destroyBody(character.getBody());
         this.getActors().removeValue(character, true);
         createCharacter();
@@ -97,7 +94,7 @@ public abstract class IStage extends Stage implements ContactListener {
         createColoredPlatforms();
         createDoors();
         this.addActor(GameStage.character);
-        this.addActor(currentColor);
+        this.addActor(gaugeColor);
     }
 
     private void createCharacter() {
@@ -153,7 +150,7 @@ public abstract class IStage extends Stage implements ContactListener {
     }
 
     private void setupColorInfo() {
-        currentColor = new CurrentColor(new Rectangle(10, Gdx.graphics.getHeight() - 30, 140, 20));
+        gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
     }
 
     @Override

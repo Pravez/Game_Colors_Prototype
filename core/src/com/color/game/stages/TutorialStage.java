@@ -41,8 +41,8 @@ public class TutorialStage extends IStage {
     @Override
     public void createColoredPlatforms() {
         colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 35, 8, 10, 2), PlatformColor.RED));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 85, 8, 10, 2), PlatformColor.BLUE));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 135, 8, 10, 2), PlatformColor.YELLOW));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 85, 8, 10, 2), PlatformColor.YELLOW));
+        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 135, 8, 10, 2), PlatformColor.BLUE));
 
         for (ColorPlatform c : colorPlatforms) {
             this.addActor(c);

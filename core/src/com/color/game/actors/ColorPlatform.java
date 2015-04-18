@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.color.game.box2d.PlatformUserData;
 import com.color.game.enums.PlatformColor;
 import com.color.game.stages.GameStage;
+import com.color.game.stages.IStage;
 
 public class ColorPlatform extends GameActor {
 
@@ -38,7 +39,7 @@ public class ColorPlatform extends GameActor {
     }
 
     public void changeCollisionEffect() {
-        this.isEnabled = GameStage.character.getPlatformColor() == this.platformColor;
+        this.isEnabled = IStage.gaugeColor.getActivatedColors().contains(this.platformColor);
         if (this.isEnabled) {
             if (this.body.getFixtureList().size == 0) {
                 this.body.createFixture(this.shape, this.density);

@@ -2,20 +2,16 @@ package com.color.game.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.utils.Timer;
 import com.color.game.box2d.CharacterUserData;
 import com.color.game.enums.CharacterState;
-import com.color.game.enums.PlatformColor;
 import com.color.game.stages.GameStage;
 import com.color.game.stages.IStage;
 import com.color.game.utils.Constants;
@@ -26,8 +22,7 @@ public class Character extends GameActor {
     private boolean left, right;
     private boolean onWall;
     private CharacterState state;
-    private PlatformColor color;
-    private Timer timer;
+    //private Timer timer;
 
     private Animation[] walkAnimation = new Animation[Constants.CHARACTER_FRAME_ROWS];
     private Texture texture;
@@ -61,25 +56,7 @@ public class Character extends GameActor {
         stateTime = 0f;
         dragonSide = 0;
 
-        this.color = PlatformColor.RED;
-        this.timer = new Timer();
-        initTimer();
-    }
-
-    public void initTimer() {
-        IStage.currentColor.initColors(color.getColor(), color.next().getColor());
-        this.timer.scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                color = color.next();
-                IStage.currentColor.initColors(color.getColor(), color.next().getColor());
-            }
-        }, Constants.CHARACTER_CHANGING_COLOR_DELAY, Constants.CHARACTER_CHANGING_COLOR_DELAY);
-    }
-
-    public void stopTimer() {
-        this.timer.stop();
-        this.timer.clear();
+        //this.timer = new Timer();
     }
 
     @Override
@@ -170,6 +147,15 @@ public class Character extends GameActor {
                 jump();
                 state = CharacterState.JUMPING;
             }
+            if(keycode == Input.Keys.A){
+                IStage.gaugeColor.useRed();
+            }
+            if(keycode == Input.Keys.Z){
+                IStage.gaugeColor.useYellow();
+            }
+            if(keycode == Input.Keys.E){
+                IStage.gaugeColor.useBlue();
+            }
             if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
                 getUserData().increaseMovement();
             }
@@ -197,10 +183,6 @@ public class Character extends GameActor {
             }
             return true;
         }
-    }
-
-    public PlatformColor getPlatformColor() {
-        return this.color;
     }
 
     public Vector2 getPosition() {

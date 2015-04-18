@@ -6,7 +6,8 @@ public enum PlatformColor {
 
     RED,
     BLUE,
-    YELLOW;
+    YELLOW,
+    NONE;
 
     public Color getColor() {
         switch(this) {
@@ -16,6 +17,8 @@ public enum PlatformColor {
                 return Color.BLUE;
             case YELLOW:
                 return Color.YELLOW;
+            case NONE :
+                return null;
         }
         return new Color();
     }
@@ -28,6 +31,8 @@ public enum PlatformColor {
                 return PlatformColor.YELLOW;
             case YELLOW:
                 return PlatformColor.RED;
+            case NONE:
+                return null;
         }
         return PlatformColor.RED;
     }
