@@ -24,4 +24,10 @@ public class BodyUtils {
 
         return userData != null && userData.getUserDataType() == UserDataType.DOOR;
     }
+
+    public static boolean bodyIsPike(Body body) {
+        UserData userData = (UserData) body.getUserData();
+
+        return userData != null && userData.getUserDataType() == UserDataType.PIKE;
+    }
 }

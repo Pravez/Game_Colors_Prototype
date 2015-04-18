@@ -146,7 +146,7 @@ public class Character extends GameActor {
         if(keycode == Input.Keys.RIGHT){
             right = true;
         }
-        if(keycode == Input.Keys.SPACE){
+        if(keycode == Input.Keys.UP){
             jump();
             state = CharacterState.JUMPING;
         }

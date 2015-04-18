@@ -13,6 +13,7 @@ import com.color.game.ColorGame;
 import com.color.game.Map;
 import com.color.game.actors.*;
 import com.color.game.actors.Character;
+import com.color.game.enums.CharacterState;
 import com.color.game.utils.BodyUtils;
 import com.color.game.utils.WorldUtils;
 
@@ -23,6 +24,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
     public Map map;
     public ArrayList<Platform> platforms;
     public ArrayList<ColorPlatform> colorPlatforms;
+    public ArrayList<Pike> pikes;
     public ArrayList<Door> doors;
     public static com.color.game.actors.Character character;
 
@@ -54,6 +56,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
         this.platforms = new ArrayList<Platform>();
         this.colorPlatforms = new ArrayList<ColorPlatform>();
         this.doors = new ArrayList<Door>();
+        this.pikes = new ArrayList<Pike>();
 
         Gdx.input.setInputProcessor(this);
     }
@@ -105,6 +108,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
         createPlatforms();
         createColoredPlatforms();
         createDoors();
+        createPikes();
         this.addActor(GameStage.character);
         this.addActor(gaugeColor);
     }
@@ -117,6 +121,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
     protected abstract void createDoors();
     protected abstract void createColoredPlatforms();
     protected abstract void createPlatforms();
+    public abstract void createPikes();
 
     private void setupCamera(){
         float w = Gdx.graphics.getWidth();
@@ -188,6 +193,11 @@ public abstract class BaseStage extends Stage implements ContactListener {
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPlatform(b)) || (BodyUtils.bodyIsPlatform(a) && BodyUtils.bodyIsCharacter(b))) {
             playLandSound();
             character.landed();
+        }
+
+        if((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPike(b)) || (BodyUtils.bodyIsPike(a) && BodyUtils.bodyIsCharacter(b))){
+            character.landed();
+            character.setState(CharacterState.DEAD);
         }
     }
 

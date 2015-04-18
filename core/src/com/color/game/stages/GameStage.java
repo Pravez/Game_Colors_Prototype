@@ -90,4 +90,13 @@ public class GameStage extends BaseStage {
             this.addActor(p);
         }
     }
+
+    @Override
+    public void createPikes(){
+        pikes.add(new Pike(WorldUtils.createPike(map, 120,2,1,1)));
+
+        for(Pike p : pikes){
+            this.addActor(p);
+        }
+    }
 }

@@ -5,10 +5,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.color.game.Map;
 import com.color.game.box2d.CharacterUserData;
 import com.color.game.box2d.DoorUserData;
+import com.color.game.box2d.PikeUserData;
 import com.color.game.box2d.PlatformUserData;
 
 /**
@@ -100,6 +100,26 @@ public class WorldUtils {
         shape.setAsBox(data[2], data[3]);
         body.createFixture(shape, Constants.STATIC_ELEMENTS_DENSITY);
         body.setUserData(new DoorUserData(data[2], data[3]));
+        shape.dispose();
+
+        return body;
+    }
+
+    public static Body createPike(Map map, float x, float y, float width, float height){
+
+        float data[] = convertDatas(x, y, width, height);
+
+        map.addBlock(data);
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(new Vector2(data[0], data[1]));
+        Body body = map.world.createBody(bodyDef);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(data[2], data[3]);
+        body.createFixture(shape, Constants.STATIC_ELEMENTS_DENSITY);
+        body.setUserData(new PikeUserData(data[2], data[3]));
         shape.dispose();
 
         return body;

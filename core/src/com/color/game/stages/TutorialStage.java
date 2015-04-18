@@ -105,4 +105,9 @@ public class TutorialStage extends BaseStage {
             this.addActor(p);
         }
     }
+
+    @Override
+    public void createPikes() {
+
+    }
 }
