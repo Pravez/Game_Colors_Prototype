@@ -4,45 +4,47 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.color.game.utils.Constants;
+import com.sun.tools.internal.jxc.ap.Const;
+
+import java.util.ArrayList;
 
 public class DialogBox extends Stage {
 
     public Table table;
+    public Rectangle bounds;
 
     public DialogBox() {
         this.table = new Table();
+        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("dialogbox.png")));
+        sprite.setAlpha(0.5f);
+        this.table.setBackground(new SpriteDrawable(sprite));
+        initBounds();
 
-        // Font
-        /*FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 42;
-        BitmapFont font = generator.generateFont(parameter);
-        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);*/
+        //table.setFillParent(true);
+        table.setSize(this.bounds.width, this.bounds.height);
+        table.setPosition(this.bounds.x, this.bounds.y);
 
-        // Text
-        /*Label title = new Label("You Won", new Label.LabelStyle(font, Color.RED));
-
-        table.add(title).padBottom(30).row();
-        Image image = new Image();
-        image.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0, 0, 0.25f, 0.25f)));
-        table.add(image);*/
-
-        table.setFillParent(true);
-
-        //generator.dispose();
         super.addActor(this.table);
     }
 
+    public void initBounds() {
+        this.bounds = new Rectangle(Constants.DIALOG_POS_X, Constants.DIALOG_POS_Y, Constants.DIALOG_WIDTH, Constants.DIALOG_HEIGHT);
+    }
+
     public BitmapFont getFont(int size) {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Future-Earth.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         BitmapFont font = generator.generateFont(parameter);
@@ -56,12 +58,35 @@ public class DialogBox extends Stage {
         super.draw();
     }
 
+    public void setTableActors(ArrayList<Actor> actors) {
+        this.table.reset();
+        for (Actor actor : actors) {
+            this.table.add(actor).row();
+        }
+    }
+
     public void addToTable(Actor actor, float padTop, float padBottom) {
         this.table.add(actor).padTop(padTop).padBottom(padBottom).row();
+        //adaptBounds();
+    }
 
+    public void adaptBounds() {
+        float width = this.table.getPrefWidth();
+        float height = this.table.getPrefHeight();
+        if (width + Constants.DIALOG_BORDER_GAP*2 > this.table.getWidth()) {
+            this.table.setWidth(width + Constants.DIALOG_BORDER_GAP*2);
+            this.bounds.x = Constants.APP_WIDTH/2 - this.bounds.width/2;
+        }
+        if (height + Constants.DIALOG_BORDER_GAP*2 > this.bounds.height) {
+            this.bounds.height = height + Constants.DIALOG_BORDER_GAP*2;
+            this.bounds.y = Constants.APP_HEIGHT/2 - this.bounds.height/2;
+        }
+        table.setSize(this.bounds.width, this.bounds.height);
+        table.setPosition(this.bounds.x, this.bounds.y);
     }
 
     public void clear() {
         this.table.reset();
+        initBounds();
     }
 }

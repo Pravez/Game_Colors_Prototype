@@ -5,14 +5,41 @@ import com.badlogic.gdx.math.Vector2;
 import com.color.game.actors.*;
 import com.color.game.enums.PlatformColor;
 import com.color.game.screens.GameScreen;
+import com.color.game.tutorial.TutorialBox;
 import com.color.game.utils.WorldUtils;
 
 public class TutorialStage extends IStage {
 
     private boolean isFinished = false;
+    private TutorialBox tutorialBox;
+    private boolean showTutorial = true;
 
     public TutorialStage(){
         super();
+        this.tutorialBox = new TutorialBox();
+        //this.addActor(this.tutorialBox);
+    }
+
+    public boolean isFinished() { return this.isFinished; }
+
+    @Override
+    public boolean keyDown(int keyCode) {
+        if (tutorialBox.isFinished()) {
+            character.keyDown(keyCode);
+        } else {
+            tutorialBox.keyDown(keyCode);
+        }
+        return super.keyDown(keyCode);
+    }
+
+    @Override
+    public boolean keyUp(int keyCode) {
+        if (tutorialBox.isFinished()) {
+            character.keyUp(keyCode);
+        } else {
+            tutorialBox.keyUp(keyCode);
+        }
+        return super.keyUp(keyCode);
     }
 
     @Override
@@ -27,7 +54,20 @@ public class TutorialStage extends IStage {
         GameScreen.initGameStage();
     }
 
-    public boolean isFinished() { return this.isFinished; }
+    @Override
+    public void drawStage() {
+        super.pauseStage();
+        if (!this.tutorialBox.isFinished()) {
+            this.tutorialBox.draw();
+        }
+    }
+
+    @Override
+    protected void actStage() {
+        if (this.tutorialBox.isFinished()) {
+            super.resumeStage();
+        }
+    }
 
     @Override
     public void createDoors() {

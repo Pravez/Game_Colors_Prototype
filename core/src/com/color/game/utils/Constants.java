@@ -16,6 +16,11 @@ public class Constants {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         APP_WIDTH = (int) screenSize.getWidth();
         APP_HEIGHT = (int) screenSize.getHeight();
+
+        DIALOG_WIDTH = 2*APP_WIDTH/3;
+        DIALOG_HEIGHT = 2*APP_HEIGHT/3;
+        DIALOG_POS_X = APP_WIDTH/2 - DIALOG_WIDTH/2;
+        DIALOG_POS_Y = APP_HEIGHT/2 - DIALOG_HEIGHT/2;
     }
 
     public static int APP_WIDTH;// = 1200;//840;
@@ -57,5 +62,12 @@ public class Constants {
     public static final int CHARACTER_FRAME_ROWS = 4;
     public static final int CHARACTER_FRAME_COLS = 4;
 
-
+    /**
+     * DialogBox bounds
+     */
+    public static final float DIALOG_BORDER_GAP = 15;
+    public static float DIALOG_WIDTH;
+    public static float DIALOG_HEIGHT;
+    public static float DIALOG_POS_X;
+    public static float DIALOG_POS_Y;
 }

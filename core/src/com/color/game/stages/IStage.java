@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.ColorGame;
 import com.color.game.Map;
@@ -54,18 +55,30 @@ public abstract class IStage extends Stage implements ContactListener {
         this.platforms = new ArrayList<Platform>();
         this.colorPlatforms = new ArrayList<ColorPlatform>();
         this.doors = new ArrayList<Door>();
+
+        Gdx.input.setInputProcessor(this);
     }
 
     public abstract void init();
-
     public abstract void end();
 
     public static void playJumpSound() {
         jumpSound.play(0.1f);
     }
-
     public static void playLandSound() {
         landSound.play(0.1f);
+    }
+
+    public void pauseStage() {
+        character.pauseTimer();
+        this.unfocus(character);
+        //setKeyboardFocus(actor);
+    }
+
+    public void resumeStage() {
+        //actor.remove();
+        character.resumeTimer();
+        //setKeyboardFocus(character);
     }
 
     public void delete() {
@@ -99,47 +112,12 @@ public abstract class IStage extends Stage implements ContactListener {
 
     private void createCharacter() {
         character = new Character(WorldUtils.createCharacter(map, this.characterPos.x, this.characterPos.y));
-        setKeyboardFocus(character);
+        //setKeyboardFocus(character);
     }
 
-    protected abstract void createDoors();/* {
-        this.doors = new ArrayList<Door>();
-
-        this.doors.add(new Door(WorldUtils.createDoor(map, 74, 42, 2, 4), new Rectangle(74, 42, 2, 4)));
-
-        for (Door d : this.doors) {
-            this.addActor(d);
-        }
-    }*/
-
-    protected abstract void createColoredPlatforms();/* {
-        colorPlatforms = new ArrayList<ColorPlatform>();
-
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 35, 8, 10, 2), PlatformColor.RED));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 55, 8, 10, 2), PlatformColor.BLUE));
-        colorPlatforms.add(new ColorPlatform(WorldUtils.createPlatform(map, 105, 8, 10, 2), PlatformColor.YELLOW));
-
-        for (ColorPlatform c : colorPlatforms) {
-            this.addActor(c);
-        }
-    }*/
-
-    protected abstract void createPlatforms();/*{
-        platforms = new ArrayList<Platform>();
-        //Ground
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 0, 0, 30, 2)));
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 50, 0, 30, 2)));
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 100, 0, 32, 2)));
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 150, 0, 32, 2)));
-
-        //Walls
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 0, 0, 1, 50)));
-        platforms.add(new Platform(WorldUtils.createPlatform(map, 130, 6, 1, 50)));
-
-        for(Platform p : platforms) {
-            this.addActor(p);
-        }
-    }*/
+    protected abstract void createDoors();
+    protected abstract void createColoredPlatforms();
+    protected abstract void createPlatforms();
 
     private void setupCamera(){
         float w = Gdx.graphics.getWidth();
@@ -152,6 +130,9 @@ public abstract class IStage extends Stage implements ContactListener {
     private void setupColorInfo() {
         gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
     }
+
+    protected abstract void drawStage();
+    protected abstract void actStage();
 
     @Override
     public void act(float delta){
@@ -169,6 +150,7 @@ public abstract class IStage extends Stage implements ContactListener {
                 ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
             }
         }
+        actStage();
     }
 
     @Override
@@ -191,6 +173,7 @@ public abstract class IStage extends Stage implements ContactListener {
         }
         camera.update();
         renderer.render(map.world, camera.combined);
+        drawStage();
     }
 
     @Override
@@ -210,17 +193,11 @@ public abstract class IStage extends Stage implements ContactListener {
     }
 
     @Override
-    public void endContact(Contact contact) {
-
-    }
+    public void endContact(Contact contact) { }
 
     @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {
-
-    }
+    public void preSolve(Contact contact, Manifold oldManifold) { }
 
     @Override
-    public void postSolve(Contact contact, ContactImpulse impulse) {
-
-    }
+    public void postSolve(Contact contact, ContactImpulse impulse) {}
 }

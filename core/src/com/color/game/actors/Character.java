@@ -36,7 +36,6 @@ public class Character extends GameActor {
 
     public Character(Body body) {
         super(body);
-        addListener(new CharacterListener());
         body.setLinearDamping(2.0f);
 
         state = CharacterState.IDLE;
@@ -57,6 +56,14 @@ public class Character extends GameActor {
         dragonSide = 0;
 
         //this.timer = new Timer();
+    }
+
+    public void pauseTimer() {
+        //this.timer.stop();
+    }
+
+    public void resumeTimer() {
+        //this.timer.start();
     }
 
     @Override
@@ -134,54 +141,48 @@ public class Character extends GameActor {
             setState(CharacterState.IDLE);
     }
 
-    class CharacterListener extends InputListener{
-        @Override
-        public boolean keyDown(InputEvent event, int keycode) {
-            if(keycode == Input.Keys.LEFT){
-                left = true;
-            }
-            if(keycode == Input.Keys.RIGHT){
-                right = true;
-            }
-            if(keycode == Input.Keys.SPACE){
-                jump();
-                state = CharacterState.JUMPING;
-            }
-            if(keycode == Input.Keys.A){
-                IStage.gaugeColor.useRed();
-            }
-            if(keycode == Input.Keys.Z){
-                IStage.gaugeColor.useYellow();
-            }
-            if(keycode == Input.Keys.E){
-                IStage.gaugeColor.useBlue();
-            }
-            if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
-                getUserData().increaseMovement();
-            }
-            if((left || right) && !(state == CharacterState.JUMPING)){
-                setState(CharacterState.MOVING);
-            }
-            return true;
+    public void keyDown(int keycode) {
+        if(keycode == Input.Keys.LEFT){
+            left = true;
         }
+        if(keycode == Input.Keys.RIGHT){
+            right = true;
+        }
+        if(keycode == Input.Keys.SPACE){
+            jump();
+            state = CharacterState.JUMPING;
+        }
+        if(keycode == Input.Keys.A){
+            IStage.gaugeColor.useRed();
+        }
+        if(keycode == Input.Keys.Z){
+            IStage.gaugeColor.useYellow();
+        }
+        if(keycode == Input.Keys.E){
+            IStage.gaugeColor.useBlue();
+        }
+        if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
+            getUserData().increaseMovement();
+        }
+        if((left || right) && !(state == CharacterState.JUMPING)){
+            setState(CharacterState.MOVING);
+        }
+    }
 
-        @Override
-        public boolean keyUp(InputEvent event, int keycode) {
-            if(keycode == Input.Keys.LEFT){
-                left = false;
-            }
-            if(keycode == Input.Keys.RIGHT){
-                right = false;
-            }
-            if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
-                getUserData().decreaseMovement();
-            }
-            if(!left && !right){
-                setState(CharacterState.IDLE);
-                moving = false;
-                dragonSide = 0;
-            }
-            return true;
+    public void keyUp(int keycode) {
+        if(keycode == Input.Keys.LEFT){
+            left = false;
+        }
+        if(keycode == Input.Keys.RIGHT){
+            right = false;
+        }
+        if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
+            getUserData().decreaseMovement();
+        }
+        if(!left && !right){
+            setState(CharacterState.IDLE);
+            moving = false;
+            dragonSide = 0;
         }
     }
 

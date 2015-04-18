@@ -1,28 +1,38 @@
 package com.color.game.stages;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.color.game.ColorGame;
-import com.color.game.Map;
 import com.color.game.actors.*;
 import com.color.game.actors.Character;
 import com.color.game.enums.PlatformColor;
-import com.color.game.utils.BodyUtils;
 import com.color.game.utils.WorldUtils;
-
-import java.util.ArrayList;
 
 public class GameStage extends IStage {
 
     public GameStage() {
         super();
+    }
+
+    @Override
+    public boolean keyUp(int keyCode) {
+        character.keyUp(keyCode);
+        return super.keyUp(keyCode);
+    }
+
+    @Override
+    public boolean keyDown(int keyCode) {
+        character.keyDown(keyCode);
+        return super.keyDown(keyCode);
+    }
+
+    @Override
+    protected void drawStage() {
+
+    }
+
+    @Override
+    protected void actStage() {
+
     }
 
     @Override
