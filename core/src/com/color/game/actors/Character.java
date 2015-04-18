@@ -8,12 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.color.game.box2d.CharacterUserData;
 import com.color.game.enums.CharacterState;
 import com.color.game.stages.GameStage;
-import com.color.game.stages.IStage;
+import com.color.game.stages.BaseStage;
 import com.color.game.utils.Constants;
 
 public class Character extends GameActor {
@@ -99,7 +97,7 @@ public class Character extends GameActor {
 
     public void jump(){
         if(!jumping){
-            IStage.playJumpSound();
+            BaseStage.playJumpSound();
             body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(), body.getWorldCenter(), true);
             jumping = true;
         }
@@ -153,13 +151,13 @@ public class Character extends GameActor {
             state = CharacterState.JUMPING;
         }
         if(keycode == Input.Keys.A){
-            IStage.gaugeColor.useRed();
+            BaseStage.gaugeColor.useRed();
         }
         if(keycode == Input.Keys.Z){
-            IStage.gaugeColor.useYellow();
+            BaseStage.gaugeColor.useYellow();
         }
         if(keycode == Input.Keys.E){
-            IStage.gaugeColor.useBlue();
+            BaseStage.gaugeColor.useBlue();
         }
         if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
             getUserData().increaseMovement();

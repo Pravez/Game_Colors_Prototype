@@ -8,7 +8,7 @@ import com.color.game.screens.GameScreen;
 import com.color.game.tutorial.TutorialBox;
 import com.color.game.utils.WorldUtils;
 
-public class TutorialStage extends IStage {
+public class TutorialStage extends BaseStage {
 
     private boolean isFinished = false;
     private TutorialBox tutorialBox;

@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.ColorGame;
 import com.color.game.Map;
@@ -19,7 +18,7 @@ import com.color.game.utils.WorldUtils;
 
 import java.util.ArrayList;
 
-public abstract class IStage extends Stage implements ContactListener {
+public abstract class BaseStage extends Stage implements ContactListener {
 
     public Map map;
     public ArrayList<Platform> platforms;
@@ -43,7 +42,7 @@ public abstract class IStage extends Stage implements ContactListener {
 
     protected Vector2 characterPos;
 
-    public IStage() {
+    public BaseStage() {
         background = new Texture(Gdx.files.internal("background.png"));
         batch = new SpriteBatch();
 
@@ -89,7 +88,7 @@ public abstract class IStage extends Stage implements ContactListener {
         map.world.destroyBody(character.getBody());
         this.getActors().removeValue(character, true);
         createCharacter();
-        this.addActor(IStage.character);
+        this.addActor(BaseStage.character);
     }
 
     protected void initializeScene(Vector2 characterPos){

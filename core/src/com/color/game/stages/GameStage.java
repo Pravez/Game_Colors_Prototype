@@ -3,11 +3,10 @@ package com.color.game.stages;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.color.game.actors.*;
-import com.color.game.actors.Character;
 import com.color.game.enums.PlatformColor;
 import com.color.game.utils.WorldUtils;
 
-public class GameStage extends IStage {
+public class GameStage extends BaseStage {
 
     public GameStage() {
         super();

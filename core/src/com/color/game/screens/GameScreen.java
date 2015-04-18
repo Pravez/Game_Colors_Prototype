@@ -29,11 +29,11 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         if (tutorialStage.isFinished()) {
-            this.gameStage.respawn();
-            Gdx.input.setInputProcessor(this.gameStage);
+            gameStage.respawn();
+            Gdx.input.setInputProcessor(gameStage);
         } else {
-            this.tutorialStage.respawn();
-            Gdx.input.setInputProcessor(this.tutorialStage);
+            tutorialStage.respawn();
+            Gdx.input.setInputProcessor(tutorialStage);
         }
     }
 
@@ -43,11 +43,11 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (tutorialStage.isFinished()) {
-            this.gameStage.act(v);
-            this.gameStage.draw();
+            gameStage.act(v);
+            gameStage.draw();
         } else {
-            this.tutorialStage.act(v);
-            this.tutorialStage.draw();
+            tutorialStage.act(v);
+            tutorialStage.draw();
         }
     }
 
