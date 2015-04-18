@@ -12,11 +12,7 @@ import java.util.ArrayList;
 
 public class GaugeColor extends Actor {
 
-    private Rectangle bounds;
     private ShapeRenderer shapeRenderer;
-    private Color current;
-    private Color next;
-    private float timePassed;
 
     private boolean red;
     private boolean yellow;
@@ -35,7 +31,6 @@ public class GaugeColor extends Actor {
 
     public GaugeColor(Rectangle bounds) {
 
-        this.bounds = bounds;
         setWidth(bounds.width);
         setHeight(bounds.height);
 
@@ -59,12 +54,6 @@ public class GaugeColor extends Actor {
 
 
         this.shapeRenderer = new ShapeRenderer();
-    }
-
-    public void initColors(Color current, Color next) {
-        this.current = current;
-        this.next = next;
-        this.timePassed = 0f;
     }
 
     public void useRed(){
@@ -175,5 +164,19 @@ public class GaugeColor extends Actor {
         if(blue) activated.add(PlatformColor.BLUE);
 
         return activated;
+    }
+
+    public void restartTimeColors(){
+        timeBlue = 0f;
+        timeRed = 0f;
+        timeYellow = 0f;
+
+        refreshBlue = false;
+        refreshYellow = false;
+        refreshRed = false;
+
+        red = false;
+        blue = false;
+        yellow = false;
     }
 }

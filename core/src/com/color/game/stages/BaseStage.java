@@ -152,6 +152,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
             accumulator -= TIME_STEP;
             if (character.isDead()) {
                 ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
+                gaugeColor.restartTimeColors();
             }
         }
         actStage();
