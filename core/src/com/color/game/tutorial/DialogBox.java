@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -20,24 +21,34 @@ public class DialogBox extends Stage {
         this.table = new Table();
 
         // Font
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
+        /*FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 42;
         BitmapFont font = generator.generateFont(parameter);
-        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);*/
 
         // Text
-        Label title = new Label("You Won", new Label.LabelStyle(font, Color.RED));
+        /*Label title = new Label("You Won", new Label.LabelStyle(font, Color.RED));
 
         table.add(title).padBottom(30).row();
         Image image = new Image();
         image.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0, 0, 0.25f, 0.25f)));
-        table.add(image);
+        table.add(image);*/
 
         table.setFillParent(true);
 
-        generator.dispose();
+        //generator.dispose();
         super.addActor(this.table);
+    }
+
+    public BitmapFont getFont(int size) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = size;
+        BitmapFont font = generator.generateFont(parameter);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        generator.dispose();
+        return font;
     }
 
     public void show() {
@@ -45,7 +56,12 @@ public class DialogBox extends Stage {
         super.draw();
     }
 
-    public void addToTable() {
+    public void addToTable(Actor actor, float padTop, float padBottom) {
+        this.table.add(actor).padTop(padTop).padBottom(padBottom).row();
 
+    }
+
+    public void clear() {
+        this.table.reset();
     }
 }
