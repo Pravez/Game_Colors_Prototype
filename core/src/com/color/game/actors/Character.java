@@ -17,6 +17,7 @@ import com.color.game.box2d.CharacterUserData;
 import com.color.game.enums.CharacterState;
 import com.color.game.enums.PlatformColor;
 import com.color.game.stages.GameStage;
+import com.color.game.stages.IStage;
 import com.color.game.utils.Constants;
 
 public class Character extends GameActor {
@@ -66,12 +67,12 @@ public class Character extends GameActor {
     }
 
     public void initTimer() {
-        GameStage.currentColor.initColors(color.getColor(), color.next().getColor());
+        IStage.currentColor.initColors(color.getColor(), color.next().getColor());
         this.timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 color = color.next();
-                GameStage.currentColor.initColors(color.getColor(), color.next().getColor());
+                IStage.currentColor.initColors(color.getColor(), color.next().getColor());
             }
         }, Constants.CHARACTER_CHANGING_COLOR_DELAY, Constants.CHARACTER_CHANGING_COLOR_DELAY);
     }
@@ -114,7 +115,7 @@ public class Character extends GameActor {
 
     public void jump(){
         if(!jumping){
-            GameStage.playJumpSound();
+            IStage.playJumpSound();
             body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(), body.getWorldCenter(), true);
             jumping = true;
         }
