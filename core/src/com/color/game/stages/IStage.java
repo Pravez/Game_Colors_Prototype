@@ -9,11 +9,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.color.game.ColorGame;
 import com.color.game.Map;
-import com.color.game.actors.*;
 import com.color.game.actors.Character;
-import com.color.game.enums.PlatformColor;
+import com.color.game.actors.*;
+import com.color.game.box2d.UserData;
 import com.color.game.utils.BodyUtils;
 import com.color.game.utils.WorldUtils;
 
@@ -26,6 +27,7 @@ public abstract class IStage extends Stage implements ContactListener {
     public ArrayList<ColorPlatform> colorPlatforms;
     public ArrayList<Door> doors;
     public static com.color.game.actors.Character character;
+    public Array<Body> bodies;
 
     public static CurrentColor currentColor;
 
@@ -55,6 +57,7 @@ public abstract class IStage extends Stage implements ContactListener {
         this.platforms = new ArrayList<Platform>();
         this.colorPlatforms = new ArrayList<ColorPlatform>();
         this.doors = new ArrayList<Door>();
+        this.bodies = new Array<Body>();
     }
 
     public abstract void init();
@@ -101,7 +104,7 @@ public abstract class IStage extends Stage implements ContactListener {
     }
 
     private void createCharacter() {
-        character = new Character(WorldUtils.createCharacter(map, this.characterPos.x, this.characterPos.y));
+        character = new Character(WorldUtils.createCharacter(map, this.characterPos.x, this.characterPos.y), map);
         setKeyboardFocus(character);
     }
 
@@ -171,6 +174,15 @@ public abstract class IStage extends Stage implements ContactListener {
             if (character.isDead()) {
                 ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
             }
+
+            map.world.getBodies(bodies);
+
+            for(Body b : bodies){
+                UserData data = (UserData) b.getUserData();
+                if(data!=null &&  data.isFlaggedForDelete()){
+                    map.world.destroyBody(b);
+                }
+            }
         }
     }
 
@@ -209,6 +221,14 @@ public abstract class IStage extends Stage implements ContactListener {
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPlatform(b)) || (BodyUtils.bodyIsPlatform(a) && BodyUtils.bodyIsCharacter(b))) {
             playLandSound();
             character.landed();
+        }
+        if((BodyUtils.bodyIsMissile(a) && BodyUtils.bodyIsStatic(b) || (BodyUtils.bodyIsStatic(a) && BodyUtils.bodyIsMissile(b)))){
+            if(BodyUtils.bodyIsMissile(a)){
+                ((UserData)a.getUserData()).setFlaggedForDelete(true);
+            }else if(BodyUtils.bodyIsMissile(b)){
+                ((UserData)b.getUserData()).setFlaggedForDelete(true);
+            }
+            character.endShoot();
         }
     }
 

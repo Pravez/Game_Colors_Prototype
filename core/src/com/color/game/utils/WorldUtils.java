@@ -5,11 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.color.game.Map;
-import com.color.game.box2d.CharacterUserData;
-import com.color.game.box2d.DoorUserData;
-import com.color.game.box2d.PlatformUserData;
+import com.color.game.box2d.*;
 
 /**
  * Utility class, useful to create automatically bodies and worlds for platforms and characters.
@@ -105,6 +102,26 @@ public class WorldUtils {
         return body;
     }
 
+    public static Body createMissile(Map map, float x, float y){
+
+        float data[] = convertDatas(x, y, Constants.MISSILE_WIDTH, Constants.MISSILE_HEIGHT);
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.fixedRotation = true;
+        bodyDef.gravityScale = 0;
+        bodyDef.position.set(new Vector2(data[0], data[1]));
+        Body body = map.world.createBody(bodyDef);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(data[2], data[3]);
+        body.createFixture(shape, 0f);
+        body.setUserData(new MissileUserData());
+        shape.dispose();
+
+        return body;
+    }
+
     /**
      * Method to create a character, a dynamic body
      * @param map His map
@@ -114,6 +131,15 @@ public class WorldUtils {
      */
     public static Body createCharacter(Map map, float x, float y){
         return createDynamicElement(map, x, y, Constants.CHARACTER_WIDTH, Constants.CHARACTER_HEIGHT);
+    }
+
+    public static void removeBodySafely(Map map, Body body) {
+        UserData data = (UserData) body.getUserData();
+        if(data!=null){
+            if(!map.world.isLocked()) {
+                map.world.destroyBody(body);
+            }
+        }
     }
 
     public static float[] convertDatas(float x, float y, float width, float height){

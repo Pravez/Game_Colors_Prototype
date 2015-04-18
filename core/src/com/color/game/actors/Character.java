@@ -2,23 +2,23 @@ package com.color.game.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Timer;
+import com.color.game.Map;
 import com.color.game.box2d.CharacterUserData;
 import com.color.game.enums.CharacterState;
 import com.color.game.enums.PlatformColor;
 import com.color.game.stages.GameStage;
 import com.color.game.stages.IStage;
 import com.color.game.utils.Constants;
+import com.color.game.utils.WorldUtils;
 
 public class Character extends GameActor {
 
@@ -37,12 +37,16 @@ public class Character extends GameActor {
     private int dragonSide;
     private boolean moving = false;
 
+    private Map map;
+    private Missile currentMissile;
+
     float stateTime = 0f;
 
-    public Character(Body body) {
+    public Character(Body body, Map map) {
         super(body);
         addListener(new CharacterListener());
         body.setLinearDamping(2.0f);
+        this.map = map;
 
         state = CharacterState.IDLE;
 
@@ -50,6 +54,8 @@ public class Character extends GameActor {
         left = false;
         right = false;
         onWall = false;
+
+        currentMissile = null;
 
         //texture = new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0f, 0f, 0.25f, 0.25f);
 
@@ -149,6 +155,16 @@ public class Character extends GameActor {
 
     }
 
+    public void shoot(){
+        if(currentMissile == null){
+            currentMissile = new Missile(WorldUtils.createMissile(map, this.getPosition().x, this.getPosition().y));
+        }
+    }
+
+    public void endShoot(){
+        currentMissile = null;
+    }
+
     public void landed(){
         jumping = false;
         if(right || left)
@@ -169,6 +185,9 @@ public class Character extends GameActor {
             if(keycode == Input.Keys.SPACE){
                 jump();
                 state = CharacterState.JUMPING;
+            }
+            if(keycode == Input.Keys.X){
+                shoot();
             }
             if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
                 getUserData().increaseMovement();

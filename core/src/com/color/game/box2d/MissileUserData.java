@@ -2,16 +2,12 @@ package com.color.game.box2d;
 
 
 import com.color.game.enums.UserDataType;
+import com.color.game.utils.Constants;
 
-public class MissileUserData extends  UserData{
+public class MissileUserData extends UserData{
 
     public MissileUserData(){
-        super(0,0);
-        userDataType = UserDataType.MISSILE;
-    }
-
-    public MissileUserData(float width, float height){
-        super(width, height);
+        super(Constants.MISSILE_WIDTH, Constants.MISSILE_HEIGHT);
         userDataType = UserDataType.MISSILE;
     }
 }

@@ -8,10 +8,12 @@ public abstract class UserData {
     protected UserDataType userDataType;
     protected float width;
     protected float height;
+    protected boolean flaggedForDelete;
 
     public UserData(float width, float height){
         this.width = width;
         this.height = height;
+        flaggedForDelete = false;
     }
 
     public UserDataType getUserDataType() {
@@ -24,5 +26,13 @@ public abstract class UserData {
 
     public float getHeight() {
         return height;
+    }
+
+    public boolean isFlaggedForDelete() {
+        return flaggedForDelete;
+    }
+
+    public void setFlaggedForDelete(boolean flaggedForDelete) {
+        this.flaggedForDelete = flaggedForDelete;
     }
 }

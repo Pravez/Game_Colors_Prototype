@@ -9,6 +9,15 @@ public class Missile extends GameActor{
 
     public Missile(Body body) {
         super(body);
+        this.body.setLinearVelocity(50, 0);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+    }
+
+    private void move() {
     }
 
     @Override

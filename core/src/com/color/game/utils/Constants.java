@@ -45,7 +45,7 @@ public class Constants {
     public static final Vector2 CHARACTER_MOVING_LINEAR_IMPULSE = new Vector2(7,0);
     public static final Vector2 CHARACTER_MAX_VELOCITY_NORMAL = new Vector2(25f, 0);
 
-    public static final float CHARACTER_GRAVITY_SCALE_ON_WALL = 1.5f;
+   // public static final float CHARACTER_GRAVITY_SCALE_ON_WALL = 1.5f;
     public static final Vector2 CHARACTER_JUMPING_LINEAR_IMPULSE_BOOSTED = new Vector2(0, 160);
     public static final Vector2 CHARACTER_MOVING_LINEAR_IMPULSE_BOOSTED = new Vector2(10,0);
     public static final Vector2 CHARACTER_MAX_VELOCITY_BOOSTED = new Vector2(35f, 0);
@@ -56,6 +56,15 @@ public class Constants {
 
     public static final int CHARACTER_FRAME_ROWS = 4;
     public static final int CHARACTER_FRAME_COLS = 4;
+
+    /**
+     * Missile constants
+     */
+
+    public static final float MISSILE_WIDTH = 1f;
+    public static final float MISSILE_HEIGHT = 0.5f;
+    public static final float MISSILE_GRAVITY_SCALE = 0f;
+    public static final float MISSILE_SPEED = 4f;
 
 
 }
