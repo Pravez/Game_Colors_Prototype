@@ -11,6 +11,6 @@ public class DesktopLauncher {
         config.title = "Color Game Prototype";
         config.width = Constants.APP_WIDTH;
         config.height = Constants.APP_HEIGHT;
-		new LwjglApplication(new ColorGame(), config);
+        new LwjglApplication(new ColorGame(), config);
 	}
 }

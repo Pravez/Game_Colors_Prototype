@@ -3,7 +3,6 @@ package com.color.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.color.game.screens.DeathScreen;
 import com.color.game.screens.GameScreen;
 import com.color.game.screens.MenuScreen;

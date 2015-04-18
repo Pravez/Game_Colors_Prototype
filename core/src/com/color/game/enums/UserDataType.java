@@ -5,5 +5,6 @@ public enum UserDataType {
 
     PLATFORM,
     CHARACTER,
-    DOOR
+    DOOR,
+    MISSILE
 }
