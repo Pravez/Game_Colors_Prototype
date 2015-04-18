@@ -45,10 +45,19 @@ public class Character extends GameActor {
 
         //texture = new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0f, 0f, 0.25f, 0.25f);
 
-        texture = new Texture(Gdx.files.internal("dragons.png"));
+        // Dragon
+        /*texture = new Texture(Gdx.files.internal("dragons.png"));
         regions = TextureRegion.split(texture, texture.getWidth()/Constants.CHARACTER_FRAME_COLS, texture.getHeight()/Constants.CHARACTER_FRAME_ROWS);
         for (int i = 0 ; i < Constants.CHARACTER_FRAME_ROWS ; i++) {
             walkAnimation[i] = new Animation(0.15f, regions[i]);
+        }*/
+
+        // Character test
+        texture = new Texture(Gdx.files.internal("character-walking.png"));
+        walkAnimation[0] = new Animation(0.15f, new TextureRegion(new Texture(Gdx.files.internal("character.png"))));
+        regions = TextureRegion.split(texture, texture.getWidth()/11, texture.getHeight()/2);
+        for (int i = 1 ; i < 3 ; i++) {//Constants.CHARACTER_FRAME_ROWS ; i++) {
+            walkAnimation[i] = new Animation(0.10f, regions[i-1]);
         }
         stateTime = 0f;
         dragonSide = 0;
@@ -113,7 +122,7 @@ public class Character extends GameActor {
             }else{
                 body.setLinearVelocity(Constants.CHARACTER_MAX_VELOCITY.x, body.getLinearVelocity().y);
             }
-            dragonSide = 2;
+            dragonSide = 1;
             moving = true;
         }
 
@@ -123,7 +132,7 @@ public class Character extends GameActor {
             }else{
                 body.setLinearVelocity(-Constants.CHARACTER_MAX_VELOCITY.x, body.getLinearVelocity().y);
             }
-            dragonSide = 1;
+            dragonSide = 2;
             moving = true;
         }
 
