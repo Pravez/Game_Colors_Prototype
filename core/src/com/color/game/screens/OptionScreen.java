@@ -88,7 +88,7 @@ public class OptionScreen implements Screen {
         buttonMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getMenuScreen());
+                ((ColorGame) Gdx.app.getApplicationListener()).setMenuScreen();
             }
         });
 

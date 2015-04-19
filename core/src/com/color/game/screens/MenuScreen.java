@@ -55,13 +55,13 @@ public class MenuScreen implements Screen {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getGameScreen());
+                ((ColorGame) Gdx.app.getApplicationListener()).launchGameScreen();
             }
         });
         buttonOptions.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getOptionScreen());
+                ((ColorGame) Gdx.app.getApplicationListener()).setOptionScreen();
             }
         });
         buttonExit.addListener(new ClickListener() {

@@ -52,11 +52,11 @@ public class ColorPlatform extends GameActor {
         this.platformColor = platformColor;
         this.color = this.platformColor.getColor();
 
-        changeCollisionEffect();
+        //changeCollisionEffect();
     }
 
     public void changeCollisionEffect() {
-        this.isEnabled = BaseStage.gaugeColor.getActivatedColors().contains(this.platformColor);
+        this.isEnabled = BaseStage.character.getActivatedColors().contains(this.platformColor);
         if (this.isEnabled) {
             if (this.body.getFixtureList().size == 0) {
                 this.body.createFixture(this.shape, this.density);

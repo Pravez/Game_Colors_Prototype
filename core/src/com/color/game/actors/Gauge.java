@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.color.game.stages.GameStage;
 import com.color.game.utils.Constants;
 
 public class Gauge extends Actor {
@@ -54,7 +55,6 @@ public class Gauge extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         float gapX = 3;
         float gapY = 2;
-
 
         batch.end();
         // Drawing inside

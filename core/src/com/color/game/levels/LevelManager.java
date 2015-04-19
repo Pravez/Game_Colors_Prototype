@@ -41,7 +41,7 @@ public class LevelManager extends Stage {
         levels = new ArrayList<Level>();
         addFirstLevel();
         addSecondLevel();
-        addThirdLevel();
+        //addThirdLevel();
     }
     
     private static void addFirstLevel() {

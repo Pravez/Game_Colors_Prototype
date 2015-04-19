@@ -9,6 +9,7 @@ import com.color.game.stages.BaseStage;
 
 public class ColorGame extends Game {
 
+    private SplashScreen splashScreen;
     private DeathScreen deathScreen;
     private GameScreen gameScreen;
     private MenuScreen menuScreen;
@@ -22,12 +23,13 @@ public class ColorGame extends Game {
 
     @Override
 	public void create () {
+        this.splashScreen = new SplashScreen();
         music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         music.setLooping(true);
         music.setVolume(musicVolume);//0.1f);
         music.play();
         LevelManager.init();
-        this.setScreen(getMenuScreen());
+        this.setScreen(this.splashScreen);
 	}
 
     @Override
@@ -40,9 +42,27 @@ public class ColorGame extends Game {
         LevelManager.disposeLevels();
     }
 
+    public void initGame() {
+        this.deathScreen = new DeathScreen();
+        this.menuScreen = new MenuScreen();
+        this.winScreen = new WinScreen();
+        this.optionScreen = new OptionScreen();
+        this.gameScreen = new GameScreen();
+        this.splashScreen.fadeOut();
+    }
+
     public static void setMusicVolume(float musicVolume) {
         ColorGame.musicVolume = musicVolume;
         music.setVolume(musicVolume);
+    }
+
+    public void endSplashScreen() {
+        this.splashScreen.dispose();
+        setMenuScreen();
+    }
+
+    public void launchGameScreen() {
+        super.setScreen(this.gameScreen);
     }
 
     public void setGameScreen() {
@@ -50,33 +70,23 @@ public class ColorGame extends Game {
         super.setScreen(this.gameScreen);
     }
 
-    public DeathScreen getDeathScreen() {
-        if (deathScreen == null)
-            deathScreen = new DeathScreen();
-        return deathScreen;
+    public void setMenuScreen() {
+        super.setScreen(this.menuScreen);
+    }
+
+    public void setDeathScreen() {
+        super.setScreen(this.deathScreen);
+    }
+
+    public void setOptionScreen() {
+        super.setScreen(this.optionScreen);
+    }
+
+    public void setWinScreen() {
+        super.setScreen(this.winScreen);
     }
 
     public GameScreen getGameScreen() {
-        if (gameScreen == null)
-            gameScreen = new GameScreen();
-        return gameScreen;
-    }
-
-    public MenuScreen getMenuScreen() {
-        if (menuScreen == null)
-            menuScreen = new MenuScreen();
-        return menuScreen;
-    }
-
-    public WinScreen getWinScreen() {
-        if (winScreen == null)
-            winScreen = new WinScreen();
-        return winScreen;
-    }
-
-    public OptionScreen getOptionScreen() {
-        if (optionScreen == null)
-            optionScreen = new OptionScreen();
-        return optionScreen;
+        return this.gameScreen;
     }
 }

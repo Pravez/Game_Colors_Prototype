@@ -55,10 +55,10 @@ public class WinScreen implements Screen {
             @Override
             public void run() {
                 ColorGame colorGame = ((ColorGame) Gdx.app.getApplicationListener());
+                colorGame.getGameScreen().getCurrentStage().nextLevel();
                 if (LevelManager.isFinished()) {
-                    colorGame.setScreen(colorGame.getMenuScreen());
+                    colorGame.setMenuScreen();
                 } else {
-                    colorGame.getGameScreen().getCurrentStage().nextLevel();
                     colorGame.setGameScreen();
                 }
             }

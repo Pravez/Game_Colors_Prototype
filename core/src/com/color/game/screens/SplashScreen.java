@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,50 +15,61 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Timer;
 import com.color.game.ColorGame;
 
-public class DeathScreen implements Screen {
+public class SplashScreen implements Screen {
 
+    private Sprite background;
     private Stage stage;
     private SpriteBatch batch;
-    private Texture texture;
+    private BitmapFont font;
 
-    private Timer timer;
+    private float fadeTimeAlpha = 0f;
+    private boolean fadeOut = false;
+    private boolean fadeIn = true;
 
-    public DeathScreen() {
-        texture = new Texture(Gdx.files.internal("skull.png"));
-        batch = new SpriteBatch();
-
-        this.stage = new Stage();
-        Table table = new Table();
+    public SplashScreen() {
+        background = new Sprite(new Texture(Gdx.files.internal("background.png")));
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 62;
-        BitmapFont font = generator.generateFont(parameter);
+        font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        generator.dispose();
 
-        Label title = new Label("You died", new Label.LabelStyle(font, Color.RED));
-
-        table.add(title).padTop(Gdx.graphics.getHeight()/2).row();
+        this.stage = new Stage();
+        Table table = new Table();
+        table.add(new Label("Game Color Prototype", new Label.LabelStyle(font, Color.WHITE)));
         table.setFillParent(true);
-        stage.addActor(table);
+        this.stage.addActor(table);
 
-        timer = new Timer();
+        batch = new SpriteBatch();
+
+        generator.dispose();
     }
 
-    public void init() {
-        timer.clear();
-        timer.scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                ((ColorGame)Gdx.app.getApplicationListener()).setGameScreen();
+    public void fadeOut() {
+        this.fadeOut = true;
+    }
+
+    private void runFading() {
+        if (fadeOut) {
+            fadeTimeAlpha -= 0.05f;
+            if (fadeTimeAlpha <= -1.0f) {
+                ((ColorGame) Gdx.app.getApplicationListener()).endSplashScreen();
             }
-        }, 1.0f);
+        }
+        if (fadeIn) {
+            fadeTimeAlpha += 0.1f;
+            if (fadeTimeAlpha >= 1.1f) {
+                fadeTimeAlpha = 1.0f;
+                fadeIn = false;
+                ((ColorGame) Gdx.app.getApplicationListener()).initGame();
+            }
+        }
     }
 
     @Override
     public void show() {
-        init();
+
     }
 
     @Override
@@ -66,14 +78,15 @@ public class DeathScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
-        int textureHeight = (texture.getHeight() * width/2) / texture.getWidth();
-        batch.draw(texture, width/4, height/2 - textureHeight/2, width/2, textureHeight);
+        Color color = batch.getColor();
+        batch.setColor(color.r, color.g, color.b, fadeTimeAlpha < 0 ? 0 : fadeTimeAlpha);
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
 
-        stage.act();
+        stage.act(delta);
         stage.draw();
+
+        runFading();
     }
 
     @Override
@@ -98,8 +111,8 @@ public class DeathScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
-        stage.dispose();
-        texture.dispose();
+        this.stage.dispose();
+        this.font.dispose();
+        this.batch.dispose();
     }
 }

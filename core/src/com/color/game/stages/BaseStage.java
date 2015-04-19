@@ -19,8 +19,6 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
     public static com.color.game.actors.Character character;
 
-    public static GaugeColor gaugeColor = new GaugeColor(new Rectangle());
-
     private final float TIME_STEP = 1/300f;
     private float accumulator = 0f;
 
@@ -29,8 +27,6 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
     private static Sound jumpSound;
     private static Sound landSound;
-
-    private boolean acting = false;
 
     protected Vector2 characterPos;
 
@@ -41,10 +37,6 @@ public abstract class BaseStage extends Stage implements ContactListener {
         landSound = Gdx.audio.newSound(Gdx.files.internal("landing.wav"));
 
         Gdx.input.setInputProcessor(this);
-    }
-
-    public boolean isActing() {
-        return this.acting;
     }
 
     public abstract void init();
@@ -79,23 +71,22 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
     protected void initializeScene() {
         this.characterPos = LevelManager.getCurrentLevel().getCharacterPos();
-        setupColorInfo();
         createWorld();
         setupCamera();
     }
 
     private void createWorld(){
+        this.getActors().removeValue(character, true);
         createCharacter();
 
         LevelManager.getCurrentLevel().map.world.setContactListener(this);
 
         this.addActor(GameStage.character);
-        this.addActor(gaugeColor);
     }
 
     public void nextLevel() {
         LevelManager.getCurrentLevel().map.world.destroyBody(character.getBody());
-        //this.getActors().removeValue(character, true);
+        this.getActors().removeValue(character, true);
         LevelManager.nextLevel();
         LevelManager.getCurrentLevel().map.world.setContactListener(this);
     }
@@ -112,16 +103,11 @@ public abstract class BaseStage extends Stage implements ContactListener {
         camera.update();
     }
 
-    private void setupColorInfo() {
-        gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
-    }
-
     protected abstract void drawStage();
     protected abstract void actStage();
 
     @Override
     public void act(float delta) {
-        this.acting = true;
         super.act(delta);
         LevelManager.getCurrentLevel().act(delta);
 
@@ -132,12 +118,10 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
             accumulator -= TIME_STEP;
             if (character.isDead()) {
-                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
-                gaugeColor.restartTimeColors();
+                ((ColorGame) Gdx.app.getApplicationListener()).setDeathScreen();
             }
         }
         actStage();
-        this.acting = false;
     }
 
     @Override
@@ -172,7 +156,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
         Body b = contact.getFixtureB().getBody();
 
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsDoor(b)) || (BodyUtils.bodyIsDoor(a) && BodyUtils.bodyIsCharacter(b))) {
-            ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getWinScreen());
+            ((ColorGame) Gdx.app.getApplicationListener()).setWinScreen();
             this.end();
         }
 
