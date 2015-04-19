@@ -23,11 +23,9 @@ public class Character extends GameActor {
     //private Timer timer;
 
     private Animation[] walkAnimation = new Animation[Constants.CHARACTER_FRAME_ROWS];
-    private Texture texture;
-    private TextureRegion[][] regions;
     private TextureRegion currentFrame;
 
-    private int dragonSide;
+    private int characterSide;
     private boolean moving = false;
 
     float stateTime = 0f;
@@ -51,16 +49,18 @@ public class Character extends GameActor {
         for (int i = 0 ; i < Constants.CHARACTER_FRAME_ROWS ; i++) {
             walkAnimation[i] = new Animation(0.15f, regions[i]);
         }*/
+        Texture texture1 = new Texture(Gdx.files.internal("character-idle.png"));
+        TextureRegion[][] regions1 = TextureRegion.split(texture1, texture1.getWidth()/6, texture1.getHeight()/2);
+        walkAnimation[0] = new Animation(0.25f, regions1[0]);
+        walkAnimation[1] = new Animation(0.25f, regions1[1]);
 
-        // Character test
-        texture = new Texture(Gdx.files.internal("character-walking.png"));
-        walkAnimation[0] = new Animation(0.15f, new TextureRegion(new Texture(Gdx.files.internal("character.png"))));
-        regions = TextureRegion.split(texture, texture.getWidth()/11, texture.getHeight()/2);
-        for (int i = 1 ; i < 3 ; i++) {//Constants.CHARACTER_FRAME_ROWS ; i++) {
-            walkAnimation[i] = new Animation(0.10f, regions[i-1]);
-        }
+        Texture texture2 = new Texture(Gdx.files.internal("character-walking.png"));
+        TextureRegion[][] regions2 = TextureRegion.split(texture2, texture2.getWidth()/11, texture2.getHeight()/2);
+        walkAnimation[2] = new Animation(0.10f, regions2[0]);
+        walkAnimation[3] = new Animation(0.10f, regions2[1]);
+
         stateTime = 0f;
-        dragonSide = 0;
+        characterSide = 0;
 
         //this.timer = new Timer();
     }
@@ -90,11 +90,11 @@ public class Character extends GameActor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         batch.setProjectionMatrix(GameStage.camera.combined);
-        if (moving) {
-            currentFrame = walkAnimation[dragonSide].getKeyFrame(stateTime, true);
-        } else {
+        //if (moving) {
+            currentFrame = walkAnimation[characterSide].getKeyFrame(stateTime, true);
+        /*} else {
             currentFrame = walkAnimation[dragonSide].getKeyFrame(0);
-        }
+        }*/
         batch.draw(currentFrame, super.screenRectangle.x, super.screenRectangle.y, super.screenRectangle.width, super.screenRectangle.height);
         //batch.draw(texture, super.screenRectangle.x, super.screenRectangle.y, super.screenRectangle.width, super.screenRectangle.height);
     }
@@ -122,7 +122,7 @@ public class Character extends GameActor {
             }else{
                 body.setLinearVelocity(Constants.CHARACTER_MAX_VELOCITY.x, body.getLinearVelocity().y);
             }
-            dragonSide = 1;
+            characterSide = 2;
             moving = true;
         }
 
@@ -132,7 +132,7 @@ public class Character extends GameActor {
             }else{
                 body.setLinearVelocity(-Constants.CHARACTER_MAX_VELOCITY.x, body.getLinearVelocity().y);
             }
-            dragonSide = 2;
+            characterSide = 3;
             moving = true;
         }
 
@@ -179,9 +179,11 @@ public class Character extends GameActor {
     public void keyUp(int keycode) {
         if(keycode == Input.Keys.LEFT){
             left = false;
+            characterSide = 1;
         }
         if(keycode == Input.Keys.RIGHT){
             right = false;
+            characterSide = 0;
         }
         if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
             getUserData().decreaseMovement();
@@ -189,7 +191,6 @@ public class Character extends GameActor {
         if(!left && !right){
             setState(CharacterState.IDLE);
             moving = false;
-            dragonSide = 0;
         }
     }
 
