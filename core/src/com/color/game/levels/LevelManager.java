@@ -120,4 +120,10 @@ public class LevelManager extends Stage {
         levels.add(level);
 
     }
+
+    public static void disposeLevels() {
+        for(Level level : LevelManager.levels) {
+            level.dispose();
+        }
+    }
 }

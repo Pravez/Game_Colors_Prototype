@@ -62,4 +62,11 @@ public class Level extends Stage {
     public void act(float delta) {
         super.act(delta);
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        background.dispose();
+        batch.dispose();
+    }
 }

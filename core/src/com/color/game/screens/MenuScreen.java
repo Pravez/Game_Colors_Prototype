@@ -1,11 +1,9 @@
 package com.color.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,16 +20,18 @@ import com.color.game.ColorGame;
 public class MenuScreen implements Screen {
 
     private Stage stage;
+    private BitmapFont font;
+    private Skin skin;
 
     public MenuScreen() {
         this.stage = new Stage();
         Table table = new Table();
-        Skin skin = new Skin();
+        skin = new Skin();
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 42;
-        BitmapFont font = generator.generateFont(parameter);
+        font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         Label title = new Label("Game Colors Prototype", new Label.LabelStyle(font, Color.RED));
@@ -102,6 +102,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        font.dispose();
+        skin.dispose();
     }
 }

@@ -98,6 +98,8 @@ public class DeathScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        batch.dispose();
+        stage.dispose();
+        texture.dispose();
     }
 }
