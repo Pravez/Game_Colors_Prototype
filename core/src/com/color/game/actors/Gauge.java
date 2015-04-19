@@ -1,7 +1,10 @@
 package com.color.game.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -17,6 +20,7 @@ public class Gauge extends Actor {
 
     private float time;
 
+    private Sprite sprite;
     private ShapeRenderer shapeRenderer;
 
     public Gauge(Rectangle bounds, Color color) {
@@ -24,6 +28,7 @@ public class Gauge extends Actor {
         this.color = color;
 
         this.shapeRenderer = new ShapeRenderer();
+        this.sprite = new Sprite(new Texture(Gdx.files.internal("bar.png")));
 
         restart();
     }
@@ -47,31 +52,38 @@ public class Gauge extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        float gapX = 3;
+        float gapY = 2;
+
+
+        batch.end();
         // Drawing inside
         this.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         this.shapeRenderer.setColor(this.color);
-        float height = this.bounds.height;
+        float height = this.bounds.height - 2 * gapY;
 
         if (this.refresh) {
-            height = this.bounds.height * time / Constants.CHARACTER_CHANGING_COLOR_DELAY;
+            height = (this.bounds.height - 2 * gapY) * time / Constants.CHARACTER_CHANGING_COLOR_DELAY;
 
-            if (height >= (bounds.height / 5) * 4) {
+            if (height >= ((bounds.height - 2 * gapY) / 5) * 4) {
                 activated = false;
             }
-            if (height >= bounds.height){
+            if (height >= bounds.height - 2 * gapY){
                 refresh = false;
                 time = 0f;
             }
         }
-        this.shapeRenderer.rect(bounds.x, bounds.y, bounds.width, height);
+        this.shapeRenderer.rect(bounds.x + gapX, bounds.y + gapY, bounds.width - 2 * gapX, height);
         this.shapeRenderer.end();
 
         // Drawing outline
-        this.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        /*this.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         this.shapeRenderer.setColor(Color.DARK_GRAY);
         this.shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
         this.shapeRenderer.line(bounds.x, bounds.y + (bounds.height / 5) * 4, bounds.x + bounds.width, bounds.y + (bounds.height / 5) * 4);
-        this.shapeRenderer.end();
+        this.shapeRenderer.end();*/
+        batch.begin();
+        batch.draw(this.sprite, bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
     @Override

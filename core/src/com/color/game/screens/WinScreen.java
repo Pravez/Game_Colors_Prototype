@@ -58,6 +58,7 @@ public class WinScreen implements Screen {
                 if (LevelManager.isFinished()) {
                     colorGame.setScreen(colorGame.getMenuScreen());
                 } else {
+                    colorGame.getGameScreen().getCurrentStage().nextLevel();
                     colorGame.setGameScreen();
                 }
             }

@@ -51,10 +51,10 @@ public abstract class BaseStage extends Stage implements ContactListener {
     public abstract void end();
 
     public static void playJumpSound() {
-        jumpSound.play(0.1f);
+        //jumpSound.play(0.1f);
     }
     public static void playLandSound() {
-        landSound.play(0.1f);
+        //landSound.play(0.1f);
     }
 
     public void pauseStage() {
@@ -93,7 +93,9 @@ public abstract class BaseStage extends Stage implements ContactListener {
         this.addActor(gaugeColor);
     }
 
-    private void nextLevel() {
+    public void nextLevel() {
+        LevelManager.getCurrentLevel().map.world.destroyBody(character.getBody());
+        //this.getActors().removeValue(character, true);
         LevelManager.nextLevel();
         LevelManager.getCurrentLevel().map.world.setContactListener(this);
     }
@@ -170,7 +172,6 @@ public abstract class BaseStage extends Stage implements ContactListener {
         Body b = contact.getFixtureB().getBody();
 
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsDoor(b)) || (BodyUtils.bodyIsDoor(a) && BodyUtils.bodyIsCharacter(b))) {
-            nextLevel(); // modifier en fonction de la porte utilisée ?
             ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getWinScreen());
             this.end();
         }

@@ -19,7 +19,7 @@ public class GameScreen implements Screen {
         gameStage = new GameStage();
     }
 
-    public Stage getCurrentStage() {
+    public BaseStage getCurrentStage() {
         return this.tutorialStage.isFinished() ? this.gameStage : this.tutorialStage;
     }
 
