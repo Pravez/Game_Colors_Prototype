@@ -6,24 +6,28 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.color.game.ColorGame;
 
-public class MenuScreen implements Screen {
+public class OptionScreen implements Screen {
 
     private Stage stage;
     private BitmapFont font;
     private Skin skin;
 
-    public MenuScreen() {
+    private Label soundValue;
+    private Label musicValue;
+
+    public OptionScreen() {
         this.stage = new Stage();
         Table table = new Table();
         skin = new Skin();
@@ -34,40 +38,57 @@ public class MenuScreen implements Screen {
         font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        Label title = new Label("Game Colors Prototype", new Label.LabelStyle(font, Color.RED));
+        Label title = new Label("Options", new Label.LabelStyle(font, Color.RED));
 
         parameter.size = 30;
         skin.add("28days", generator.generateFont(parameter));
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
         skin.load(Gdx.files.internal("uiskin.json"));
-        TextButton buttonPlay = new TextButton("Play", skin);
-        TextButton buttonOptions = new TextButton("Options", skin);
-        TextButton buttonExit = new TextButton("Exit", skin);
+        TextButton buttonMenu = new TextButton("Back to menu", skin);
 
-        table.add(title).padBottom(40).row();
-        table.add(buttonPlay).size(250,60).padBottom(20).row();
-        table.add(buttonOptions).size(250,60).padBottom(20).row();
-        table.add(buttonExit).size(250,60).padBottom(20).row();
+        Label music = new Label("Music Volume :", skin);
+        Slider sliderMusic = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+        musicValue = new Label("" + (ColorGame.musicVolume * 10), skin);
+
+        Label sound = new Label("Sound Volume :", skin);
+        Slider sliderSound = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+        soundValue = new Label("" + (ColorGame.soundVolume * 10), skin);
+
+        table.add(title).padLeft(1.8f * music.getPrefWidth()).padBottom(40).row();
+
+        table.add(music).padLeft(-music.getPrefWidth());
+        table.add(sliderMusic, musicValue);
+        table.row();
+
+        table.add(sound).padLeft(-music.getPrefWidth());
+        table.add(sliderSound, soundValue);
+        table.row();
+
+        table.add(buttonMenu).size(250,60).padTop(80).padLeft(1.8f * music.getPrefWidth()).row();
 
         table.setFillParent(true);
         stage.addActor(table);
 
-        buttonPlay.addListener(new ClickListener() {
+        sliderMusic.addListener(new ChangeListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getGameScreen());
+            public void changed(ChangeEvent event, Actor actor) {
+                ColorGame.setMusicVolume(((Slider) actor).getValue());
+                musicValue.setText("" + (ColorGame.musicVolume * 10));
             }
         });
-        buttonOptions.addListener(new ClickListener() {
+
+        sliderSound.addListener(new ChangeListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getOptionScreen());
+            public void changed(ChangeEvent event, Actor actor) {
+                ColorGame.soundVolume = ((Slider) actor).getValue();
+                soundValue.setText("" + (ColorGame.soundVolume * 10));
             }
         });
-        buttonExit.addListener(new ClickListener() {
+
+        buttonMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getMenuScreen());
             }
         });
 

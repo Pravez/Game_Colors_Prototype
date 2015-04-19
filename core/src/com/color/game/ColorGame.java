@@ -4,10 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.color.game.levels.LevelManager;
-import com.color.game.screens.DeathScreen;
-import com.color.game.screens.GameScreen;
-import com.color.game.screens.MenuScreen;
-import com.color.game.screens.WinScreen;
+import com.color.game.screens.*;
 import com.color.game.stages.BaseStage;
 
 public class ColorGame extends Game {
@@ -16,15 +13,19 @@ public class ColorGame extends Game {
     private GameScreen gameScreen;
     private MenuScreen menuScreen;
     private WinScreen winScreen;
+    private OptionScreen optionScreen;
 
-    private Music music;
+    private static Music music;
+
+    public static float soundVolume = 0f;
+    public static float musicVolume = 0f;
 
     @Override
 	public void create () {
         music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         music.setLooping(true);
-        music.setVolume(0.1f);
-        //music.play();
+        music.setVolume(musicVolume);//0.1f);
+        music.play();
         LevelManager.init();
         this.setScreen(getMenuScreen());
 	}
@@ -33,8 +34,15 @@ public class ColorGame extends Game {
     public void dispose() {
         super.dispose();
         music.dispose();
-        BaseStage.disposeStage();
+        if (gameScreen != null) {
+            BaseStage.disposeStage();
+        }
         LevelManager.disposeLevels();
+    }
+
+    public static void setMusicVolume(float musicVolume) {
+        ColorGame.musicVolume = musicVolume;
+        music.setVolume(musicVolume);
     }
 
     public void setGameScreen() {
@@ -64,5 +72,11 @@ public class ColorGame extends Game {
         if (winScreen == null)
             winScreen = new WinScreen();
         return winScreen;
+    }
+
+    public OptionScreen getOptionScreen() {
+        if (optionScreen == null)
+            optionScreen = new OptionScreen();
+        return optionScreen;
     }
 }

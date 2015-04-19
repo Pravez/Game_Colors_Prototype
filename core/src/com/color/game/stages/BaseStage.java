@@ -51,10 +51,10 @@ public abstract class BaseStage extends Stage implements ContactListener {
     public abstract void end();
 
     public static void playJumpSound() {
-        //jumpSound.play(0.1f);
+        jumpSound.play(ColorGame.soundVolume);
     }
     public static void playLandSound() {
-        //landSound.play(0.1f);
+        landSound.play(ColorGame.soundVolume);
     }
 
     public void pauseStage() {
