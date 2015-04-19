@@ -3,22 +3,17 @@ package com.color.game.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.ColorGame;
-import com.color.game.Map;
-import com.color.game.actors.*;
 import com.color.game.actors.Character;
+import com.color.game.actors.GaugeColor;
 import com.color.game.enums.CharacterState;
 import com.color.game.levels.LevelManager;
 import com.color.game.utils.BodyUtils;
 import com.color.game.utils.WorldUtils;
-
-import java.util.ArrayList;
 
 public abstract class BaseStage extends Stage implements ContactListener {
 
@@ -131,6 +126,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
                 gaugeColor.restartTimeColors();
             }
         }
+        System.out.println(character.isOnGround());
         actStage();
     }
 
@@ -183,7 +179,14 @@ public abstract class BaseStage extends Stage implements ContactListener {
     }
 
     @Override
-    public void endContact(Contact contact) { }
+    public void endContact(Contact contact) {
+        /*Body a = contact.getFixtureA().getBody();
+        Body b = contact.getFixtureB().getBody();
+
+        if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPlatform(b)) || (BodyUtils.bodyIsPlatform(a) && BodyUtils.bodyIsCharacter(b))) {
+            character.setOnGround(false);
+        }*/
+    }
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) { }

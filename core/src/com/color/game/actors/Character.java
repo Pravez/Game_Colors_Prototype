@@ -20,6 +20,7 @@ public class Character extends GameActor {
     private boolean left, right;
     private boolean onWall;
     private CharacterState state;
+    private boolean onGround;
     //private Timer timer;
 
     private Animation[] walkAnimation = new Animation[Constants.CHARACTER_FRAME_ROWS];
@@ -40,6 +41,7 @@ public class Character extends GameActor {
         left = false;
         right = false;
         onWall = false;
+        onGround = true;
 
         //texture = new TextureRegion(new Texture(Gdx.files.internal("dragons.png")), 0f, 0f, 0.25f, 0.25f);
 
@@ -105,7 +107,7 @@ public class Character extends GameActor {
     }
 
     public void jump(){
-        if(!jumping){
+        if(!jumping && onGround){
             BaseStage.playJumpSound();
             body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(), body.getWorldCenter(), true);
             jumping = true;
@@ -142,6 +144,7 @@ public class Character extends GameActor {
 
     public void landed(){
         jumping = false;
+        onGround = true;
         if(right || left)
             setState(CharacterState.MOVING);
         else
@@ -219,5 +222,13 @@ public class Character extends GameActor {
 
     public boolean isDead(){
         return state == CharacterState.DEAD;
+    }
+
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
+    }
+
+    public boolean isOnGround() {
+        return onGround;
     }
 }

@@ -41,6 +41,7 @@ public class LevelManager extends Stage {
         levels = new ArrayList<Level>();
         addFirstLevel();
         addSecondLevel();
+        addThirdLevel();
     }
     
     private static void addFirstLevel() {
@@ -102,5 +103,21 @@ public class LevelManager extends Stage {
         level.addActor(new Pike(WorldUtils.createPike(level.map, 120,2,1,1)));
         
         levels.add(level);
+    }
+
+    private static void addThirdLevel(){
+        Level level = new Level(new Vector2(3, 2));
+
+        //Adding walls
+        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 0,0,2,100)));
+        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 200,0,2,100)));
+
+        //Adding spawn and end floors
+        level.addActor(new Platform((WorldUtils.createPlatform(level.map,2,0,25,2))));
+        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 200-25, 75, 25, 2)));
+        level.addActor(new Door(WorldUtils.createDoor(level.map, 215, 77, 1, 2), new Rectangle(215,77,1,2)));
+
+        levels.add(level);
+
     }
 }
