@@ -18,6 +18,7 @@ import com.color.game.ColorGame;
 
 public class WinScreen implements Screen {
 
+    private BitmapFont font;
     private Stage stage;
     private Timer timer;
 
@@ -30,7 +31,7 @@ public class WinScreen implements Screen {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 42;
-        BitmapFont font = generator.generateFont(parameter);
+        font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         Label title = new Label("You Won", new Label.LabelStyle(font, Color.RED));
@@ -79,5 +80,8 @@ public class WinScreen implements Screen {
     public void hide() { }
 
     @Override
-    public void dispose() { }
+    public void dispose() {
+        stage.dispose();
+        font.dispose();
+    }
 }

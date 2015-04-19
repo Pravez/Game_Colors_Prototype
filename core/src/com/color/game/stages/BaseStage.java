@@ -190,4 +190,15 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {}
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        this.renderer.dispose();
+    }
+
+    public static void disposeStage() {
+        jumpSound.dispose();
+        landSound.dispose();
+    }
 }

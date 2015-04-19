@@ -8,6 +8,7 @@ import com.color.game.screens.DeathScreen;
 import com.color.game.screens.GameScreen;
 import com.color.game.screens.MenuScreen;
 import com.color.game.screens.WinScreen;
+import com.color.game.stages.BaseStage;
 
 public class ColorGame extends Game {
 
@@ -32,6 +33,8 @@ public class ColorGame extends Game {
     public void dispose() {
         super.dispose();
         music.dispose();
+        BaseStage.disposeStage();
+        LevelManager.disposeLevels();
     }
 
     public DeathScreen getDeathScreen() {
