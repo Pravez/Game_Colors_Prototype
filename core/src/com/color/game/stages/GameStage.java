@@ -1,7 +1,5 @@
 package com.color.game.stages;
 
-import com.badlogic.gdx.math.Vector2;
-
 public class GameStage extends BaseStage {
 
     public GameStage() {
@@ -32,7 +30,7 @@ public class GameStage extends BaseStage {
 
     @Override
     public void init() {
-        initializeScene(new Vector2(3, 2));
+        initializeScene();
     }
 
     @Override

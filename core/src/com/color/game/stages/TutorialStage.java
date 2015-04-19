@@ -39,14 +39,13 @@ public class TutorialStage extends BaseStage {
 
     @Override
     public void init() {
-        initializeScene(new Vector2(3, 2));
+        initializeScene();
     }
 
     @Override
     public void end() {
         this.isFinished = true;
         super.delete();
-        GameScreen.initGameStage();
     }
 
     @Override

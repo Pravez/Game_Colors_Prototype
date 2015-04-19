@@ -30,6 +30,8 @@ public abstract class BaseStage extends Stage implements ContactListener {
     private static Sound jumpSound;
     private static Sound landSound;
 
+    private boolean acting = false;
+
     protected Vector2 characterPos;
 
     public BaseStage() {
@@ -39,6 +41,10 @@ public abstract class BaseStage extends Stage implements ContactListener {
         landSound = Gdx.audio.newSound(Gdx.files.internal("landing.wav"));
 
         Gdx.input.setInputProcessor(this);
+    }
+
+    public boolean isActing() {
+        return this.acting;
     }
 
     public abstract void init();
@@ -71,8 +77,8 @@ public abstract class BaseStage extends Stage implements ContactListener {
         this.addActor(BaseStage.character);
     }
 
-    protected void initializeScene(Vector2 characterPos) {
-        this.characterPos = characterPos;
+    protected void initializeScene() {
+        this.characterPos = LevelManager.getCurrentLevel().getCharacterPos();
         setupColorInfo();
         createWorld();
         setupCamera();
@@ -112,7 +118,8 @@ public abstract class BaseStage extends Stage implements ContactListener {
     protected abstract void actStage();
 
     @Override
-    public void act(float delta){
+    public void act(float delta) {
+        this.acting = true;
         super.act(delta);
         LevelManager.getCurrentLevel().act(delta);
 
@@ -120,14 +127,15 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
         while(accumulator >= delta){
             LevelManager.getCurrentLevel().map.world.step(TIME_STEP, 6, 2);
+
             accumulator -= TIME_STEP;
             if (character.isDead()) {
                 ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getDeathScreen());
                 gaugeColor.restartTimeColors();
             }
         }
-        System.out.println(character.isOnGround());
         actStage();
+        this.acting = false;
     }
 
     @Override
@@ -163,8 +171,8 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsDoor(b)) || (BodyUtils.bodyIsDoor(a) && BodyUtils.bodyIsCharacter(b))) {
             nextLevel(); // modifier en fonction de la porte utilisée ?
-            this.end();
             ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getWinScreen());
+            this.end();
         }
 
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPlatform(b)) || (BodyUtils.bodyIsPlatform(a) && BodyUtils.bodyIsCharacter(b))) {

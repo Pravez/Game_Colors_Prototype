@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.color.game.ColorGame;
+import com.color.game.levels.LevelManager;
 
 public class WinScreen implements Screen {
 
@@ -53,7 +54,12 @@ public class WinScreen implements Screen {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                ((ColorGame) Gdx.app.getApplicationListener()).setScreen(((ColorGame) Gdx.app.getApplicationListener()).getMenuScreen());
+                ColorGame colorGame = ((ColorGame) Gdx.app.getApplicationListener());
+                if (LevelManager.isFinished()) {
+                    colorGame.setScreen(colorGame.getMenuScreen());
+                } else {
+                    colorGame.setGameScreen();
+                }
             }
         }, 2.0f);
     }

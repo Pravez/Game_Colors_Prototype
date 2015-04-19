@@ -37,6 +37,11 @@ public class ColorGame extends Game {
         LevelManager.disposeLevels();
     }
 
+    public void setGameScreen() {
+        this.gameScreen.initGameStage();
+        super.setScreen(this.gameScreen);
+    }
+
     public DeathScreen getDeathScreen() {
         if (deathScreen == null)
             deathScreen = new DeathScreen();
