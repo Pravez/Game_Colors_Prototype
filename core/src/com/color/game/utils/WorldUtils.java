@@ -90,7 +90,7 @@ public class WorldUtils {
         map.addBlock(data);
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(new Vector2(data[0], data[1]));
         Body body = map.world.createBody(bodyDef);
 
