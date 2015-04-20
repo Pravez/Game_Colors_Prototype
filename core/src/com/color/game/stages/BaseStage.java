@@ -39,8 +39,10 @@ public abstract class BaseStage extends Stage implements ContactListener {
         landSound = Gdx.audio.newSound(Gdx.files.internal("landing.wav"));
 
         ground = null;
-        Character.gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
-        this.addActor(Character.gaugeColor);
+        if(Character.gaugeColor == null) {
+            Character.gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
+            this.addActor(Character.gaugeColor);
+        }
 
         Gdx.input.setInputProcessor(this);
     }
@@ -83,6 +85,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
     private void createWorld(){
         this.getActors().removeValue(character, true);
+        this.getActors().removeValue(Character.gaugeColor, true);
         createCharacter();
 
         LevelManager.getCurrentLevel().map.world.setContactListener(this);
@@ -92,12 +95,16 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
     public void nextLevel() {
         LevelManager.getCurrentLevel().map.world.destroyBody(character.getBody());
+        this.getActors().removeValue(Character.gaugeColor, true);
         this.getActors().removeValue(character, true);
         LevelManager.nextLevel();
         LevelManager.getCurrentLevel().map.world.setContactListener(this);
     }
 
     private void createCharacter() {
+        if(!this.getActors().contains(Character.gaugeColor, true)){
+            this.addActor(Character.gaugeColor);
+        }
         character = new Character(WorldUtils.createCharacter(LevelManager.getCurrentLevel()));
         Character.gaugeColor.restartTimeColors();
 
