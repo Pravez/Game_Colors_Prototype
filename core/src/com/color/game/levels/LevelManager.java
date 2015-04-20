@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.actors.ColorPlatform;
 import com.color.game.actors.Door;
-import com.color.game.actors.Pike;
 import com.color.game.actors.Platform;
 import com.color.game.enums.PlatformColor;
 import com.color.game.utils.WorldUtils;
@@ -43,11 +42,11 @@ public class LevelManager extends Stage {
         levels = new ArrayList<Level>();
         addFirstLevel();
         addSecondLevel();
-        //addThirdLevel();
+        addThirdLevel();
     }
     
     private static void addFirstLevel() {
-        Level level = new Level(new Vector2(3, 2));
+        Level level = new Level(new Vector2(5, 2));
         
         // Ground
         level.addActor(new Platform(WorldUtils.createPlatform(level.map, 0, 0, 30, 2)));
@@ -71,7 +70,7 @@ public class LevelManager extends Stage {
     }
     
     private static void addSecondLevel() {
-        Level level = new Level(new Vector2(3, 2));
+        Level level = new Level(new Vector2(5, 2));
 
         // Ground
         level.addActor(new Platform(WorldUtils.createPlatform(level.map, 0, 0, 30, 2)));
@@ -87,37 +86,40 @@ public class LevelManager extends Stage {
         
         // Color Platforms
         level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 30 + 5, 8, 10, 2), PlatformColor.RED));
-        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 55, 14, 10, 2), PlatformColor.RED));
-        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 35, 22, 10, 2), PlatformColor.RED));
-        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 15, 25, 10, 2), PlatformColor.RED));
 
-        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 15, 15, 10, 2), PlatformColor.BLUE));
-        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 35, 18, 10, 2), PlatformColor.BLUE));
-        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 60, 23, 10, 2), PlatformColor.BLUE));
+        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 55, 14, 10, 2), PlatformColor.YELLOW));
 
-        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 82, 22, 10, 2), PlatformColor.YELLOW));
-        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 95, 30, 10, 2), PlatformColor.YELLOW));
+        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 82, 22, 10, 2), PlatformColor.BLUE));
+        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 95, 30, 10, 2), PlatformColor.BLUE));
 
         // Doors
         level.addDoor(new Door(WorldUtils.createDoor(level.map, 74, 42, 2, 4), new Rectangle(74, 42, 2, 4)));
-        
-        // Pikes
-        level.addActor(new Pike(WorldUtils.createPike(level.map, 120,2,1,1)));
-        
+
         levels.add(level);
     }
 
     private static void addThirdLevel(){
-        Level level = new Level(new Vector2(3, 2));
+        Level level = new Level(new Vector2(5, 2));
 
         //Adding walls
         level.addActor(new Platform(WorldUtils.createPlatform(level.map, 0,0,2,100)));
-        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 200,0,2,100)));
+        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 90,0,2,100)));
 
         //Adding spawn and end floors
-        level.addActor(new Platform((WorldUtils.createPlatform(level.map,2,0,25,2))));
-        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 200-25, 75, 25, 2)));
-        level.addActor(new Door(WorldUtils.createDoor(level.map, 215, 77, 1, 2), new Rectangle(215,77,1,2)));
+        level.addActor(new Platform((WorldUtils.createPlatform(level.map,0,0,25,2))));
+        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 90-25, 50, 25, 2)));
+        level.addActor(new Door(WorldUtils.createDoor(level.map, 85, 52, 1, 2), new Rectangle(85,52,1,2)));
+
+        //Colored platforms
+        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 35,8,10,2), PlatformColor.RED));
+        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 55, 33, 10, 2), PlatformColor.RED));
+
+        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 15,15,10,2), PlatformColor.BLUE));
+        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 35,25,10,2), PlatformColor.BLUE));
+        //level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 55,2,10,10), PlatformColor.BLUE));
+
+        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 60, 25, 10,2), PlatformColor.YELLOW));
+        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 40, 40, 10, 2), PlatformColor.YELLOW));
 
         levels.add(level);
 

@@ -163,7 +163,6 @@ public class Character extends GameActor {
 
     public void landed(){
         jumping = false;
-        onGround = true;
         if(right || left)
             setState(CharacterState.MOVING);
         else

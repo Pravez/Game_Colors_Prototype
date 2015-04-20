@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.ColorGame;
 import com.color.game.actors.Character;
 import com.color.game.actors.GaugeColor;
+import com.color.game.box2d.CharacterUserData;
 import com.color.game.box2d.PlatformUserData;
 import com.color.game.enums.CharacterState;
 import com.color.game.levels.LevelManager;
@@ -133,6 +134,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
             accumulator -= TIME_STEP;
             if (character.isDead()) {
+                ground = null;
                 ((ColorGame) Gdx.app.getApplicationListener()).setDeathScreen();
             }
         }
@@ -183,10 +185,28 @@ public abstract class BaseStage extends Stage implements ContactListener {
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPlatform(b)) || (BodyUtils.bodyIsPlatform(a) && BodyUtils.bodyIsCharacter(b))) {
             playLandSound();
             character.landed();
+
+            float leftSide;
+            float rightSide;
+            float leftPosition;
+            float rightPosition;
+
             if(BodyUtils.bodyIsCharacter(a)) {
-                ground = b;
+                leftSide = (b.getPosition().x - ((PlatformUserData)b.getUserData()).getWidth());
+                rightSide = (b.getPosition().x + ((PlatformUserData)b.getUserData()).getWidth());
+                leftPosition = a.getPosition().x + ((CharacterUserData)a.getUserData()).getWidth();
+                rightPosition = a.getPosition().x - ((CharacterUserData)a.getUserData()).getWidth();
+                if(leftSide < leftPosition && rightSide > rightPosition && b.getPosition().y < a.getPosition().y){
+                    ground = b;
+                }
             }else{
-                ground = a;
+                leftSide = (a.getPosition().x - ((PlatformUserData)a.getUserData()).getWidth());
+                rightSide = (a.getPosition().x + ((PlatformUserData)a.getUserData()).getWidth());
+                leftPosition = b.getPosition().x + ((CharacterUserData)b.getUserData()).getWidth();
+                rightPosition = b.getPosition().x - ((CharacterUserData)b.getUserData()).getWidth();
+                if(leftSide < leftPosition && rightSide > rightPosition && a.getPosition().y < b.getPosition().y){
+                    ground = a;
+                }
             }
         }
 
@@ -203,13 +223,17 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
     public static void testGround(){
 
-        float leftSide = (ground.getPosition().x - ((PlatformUserData)ground.getUserData()).getWidth());
-        float rightSide = (ground.getPosition().x + ((PlatformUserData)ground.getUserData()).getWidth());
-        float leftPosition = character.getPosition().x + (character.getUserData()).getWidth();
-        float rightPosition = character.getPosition().x - (character.getUserData()).getWidth();
+        if(ground != null) {
+            float leftSide = (ground.getPosition().x - ((PlatformUserData) ground.getUserData()).getWidth());
+            float rightSide = (ground.getPosition().x + ((PlatformUserData) ground.getUserData()).getWidth());
+            float leftPosition = character.getPosition().x + (character.getUserData()).getWidth();
+            float rightPosition = character.getPosition().x - (character.getUserData()).getWidth();
 
-        if(leftSide < leftPosition && rightSide > rightPosition && ground.getPosition().y < character.getPosition().y){
-            character.setOnGround(true);
+            if (leftSide < leftPosition && rightSide > rightPosition && ground.getPosition().y < character.getPosition().y) {
+                character.setOnGround(true);
+            } else {
+                character.setOnGround(false);
+            }
         }else{
             character.setOnGround(false);
         }

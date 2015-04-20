@@ -19,7 +19,7 @@ public class Gauge {
 
     private float time;
 
-    private Sprite sprite;
+    private static Sprite sprite = new Sprite(new Texture(Gdx.files.internal("bar.png")));
     private ShapeRenderer shapeRenderer;
 
     public Gauge(Rectangle bounds, Color color) {
@@ -27,7 +27,6 @@ public class Gauge {
         this.color = color;
 
         this.shapeRenderer = new ShapeRenderer();
-        this.sprite = new Sprite(new Texture(Gdx.files.internal("bar.png")));
 
         restart();
     }

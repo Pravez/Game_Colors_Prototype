@@ -2,11 +2,9 @@ package com.color.game.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.color.game.enums.PlatformColor;
-import com.color.game.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -58,8 +56,7 @@ public class GaugeColor extends Actor {
         this.redGauge.draw(batch, parentAlpha);
         this.yellowGauge.draw(batch, parentAlpha);
         this.blueGauge.draw(batch, parentAlpha);
-        batch.end();
-        batch.begin();
+
     }
 
     public ArrayList<PlatformColor> getActivatedColors(){
