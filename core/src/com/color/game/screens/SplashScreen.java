@@ -12,12 +12,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.color.game.ColorGame;
 
 public class SplashScreen implements Screen {
 
-    private Sprite background;
     private Stage stage;
     private SpriteBatch batch;
     private BitmapFont font;
@@ -27,17 +27,16 @@ public class SplashScreen implements Screen {
     private boolean fadeIn = true;
 
     public SplashScreen() {
-        background = new Sprite(new Texture(Gdx.files.internal("background.png")));
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Future-Earth.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 62;
+        parameter.size = 45;
         font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         this.stage = new Stage();
         Table table = new Table();
-        table.add(new Label("Game Color Prototype", new Label.LabelStyle(font, Color.WHITE)));
+        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("dialog.png")));
+        table.setBackground(new SpriteDrawable(sprite));
         table.setFillParent(true);
         this.stage.addActor(table);
 
@@ -59,7 +58,7 @@ public class SplashScreen implements Screen {
         }
         if (fadeIn) {
             fadeTimeAlpha += 0.1f;
-            if (fadeTimeAlpha >= 1.1f) {
+            if (fadeTimeAlpha >= 1.5f) {
                 fadeTimeAlpha = 1.0f;
                 fadeIn = false;
                 ((ColorGame) Gdx.app.getApplicationListener()).initGame();
@@ -77,14 +76,16 @@ public class SplashScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-        Color color = batch.getColor();
-        batch.setColor(color.r, color.g, color.b, fadeTimeAlpha < 0 ? 0 : fadeTimeAlpha);
-        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
-
         stage.act(delta);
         stage.draw();
+
+        batch.begin();
+        float alpha = fadeTimeAlpha;
+        if (fadeTimeAlpha < 0) alpha = 0;
+        if (fadeTimeAlpha > 1) alpha = 1;
+        font.setColor(142f/255, 188f/255, 224f/255, alpha);
+        font.draw(batch, "Loading...", stage.getWidth()/2 - font.getBounds("Loading...").width/2, stage.getHeight()/2);
+        batch.end();
 
         runFading();
     }
@@ -113,6 +114,5 @@ public class SplashScreen implements Screen {
     public void dispose() {
         this.stage.dispose();
         this.font.dispose();
-        this.batch.dispose();
     }
 }
