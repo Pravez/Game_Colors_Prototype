@@ -86,8 +86,13 @@ public abstract class BaseStage extends Stage implements ContactListener {
     }
 
     private void createWorld(){
+
+        if(character != null) {
+            LevelManager.getCurrentLevel().map.world.destroyBody(character.getBody());
+        }
         this.getActors().removeValue(character, true);
-        //this.getActors().removeValue(Character.gaugeColor, true);
+
+
         createCharacter();
 
         LevelManager.getCurrentLevel().map.world.setContactListener(this);
@@ -97,16 +102,13 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
     public void nextLevel() {
         LevelManager.getCurrentLevel().map.world.destroyBody(character.getBody());
-        //this.getActors().removeValue(Character.gaugeColor, true);
         this.getActors().removeValue(character, true);
         LevelManager.nextLevel();
         LevelManager.getCurrentLevel().map.world.setContactListener(this);
     }
 
     private void createCharacter() {
-        /*if(!this.getActors().contains(Character.gaugeColor, true)){
-            this.addActor(Character.gaugeColor);
-        }*/
+
         character = new Character(WorldUtils.createCharacter(LevelManager.getCurrentLevel()));
         Character.gaugeColor.restartTimeColors();
 
