@@ -157,7 +157,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
             camera.position.y = LevelManager.getCurrentLevel().map.getHeight() - camera.viewportHeight / 2f;
         }
         camera.update();
-        renderer.render(LevelManager.getCurrentLevel().map.world, camera.combined);
+        //renderer.render(LevelManager.getCurrentLevel().map.world, camera.combined);
         drawStage();
     }
 

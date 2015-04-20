@@ -56,8 +56,8 @@ public class LevelManager extends Stage {
         level.addActor(new Platform(WorldUtils.createPlatform(level.map, 150, 0, 32, 2)));
 
         // Walls
-        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 0, 0, 1, 46)));
-        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 180, 8, 1, 46)));
+        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 0, 2, 1, 46)));
+        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 180, 2, 1, 46)));
 
         // Color Platforms
         level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 35, 8, 10, 2), PlatformColor.RED));
@@ -65,7 +65,7 @@ public class LevelManager extends Stage {
         level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 135, 8, 10, 2), PlatformColor.BLUE));
 
         // Doors
-        level.addDoor(new Door(WorldUtils.createDoor(level.map, 182, 2, 2, 6), new Rectangle(180, 2, 2, 6)));
+        level.addDoor(new Door(WorldUtils.createDoor(level.map, 180, 2, 2, 6), new Rectangle(176, 2, 4, 6)));
         
         levels.add(level);
     }
