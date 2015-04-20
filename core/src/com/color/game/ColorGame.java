@@ -3,6 +3,7 @@ package com.color.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.color.game.levels.LevelManager;
 import com.color.game.screens.*;
 import com.color.game.stages.BaseStage;
@@ -19,6 +20,8 @@ public class ColorGame extends Game {
     private EndScreen endScreen;
 
     private static Music music;
+    private static Sound click;
+    private static Sound sound;
 
     public static float soundVolume = 0f;
     public static float musicVolume = 0f;
@@ -49,18 +52,30 @@ public class ColorGame extends Game {
         LevelManager.init();
 
         // Init the different Screens and their ressources
+        sound = Gdx.audio.newSound(Gdx.files.internal("sound.wav"));
+        click = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
         this.deathScreen = new DeathScreen();
         this.menuScreen = new MenuScreen();
         this.winScreen = new WinScreen();
         this.optionScreen = new OptionScreen();
         this.gameScreen = new GameScreen();
         this.endScreen = new EndScreen();
+
+        // End the splash Screen
         this.splashScreen.fadeOut();
     }
 
     public static void setMusicVolume(float musicVolume) {
         ColorGame.musicVolume = musicVolume;
         music.setVolume(musicVolume);
+    }
+
+    public static void playClickSound() {
+        click.play(soundVolume);
+    }
+
+    public static void playSoundTest() {
+        sound.play(soundVolume);
     }
 
     public void endSplashScreen() {

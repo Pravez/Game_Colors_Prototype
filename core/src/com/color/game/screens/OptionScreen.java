@@ -85,6 +85,7 @@ public class OptionScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ColorGame.soundVolume = ((Slider) actor).getValue();
+                ColorGame.playSoundTest();
                 soundValue.setText(" " + (int)(ColorGame.soundVolume * 10));
             }
         });
@@ -92,6 +93,7 @@ public class OptionScreen implements Screen {
         buttonMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                ColorGame.playClickSound();
                 ((ColorGame) Gdx.app.getApplicationListener()).setMenuScreen();
             }
         });
