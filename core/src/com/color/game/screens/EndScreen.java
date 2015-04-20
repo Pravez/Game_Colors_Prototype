@@ -1,12 +1,14 @@
 package com.color.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
@@ -26,10 +28,13 @@ public class EndScreen implements Screen {
     private BitmapFont font;
     private Stage stage;
     private Label joke;
-    private Timer timer;
+
+    private float fadeTimeAlpha;
+    private SpriteBatch batch;
 
     public EndScreen() {
-        timer = new Timer();
+        fadeTimeAlpha = 0;
+        batch = new SpriteBatch();
 
         this.stage = new Stage();
         Table table = new Table();
@@ -64,13 +69,7 @@ public class EndScreen implements Screen {
 
     @Override
     public void show() {
-        timer.clear();
-        timer.scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                ((ColorGame) Gdx.app.getApplicationListener()).setMenuScreen();
-            }
-        }, 2.0f);
+        fadeTimeAlpha = -0.5f;
         setJoke();
     }
 
@@ -90,6 +89,19 @@ public class EndScreen implements Screen {
 
         stage.act();
         stage.draw();
+
+        batch.begin();
+        float alpha = fadeTimeAlpha;
+        if (fadeTimeAlpha < 0) alpha = 0;
+        if (fadeTimeAlpha > 1) alpha = 1;
+        font.setColor(142f/255, 188f/255, 224f/255, alpha);
+        font.draw(batch, "Press SPACE to continue", stage.getWidth()/2 - font.getBounds("Press SPACE to continue").width/2, stage.getHeight()/4);
+        batch.end();
+        fadeTimeAlpha += 0.05f;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            ((ColorGame) Gdx.app.getApplicationListener()).setMenuScreen();
+        }
     }
 
     @Override
@@ -108,5 +120,6 @@ public class EndScreen implements Screen {
     public void dispose() {
         stage.dispose();
         font.dispose();
+        batch.dispose();
     }
 }
