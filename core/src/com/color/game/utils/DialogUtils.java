@@ -10,13 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class DialogUtils {
 
-    private static DialogUtils dialogUtils = new DialogUtils();
     public static FileHandle fontHandler;
 
     public static final int TITLE_SIZE = 42;
     public static final int TEXT_SIZE = 22;
 
-    private DialogUtils() {
+    public static void init() {
         fontHandler = Gdx.files.internal("Future-Earth.ttf");
     }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.color.game.levels.LevelManager;
 import com.color.game.screens.*;
 import com.color.game.stages.BaseStage;
+import com.color.game.utils.DialogUtils;
 
 public class ColorGame extends Game {
 
@@ -28,7 +29,6 @@ public class ColorGame extends Game {
         music.setLooping(true);
         music.setVolume(musicVolume);//0.1f);
         music.play();
-        LevelManager.init();
         this.setScreen(this.splashScreen);
 	}
 
@@ -43,6 +43,11 @@ public class ColorGame extends Game {
     }
 
     public void initGame() {
+        // Init the static classes
+        DialogUtils.init();
+        LevelManager.init();
+
+        // Init the different Screens and their ressources
         this.deathScreen = new DeathScreen();
         this.menuScreen = new MenuScreen();
         this.winScreen = new WinScreen();
