@@ -88,7 +88,9 @@ public class ColorGame extends Game {
     }
 
     public void setGameScreen() {
-        this.gameScreen.initGameStage();
+        if (this.gameScreen.getCurrentStage() == this.gameScreen.gameStage) {
+            this.gameScreen.initGameStage();
+        }
         super.setScreen(this.gameScreen);
     }
 

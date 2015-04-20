@@ -88,6 +88,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
     private void createWorld(){
 
         if(character != null) {
+            System.out.println("Create world and destroy character body from BaseStage");
             LevelManager.getCurrentLevel().map.world.destroyBody(character.getBody());
         }
         this.getActors().removeValue(character, true);
