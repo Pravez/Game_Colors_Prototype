@@ -40,12 +40,6 @@ public abstract class BaseStage extends Stage implements ContactListener {
         landSound = Gdx.audio.newSound(Gdx.files.internal("landing.wav"));
 
         ground = null;
-        if(Character.gaugeColor == null) {
-            Character.gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
-        }
-        this.addActor(Character.gaugeColor);
-
-
         Gdx.input.setInputProcessor(this);
     }
 
@@ -97,6 +91,10 @@ public abstract class BaseStage extends Stage implements ContactListener {
         }
         this.getActors().removeValue(character, true);**/
 
+        if(Character.gaugeColor == null) {
+            Character.gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
+        }
+        this.addActor(Character.gaugeColor);
         createCharacter();
 
         LevelManager.getCurrentLevel().map.world.setContactListener(this);
