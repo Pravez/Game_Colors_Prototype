@@ -10,7 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.color.game.box2d.CharacterUserData;
 import com.color.game.enums.CharacterState;
+import com.color.game.enums.DeathState;
 import com.color.game.enums.PlatformColor;
+import com.color.game.screens.DeathScreen;
 import com.color.game.stages.BaseStage;
 import com.color.game.stages.GameStage;
 import com.color.game.utils.Constants;
@@ -25,6 +27,7 @@ public class Character extends GameActor {
     private boolean left, right;
     private boolean onWall;
     private CharacterState state;
+    private DeathState deathState;
     private boolean onGround;
 
     private Animation[] walkAnimation = new Animation[16];
@@ -43,6 +46,7 @@ public class Character extends GameActor {
         body.setLinearDamping(2.0f);
 
         state = CharacterState.IDLE;
+        deathState = DeathState.ALIVE;
 
         jumping = false;
         left = false;
@@ -94,6 +98,7 @@ public class Character extends GameActor {
         move();
         if(body.getPosition().y <= 0){
             setState(CharacterState.DEAD);
+            deathState = DeathState.FALLEN;
             right=false;
             left=false;
         }
@@ -239,6 +244,14 @@ public class Character extends GameActor {
 
     public void setState(CharacterState state) {
         this.state = state;
+    }
+
+    public void setDeathState(DeathState state) {
+        this.deathState = state;
+    }
+
+    public DeathState getDeathState() {
+        return this.deathState;
     }
 
     public boolean isDead(){

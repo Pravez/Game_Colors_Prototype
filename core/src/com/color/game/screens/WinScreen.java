@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -19,10 +20,13 @@ import com.badlogic.gdx.utils.Timer;
 import com.color.game.ColorGame;
 import com.color.game.levels.LevelManager;
 
+import java.util.ArrayList;
+
 public class WinScreen implements Screen {
 
     private BitmapFont font;
     private Stage stage;
+    private Label joke;
     private Timer timer;
 
     public WinScreen() {
@@ -42,10 +46,16 @@ public class WinScreen implements Screen {
 
         Label title = new Label("You finished the level", new Label.LabelStyle(font, new Color(142f/255, 188f/255, 224f/255, 1)));
 
+        parameter.size = 14;
+        font = generator.generateFont(parameter);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        joke = new Label("", new Label.LabelStyle(font, new Color(142f/255, 188f/255, 224f/255, 1)));
+
         table.add(title).padBottom(30).row();
         Image image = new Image();
         image.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("character-idle.png")), 0, 0, 1f/6, 1f/8)));
-        table.add(image);
+        table.add(image).row();
+        table.add(joke).padTop(30);
 
         table.setFillParent(true);
         stage.addActor(table);
@@ -63,7 +73,20 @@ public class WinScreen implements Screen {
                 colorGame.getGameScreen().getCurrentStage().nextLevel();
                 colorGame.setGameScreen();
             }
-        }, 1.5f);
+        }, 2.0f);
+        setJoke();
+    }
+
+    private void setJoke() {
+        ArrayList<String> sentences = new ArrayList<String>();
+        sentences.add("You are better than I thought...");
+        sentences.add("Will you beat it next time ?");
+        sentences.add("Keep going on and you will finish the game !");
+        sentences.add("Hey ! It was too easy, wasn't it ?");
+        sentences.add("I hope the next one will be a nightmare for you !");
+        sentences.add("Are you happy ? It won't last !");
+
+        joke.setText(sentences.get(MathUtils.random(0, sentences.size() - 1)));
     }
 
     @Override
