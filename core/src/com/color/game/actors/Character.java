@@ -6,21 +6,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.color.game.box2d.CharacterUserData;
 import com.color.game.enums.CharacterState;
 import com.color.game.enums.PlatformColor;
-import com.color.game.stages.GameStage;
 import com.color.game.stages.BaseStage;
+import com.color.game.stages.GameStage;
 import com.color.game.utils.Constants;
 
 import java.util.ArrayList;
 
 public class Character extends GameActor {
 
-    private GaugeColor gaugeColor;
+    public static GaugeColor gaugeColor = null;
 
     private boolean jumping;
     private boolean left, right;
@@ -77,9 +76,6 @@ public class Character extends GameActor {
         walkingSide = 0;
         characterSide = 0;
         colorSide = 0;
-
-        this.gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
-        this.gaugeColor.restartTimeColors();
     }
 
     public void pauseTimer() {
@@ -102,7 +98,7 @@ public class Character extends GameActor {
             left=false;
         }
 
-        this.gaugeColor.act(delta);
+        //this.gaugeColor.act(delta);
         if (!this.gaugeColor.isActivated()) {
             this.colorSide = 0;
         }
@@ -111,7 +107,7 @@ public class Character extends GameActor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        this.gaugeColor.draw(batch, parentAlpha);
+        //this.gaugeColor.draw(batch, parentAlpha);
         batch.setProjectionMatrix(GameStage.camera.combined);
         currentFrame = walkAnimation[walkingSide * rows + characterSide + 2 * colorSide].getKeyFrame(stateTime, true);
         batch.draw(currentFrame, super.screenRectangle.x, super.screenRectangle.y, super.screenRectangle.width, super.screenRectangle.height);

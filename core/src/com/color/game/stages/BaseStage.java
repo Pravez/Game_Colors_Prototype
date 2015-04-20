@@ -85,6 +85,7 @@ public abstract class BaseStage extends Stage implements ContactListener {
     }
 
     public void nextLevel() {
+        this.getActors().removeValue(character.gaugeColor, true);
         LevelManager.getCurrentLevel().map.world.destroyBody(character.getBody());
         this.getActors().removeValue(character, true);
         LevelManager.nextLevel();
@@ -92,7 +93,13 @@ public abstract class BaseStage extends Stage implements ContactListener {
     }
 
     private void createCharacter() {
+        if(Character.gaugeColor == null){
+            Character.gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
+            this.addActor(Character.gaugeColor);
+        }
         character = new Character(WorldUtils.createCharacter(LevelManager.getCurrentLevel()));
+        Character.gaugeColor.restartTimeColors();
+
     }
 
     private void setupCamera(){
