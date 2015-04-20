@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.color.game.ColorGame;
 import com.color.game.actors.Character;
 import com.color.game.actors.GaugeColor;
+import com.color.game.box2d.PlatformUserData;
 import com.color.game.enums.CharacterState;
 import com.color.game.levels.LevelManager;
 import com.color.game.utils.BodyUtils;
@@ -18,6 +19,7 @@ import com.color.game.utils.WorldUtils;
 public abstract class BaseStage extends Stage implements ContactListener {
 
     public static com.color.game.actors.Character character;
+    public static Body ground;
 
     private final float TIME_STEP = 1/300f;
     private float accumulator = 0f;
@@ -35,6 +37,8 @@ public abstract class BaseStage extends Stage implements ContactListener {
         // Les sons ne resteront pas là indéfiniment et seront dans une classe spécifique plus tard
         jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump.mp3"));
         landSound = Gdx.audio.newSound(Gdx.files.internal("landing.wav"));
+
+        ground = null;
 
         Gdx.input.setInputProcessor(this);
     }
@@ -175,6 +179,11 @@ public abstract class BaseStage extends Stage implements ContactListener {
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPlatform(b)) || (BodyUtils.bodyIsPlatform(a) && BodyUtils.bodyIsCharacter(b))) {
             playLandSound();
             character.landed();
+            if(BodyUtils.bodyIsCharacter(a)) {
+                ground = b;
+            }else{
+                ground = a;
+            }
         }
 
         if((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPike(b)) || (BodyUtils.bodyIsPike(a) && BodyUtils.bodyIsCharacter(b))){
@@ -185,12 +194,19 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
-        /*Body a = contact.getFixtureA().getBody();
-        Body b = contact.getFixtureB().getBody();
 
-        if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsPlatform(b)) || (BodyUtils.bodyIsPlatform(a) && BodyUtils.bodyIsCharacter(b))) {
+    }
+
+    public static void testGround(){
+
+        float leftSide = (ground.getPosition().x - ((PlatformUserData)ground.getUserData()).getWidth());
+        float rightSide = (ground.getPosition().x + ((PlatformUserData)ground.getUserData()).getWidth());
+
+        if(leftSide < character.getPosition().x && rightSide > character.getPosition().x){
+            character.setOnGround(true);
+        }else{
             character.setOnGround(false);
-        }*/
+        }
     }
 
     @Override

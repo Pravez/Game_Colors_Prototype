@@ -119,6 +119,8 @@ public class Character extends GameActor {
     }
 
     public void jump(){
+        BaseStage.testGround();
+        System.out.println(jumping + " " + onGround);
         if(!jumping && onGround){
             BaseStage.playJumpSound();
             body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(), body.getWorldCenter(), true);
