@@ -6,39 +6,47 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.color.game.ColorGame;
 
 public class DeathScreen implements Screen {
 
+    private BitmapFont font;
     private Stage stage;
-    private SpriteBatch batch;
-    private Texture texture;
 
     private Timer timer;
 
     public DeathScreen() {
-        texture = new Texture(Gdx.files.internal("skull.png"));
-        batch = new SpriteBatch();
-
         this.stage = new Stage();
         Table table = new Table();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
+        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("dialog.png")));
+        table.setBackground(new SpriteDrawable(sprite));
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Future-Earth.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 62;
-        BitmapFont font = generator.generateFont(parameter);
+        parameter.size = 28;
+        font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         generator.dispose();
 
-        Label title = new Label("You died", new Label.LabelStyle(font, Color.RED));
+        Label title = new Label("You die", new Label.LabelStyle(font, new Color(142f/255, 188f/255, 224f/255, 1)));
 
-        table.add(title).padTop(Gdx.graphics.getHeight()/2).row();
+        table.add(title).padBottom(30).row();
+        Image image = new Image();
+        image.setDrawable(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("dead.png")))));
+        table.add(image);
+
         table.setFillParent(true);
         stage.addActor(table);
 
@@ -64,13 +72,6 @@ public class DeathScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        batch.begin();
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
-        int textureHeight = (texture.getHeight() * width/2) / texture.getWidth();
-        batch.draw(texture, width/4, height/2 - textureHeight/2, width/2, textureHeight);
-        batch.end();
 
         stage.act();
         stage.draw();
@@ -98,8 +99,7 @@ public class DeathScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
         stage.dispose();
-        texture.dispose();
+        font.dispose();
     }
 }

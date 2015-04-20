@@ -4,7 +4,8 @@
 "green": { "a": 1, "b": 0, "g": 1, "r": 0 },
 "white": { "a": 1, "b": 1, "g": 1, "r": 1 },
 "red": { "a": 1, "b": 0, "g": 0, "r": 1 },
-"black": { "a": 1, "b": 0, "g": 0, "r": 0 }
+"black": { "a": 1, "b": 0, "g": 0, "r": 0 },
+"skyblue" : { "hex": "88b6d7" }
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
 "dialogDim": { "name": "white", "color": { "r": 0, "g": 0, "b": 0, "a": 0.45 } }
@@ -14,8 +15,8 @@
 "toggle": { "down": "default-round-down", "checked": "default-round-down", "up": "default-round" }
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-"default": { "down": "default-round-down", "up": "default-round", "font": "28days", "fontColor": "white" },
-"toggle": { "down": "default-round-down", "up": "default-round", "checked": "default-round-down", "font": "28days", "fontColor": "white", "downFontColor": "red" }
+"default": { "down": "default-round-down", "up": "default-round", "over": "default-round-down", "font": "future", "fontColor": "white", "downFontColor": "skyblue"},
+"toggle": { "down": "default-round-down", "up": "default-round", "over": "default-round-down", "checked": "default-round-down", "font": "future", "fontColor": "white", "downFontColor": "red" }
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
 "default": { "vScroll": "default-scroll", "hScrollKnob": "default-round-large", "background": "default-rect", "hScroll": "default-scroll", "vScrollKnob": "default-round-large" }
@@ -44,7 +45,7 @@
 "default-vertical": { "background": "default-slider", "knob": "default-round-large" }
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
-"default": { "font": "default-font", "fontColor": "white" }
+"default": { "font": "future", "fontColor": "skyblue" }
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
 "default": { "selection": "selection", "background": "textfield", "font": "default-font", "fontColor": "white", "cursor": "cursor"}

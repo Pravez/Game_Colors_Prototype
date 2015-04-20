@@ -4,28 +4,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.color.game.ColorGame;
-import com.color.game.levels.LevelManager;
 
-public class WinScreen implements Screen {
+public class EndScreen implements Screen {
 
     private BitmapFont font;
     private Stage stage;
     private Timer timer;
 
-    public WinScreen() {
+    public EndScreen() {
         timer = new Timer();
 
         this.stage = new Stage();
@@ -40,9 +39,9 @@ public class WinScreen implements Screen {
         font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        Label title = new Label("You finished the level", new Label.LabelStyle(font, new Color(142f/255, 188f/255, 224f/255, 1)));
+        table.add(new Label("You finished the game,", new Label.LabelStyle(font, new Color(142f/255, 188f/255, 224f/255, 1)))).row();
+        table.add(new Label("Congratulations !", new Label.LabelStyle(font, new Color(142f/255, 188f/255, 224f/255, 1)))).padBottom(30).row();
 
-        table.add(title).padBottom(30).row();
         Image image = new Image();
         image.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("character-idle.png")), 0, 0, 1f/6, 1f/8)));
         table.add(image);
@@ -59,11 +58,9 @@ public class WinScreen implements Screen {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                ColorGame colorGame = ((ColorGame) Gdx.app.getApplicationListener());
-                colorGame.getGameScreen().getCurrentStage().nextLevel();
-                colorGame.setGameScreen();
+                ((ColorGame) Gdx.app.getApplicationListener()).setMenuScreen();
             }
-        }, 1.5f);
+        }, 2.0f);
     }
 
     @Override

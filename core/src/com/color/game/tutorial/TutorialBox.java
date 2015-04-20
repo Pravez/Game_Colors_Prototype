@@ -70,12 +70,11 @@ public class TutorialBox extends Stage {
 
     public void addThirdActors() {
         ArrayList<Actor> actors = new ArrayList<Actor>();
-        actors.add(DialogUtils.createTextLabel("Your 'armor' can activate", textColor));
-        actors.add(DialogUtils.createTextLabel("the blocks according to", textColor));
-        actors.add(DialogUtils.createTextLabel("their color. All blocks", textColor));
-        actors.add(DialogUtils.createTextLabel("of the corresponding color", textColor));
-        actors.add(DialogUtils.createTextLabel("will be active but only for ", textColor));
-        actors.add(DialogUtils.createTextLabel(Constants.CHARACTER_CHANGING_COLOR_DELAY + " seconds", textColor));
+        actors.add(DialogUtils.createTextLabel("Your helmet can activate the", textColor));
+        actors.add(DialogUtils.createTextLabel("blocks according to their", textColor));
+        actors.add(DialogUtils.createTextLabel("color. All blocks of the", textColor));
+        actors.add(DialogUtils.createTextLabel("corresponding color will be", textColor));
+        actors.add(DialogUtils.createTextLabel("active but only for " + Constants.CHARACTER_CHANGING_COLOR_DELAY + " seconds", textColor));
         actors.add(DialogUtils.createTextLabel("   ", textColor));
         actors.add(DialogUtils.createTextLabel("Press SPACE to continue", textColor));
         this.tutorialActors.add(actors);
@@ -97,8 +96,9 @@ public class TutorialBox extends Stage {
         ArrayList<Actor> actors = new ArrayList<Actor>();
         actors.add(DialogUtils.createTextLabel("Oh ! I nearly forgot...", textColor));
         actors.add(DialogUtils.createTextLabel("Use the Arrow keys to move", textColor));
-        actors.add(DialogUtils.createTextLabel("and use the Spacebar to", textColor));
-        actors.add(DialogUtils.createTextLabel("jump.", textColor));
+        actors.add(DialogUtils.createTextLabel("and use the Up Arrow to jump.", textColor));
+        actors.add(DialogUtils.createTextLabel("You may also need to speed up,", textColor));
+        actors.add(DialogUtils.createTextLabel("so hold down the Shift key", textColor));
         actors.add(DialogUtils.createTextLabel("Good luck !", textColor));
         actors.add(DialogUtils.createTextLabel("   ", textColor));
         actors.add(DialogUtils.createTextLabel("Press SPACE to continue", textColor));

@@ -30,41 +30,45 @@ public class OptionScreen implements Screen {
     public OptionScreen() {
         this.stage = new Stage();
         Table table = new Table();
+        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("dialog.png")));
+        table.setBackground(new SpriteDrawable(sprite));
         skin = new Skin();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Future-Earth.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 42;
+        parameter.size = 32;
         font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        Label title = new Label("Options", new Label.LabelStyle(font, Color.RED));
+        Label title = new Label("Options", new Label.LabelStyle(font, new Color(142f/255, 188f/255, 224f/255, 1)));
 
-        parameter.size = 30;
-        skin.add("28days", generator.generateFont(parameter));
+        parameter.size = 20;
+        skin.add("future", generator.generateFont(parameter));
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
         skin.load(Gdx.files.internal("uiskin.json"));
-        TextButton buttonMenu = new TextButton("Back to menu", skin);
+        TextButton buttonMenu = new TextButton("Menu", skin);
 
         Label music = new Label("Music Volume :", skin);
+
+        table.add(title).colspan(2).row();
+        table.add(music);
         Slider sliderMusic = new Slider(0.0f, 1.0f, 0.1f, false, skin);
-        musicValue = new Label("" + (ColorGame.musicVolume * 10), skin);
+        musicValue = new Label(" " + (int) (ColorGame.musicVolume * 10), skin);
+        table.add(sliderMusic);
+        music.invalidate();
+
+        table.add(musicValue).width(50f).row();
 
         Label sound = new Label("Sound Volume :", skin);
         Slider sliderSound = new Slider(0.0f, 1.0f, 0.1f, false, skin);
-        soundValue = new Label("" + (ColorGame.soundVolume * 10), skin);
+        soundValue = new Label(" " + (int)(ColorGame.soundVolume * 10), skin);
 
-        table.add(title).padLeft(1.8f * music.getPrefWidth()).padBottom(40).row();
+        table.add(sound);
+        table.add(sliderSound);
+        sound.invalidate();
+        table.add(soundValue).width(50f).row();
 
-        table.add(music).padLeft(-music.getPrefWidth());
-        table.add(sliderMusic, musicValue);
-        table.row();
-
-        table.add(sound).padLeft(-music.getPrefWidth());
-        table.add(sliderSound, soundValue);
-        table.row();
-
-        table.add(buttonMenu).size(250,60).padTop(80).padLeft(1.8f * music.getPrefWidth()).row();
+        table.add(buttonMenu).colspan(2).size(250, 60).padTop(80).row();
 
         table.setFillParent(true);
         stage.addActor(table);
@@ -73,7 +77,7 @@ public class OptionScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ColorGame.setMusicVolume(((Slider) actor).getValue());
-                musicValue.setText("" + (ColorGame.musicVolume * 10));
+                musicValue.setText(" " + (int) (ColorGame.musicVolume * 10));
             }
         });
 
@@ -81,7 +85,7 @@ public class OptionScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ColorGame.soundVolume = ((Slider) actor).getValue();
-                soundValue.setText("" + (ColorGame.soundVolume * 10));
+                soundValue.setText(" " + (int)(ColorGame.soundVolume * 10));
             }
         });
 

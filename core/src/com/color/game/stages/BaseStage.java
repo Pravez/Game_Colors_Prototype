@@ -156,7 +156,12 @@ public abstract class BaseStage extends Stage implements ContactListener {
         Body b = contact.getFixtureB().getBody();
 
         if ((BodyUtils.bodyIsCharacter(a) && BodyUtils.bodyIsDoor(b)) || (BodyUtils.bodyIsDoor(a) && BodyUtils.bodyIsCharacter(b))) {
-            ((ColorGame) Gdx.app.getApplicationListener()).setWinScreen();
+            ColorGame colorGame = ((ColorGame) Gdx.app.getApplicationListener());
+            if (LevelManager.isLastLevel()) {
+                colorGame.setEndScreen();
+            } else {
+                colorGame.setWinScreen();
+            }
             this.end();
         }
 

@@ -16,6 +16,7 @@ public class ColorGame extends Game {
     private MenuScreen menuScreen;
     private WinScreen winScreen;
     private OptionScreen optionScreen;
+    private EndScreen endScreen;
 
     private static Music music;
 
@@ -53,6 +54,7 @@ public class ColorGame extends Game {
         this.winScreen = new WinScreen();
         this.optionScreen = new OptionScreen();
         this.gameScreen = new GameScreen();
+        this.endScreen = new EndScreen();
         this.splashScreen.fadeOut();
     }
 
@@ -89,6 +91,10 @@ public class ColorGame extends Game {
 
     public void setWinScreen() {
         super.setScreen(this.winScreen);
+    }
+
+    public void setEndScreen() {
+        super.setScreen(this.endScreen);
     }
 
     public GameScreen getGameScreen() {

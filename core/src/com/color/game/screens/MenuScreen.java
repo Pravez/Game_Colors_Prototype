@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.color.game.ColorGame;
 
 public class MenuScreen implements Screen {
@@ -26,18 +28,20 @@ public class MenuScreen implements Screen {
     public MenuScreen() {
         this.stage = new Stage();
         Table table = new Table();
+        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("dialog.png")));
+        table.setBackground(new SpriteDrawable(sprite));
         skin = new Skin();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("28 Days Later.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Future-Earth.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 42;
+        parameter.size = 32;
         font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        Label title = new Label("Game Colors Prototype", new Label.LabelStyle(font, Color.RED));
+        Label title = new Label("Game Colors Prototype", new Label.LabelStyle(font, new Color(142f/255, 188f/255, 224f/255, 1)));
 
-        parameter.size = 30;
-        skin.add("28days", generator.generateFont(parameter));
+        parameter.size = 20;
+        skin.add("future", generator.generateFont(parameter));
         skin.addRegions(new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
         skin.load(Gdx.files.internal("uiskin.json"));
         TextButton buttonPlay = new TextButton("Play", skin);

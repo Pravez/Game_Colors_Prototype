@@ -22,6 +22,8 @@ public class LevelManager extends Stage {
         return isFinished;
     }
 
+    public static boolean isLastLevel() { return currentLevel == levels.size() - 1; }
+
     public static int getCurrentLevelNumber() {
         return currentLevel;
     }
