@@ -162,6 +162,10 @@ public class LevelManager extends Stage {
         level.addActor(new Pike(WorldUtils.createPike(level.map, 22, 49, 6, 2)));
         level.addActor(new Pike(WorldUtils.createPike(level.map, 90-4-22, 49, 6, 2)));
 
+        level.addActor(new ColorPlatform(WorldUtils.createPlatform(level.map, 38, 25, 14, 2), PlatformColor.BLUE));
+        level.addActor(new Platform(WorldUtils.createPlatform(level.map, 38,20,14,2)));
+        level.addActor(new Pike(WorldUtils.createPike(level.map, 38,22,14,2)));
+
         levels.add(level);
     }
 
