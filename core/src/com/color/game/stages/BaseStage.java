@@ -42,8 +42,9 @@ public abstract class BaseStage extends Stage implements ContactListener {
         ground = null;
         if(Character.gaugeColor == null) {
             Character.gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
-            this.addActor(Character.gaugeColor);
         }
+        this.addActor(Character.gaugeColor);
+
 
         Gdx.input.setInputProcessor(this);
     }
