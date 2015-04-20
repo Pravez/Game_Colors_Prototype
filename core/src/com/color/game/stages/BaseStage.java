@@ -89,7 +89,6 @@ public abstract class BaseStage extends Stage implements ContactListener {
     }
 
     public void nextLevel() {
-        this.getActors().removeValue(character.gaugeColor, true);
         LevelManager.getCurrentLevel().map.world.destroyBody(character.getBody());
         this.getActors().removeValue(character, true);
         LevelManager.nextLevel();
@@ -201,8 +200,10 @@ public abstract class BaseStage extends Stage implements ContactListener {
 
         float leftSide = (ground.getPosition().x - ((PlatformUserData)ground.getUserData()).getWidth());
         float rightSide = (ground.getPosition().x + ((PlatformUserData)ground.getUserData()).getWidth());
+        float leftPosition = character.getPosition().x + (character.getUserData()).getWidth();
+        float rightPosition = character.getPosition().x - (character.getUserData()).getWidth();
 
-        if(leftSide < character.getPosition().x && rightSide > character.getPosition().x){
+        if(leftSide < leftPosition && rightSide > rightPosition && ground.getPosition().y < character.getPosition().y){
             character.setOnGround(true);
         }else{
             character.setOnGround(false);
