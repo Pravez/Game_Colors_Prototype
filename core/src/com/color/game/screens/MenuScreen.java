@@ -38,7 +38,7 @@ public class MenuScreen implements Screen {
         font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        Label title = new Label("Game Colors Prototype", new Label.LabelStyle(font, new Color(142f/255, 188f/255, 224f/255, 1)));
+        Label title = new Label("Coloring World", new Label.LabelStyle(font, new Color(142f/255, 188f/255, 224f/255, 1)));
 
         parameter.size = 20;
         skin.add("future", generator.generateFont(parameter));
