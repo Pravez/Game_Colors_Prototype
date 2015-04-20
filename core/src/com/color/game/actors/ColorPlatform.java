@@ -44,9 +44,9 @@ public class ColorPlatform extends GameActor {
         this.regions = new TextureRegion[3];
 
         Texture texture = new Texture(Gdx.files.internal("blocks.png"));
-        this.regions[0] = new TextureRegion(texture, 0, 0.33f * colorLine, 0.33f, 0.33f * (colorLine + 1));
-        this.regions[1] = new TextureRegion(texture, 0.33f, 0.33f * colorLine, 0.66f, 0.33f * (colorLine + 1));
-        this.regions[2] = new TextureRegion(texture, 0.33f, 0.33f * colorLine, 1.0f, 0.33f * (colorLine + 1));
+        this.regions[0] = new TextureRegion(texture, 0, 0.25f * colorLine, 0.25f, 0.25f * (colorLine + 1));
+        this.regions[1] = new TextureRegion(texture, 0.25f, 0.25f * colorLine, 0.50f, 0.25f * (colorLine + 1));
+        this.regions[2] = new TextureRegion(texture, 0.50f, 0.25f * colorLine, 0.75f, 0.25f * (colorLine + 1));
 
         this.shapeRenderer = new ShapeRenderer();
         this.platformColor = platformColor;
@@ -77,7 +77,7 @@ public class ColorPlatform extends GameActor {
         super.draw(batch, parentAlpha);
         Color color = batch.getColor();
         if (!this.isEnabled) {
-            batch.setColor(color.r, color.g, color.b, 0.8f);
+            batch.setColor(color.r, color.g, color.b, 0.5f);
         }
         batch.setProjectionMatrix(GameStage.camera.combined);
         batch.draw(this.regions[0], super.screenRectangle.x, super.screenRectangle.y, Constants.WORLD_TO_SCREEN, Constants.WORLD_TO_SCREEN);
