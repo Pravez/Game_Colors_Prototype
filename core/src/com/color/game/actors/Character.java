@@ -28,10 +28,13 @@ public class Character extends GameActor {
     private CharacterState state;
     private boolean onGround;
 
-    private Animation[] walkAnimation = new Animation[Constants.CHARACTER_FRAME_ROWS];
+    private Animation[] walkAnimation = new Animation[16];
     private TextureRegion currentFrame;
 
+    private int walkingSide;
     private int characterSide;
+    private int colorSide;
+    private int rows;
     private boolean moving = false;
 
     float stateTime = 0f;
@@ -48,22 +51,32 @@ public class Character extends GameActor {
         onWall = false;
         onGround = true;
 
+        rows = 8;
+
         /*regions = TextureRegion.split(texture, texture.getWidth()/Constants.CHARACTER_FRAME_COLS, texture.getHeight()/Constants.CHARACTER_FRAME_ROWS);
         for (int i = 0 ; i < Constants.CHARACTER_FRAME_ROWS ; i++) {
             walkAnimation[i] = new Animation(0.15f, regions[i]);
         }*/
         Texture texture1 = new Texture(Gdx.files.internal("character-idle.png"));
-        TextureRegion[][] regions1 = TextureRegion.split(texture1, texture1.getWidth()/6, texture1.getHeight()/2);
-        walkAnimation[0] = new Animation(0.25f, regions1[0]);
-        walkAnimation[1] = new Animation(0.25f, regions1[1]);
+        TextureRegion[][] regions1 = TextureRegion.split(texture1, texture1.getWidth()/6, texture1.getHeight()/rows);
+        for (int i = 0 ; i < rows ; i++) {
+            walkAnimation[i] = new Animation(0.25f, regions1[i]);
+        }
+        //walkAnimation[0] = new Animation(0.25f, regions1[0]);
+        //walkAnimation[1] = new Animation(0.25f, regions1[1]);
 
         Texture texture2 = new Texture(Gdx.files.internal("character-walking.png"));
-        TextureRegion[][] regions2 = TextureRegion.split(texture2, texture2.getWidth()/11, texture2.getHeight()/2);
-        walkAnimation[2] = new Animation(0.10f, regions2[0]);
-        walkAnimation[3] = new Animation(0.10f, regions2[1]);
+        TextureRegion[][] regions2 = TextureRegion.split(texture2, texture2.getWidth()/11, texture2.getHeight()/rows);
+        //walkAnimation[2] = new Animation(0.10f, regions2[0]);
+        //walkAnimation[3] = new Animation(0.10f, regions2[1]);
+        for (int i = 0 ; i < rows ; i++) {
+            walkAnimation[i + rows] = new Animation(0.10f, regions2[i]);
+        }
 
         stateTime = 0f;
+        walkingSide = 0;
         characterSide = 0;
+        colorSide = 0;
 
         this.gaugeColor = new GaugeColor(new Rectangle(20, Gdx.graphics.getHeight() - 65, 75, 50));
         this.gaugeColor.restartTimeColors();
@@ -90,6 +103,9 @@ public class Character extends GameActor {
         }
 
         this.gaugeColor.act(delta);
+        if (!this.gaugeColor.isActivated()) {
+            this.colorSide = 0;
+        }
     }
 
     @Override
@@ -97,7 +113,7 @@ public class Character extends GameActor {
         super.draw(batch, parentAlpha);
         this.gaugeColor.draw(batch, parentAlpha);
         batch.setProjectionMatrix(GameStage.camera.combined);
-        currentFrame = walkAnimation[characterSide].getKeyFrame(stateTime, true);
+        currentFrame = walkAnimation[walkingSide * rows + characterSide + 2 * colorSide].getKeyFrame(stateTime, true);
         batch.draw(currentFrame, super.screenRectangle.x, super.screenRectangle.y, super.screenRectangle.width, super.screenRectangle.height);
     }
 
@@ -124,7 +140,8 @@ public class Character extends GameActor {
             }else{
                 body.setLinearVelocity(Constants.CHARACTER_MAX_VELOCITY.x, body.getLinearVelocity().y);
             }
-            characterSide = 2;
+            characterSide = 0;
+            walkingSide = 1;
             moving = true;
         }
 
@@ -134,7 +151,8 @@ public class Character extends GameActor {
             }else{
                 body.setLinearVelocity(-Constants.CHARACTER_MAX_VELOCITY.x, body.getLinearVelocity().y);
             }
-            characterSide = 3;
+            characterSide = 1;
+            walkingSide = 1;
             moving = true;
         }
 
@@ -164,12 +182,15 @@ public class Character extends GameActor {
         }
         if(keycode == Input.Keys.A){
             this.gaugeColor.useRed();
+            this.colorSide = 1;
         }
         if(keycode == Input.Keys.Z){
             this.gaugeColor.useYellow();
+            this.colorSide = 3;
         }
         if(keycode == Input.Keys.E){
             this.gaugeColor.useBlue();
+            this.colorSide = 2;
         }
         if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
             getUserData().increaseMovement();
@@ -183,10 +204,12 @@ public class Character extends GameActor {
         if(keycode == Input.Keys.LEFT){
             left = false;
             characterSide = 1;
+            walkingSide = 0;
         }
         if(keycode == Input.Keys.RIGHT){
             right = false;
             characterSide = 0;
+            walkingSide = 0;
         }
         if(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
             getUserData().decreaseMovement();

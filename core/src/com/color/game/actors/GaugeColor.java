@@ -40,6 +40,10 @@ public class GaugeColor extends Actor {
         this.yellowGauge.use();
     }
 
+    public boolean isActivated() {
+        return redGauge.isActivated() || blueGauge.isActivated() || yellowGauge.isActivated();
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
