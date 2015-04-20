@@ -21,8 +21,8 @@ public class DialogBox extends Stage {
 
     public DialogBox() {
         this.table = new Table();
-        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("dialogbox.png")));
-        sprite.setAlpha(0.5f);
+        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("dialog.png")));
+        sprite.setAlpha(0.8f);//0.5f);
         this.table.setBackground(new SpriteDrawable(sprite));
         initBounds();
 
