@@ -6,10 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.color.game.Map;
-import com.color.game.box2d.CharacterUserData;
-import com.color.game.box2d.DoorUserData;
-import com.color.game.box2d.PikeUserData;
-import com.color.game.box2d.PlatformUserData;
+import com.color.game.box2d.*;
 import com.color.game.levels.Level;
 
 /**
