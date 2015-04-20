@@ -12,7 +12,6 @@ import com.color.game.box2d.CharacterUserData;
 import com.color.game.enums.CharacterState;
 import com.color.game.enums.DeathState;
 import com.color.game.enums.PlatformColor;
-import com.color.game.screens.DeathScreen;
 import com.color.game.stages.BaseStage;
 import com.color.game.stages.GameStage;
 import com.color.game.utils.Constants;
@@ -125,7 +124,6 @@ public class Character extends GameActor {
 
     public void jump(){
         BaseStage.testGround();
-        System.out.println(jumping + " " + onGround);
         if(!jumping && onGround){
             BaseStage.playJumpSound();
             body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(), body.getWorldCenter(), true);

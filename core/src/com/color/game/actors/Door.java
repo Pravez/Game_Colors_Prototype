@@ -5,14 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.color.game.box2d.DoorUserData;
 import com.color.game.box2d.UserData;
 import com.color.game.stages.BaseStage;
-import com.color.game.stages.GameStage;
 import com.color.game.utils.Constants;
 
 public class Door extends GameActor {
@@ -54,7 +52,6 @@ public class Door extends GameActor {
 
     @Override
     public UserData getUserData() {
-        System.out.println("GetDoorUserData");
         return (DoorUserData)userData;
     }
 }
