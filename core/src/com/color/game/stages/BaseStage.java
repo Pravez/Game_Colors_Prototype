@@ -72,6 +72,11 @@ public abstract class BaseStage extends Stage implements ContactListener {
         //this.getActors().removeValue(character, true);
     }
 
+    public void destroyCharacter() {
+        LevelManager.getCurrentLevel().map.world.destroyBody(character.getBody());
+        this.getActors().removeValue(character, true);
+    }
+
     public void respawn() {
         LevelManager.getCurrentLevel().map.world.destroyBody(character.getBody());
         this.getActors().removeValue(character, true);

@@ -112,6 +112,7 @@ public class DeathScreen implements Screen {
         fadeTimeAlpha += 0.05f;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            ((ColorGame)Gdx.app.getApplicationListener()).destroyCharacter();
             ((ColorGame)Gdx.app.getApplicationListener()).setGameScreen();
         }
     }
